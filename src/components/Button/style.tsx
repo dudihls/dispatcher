@@ -1,6 +1,12 @@
 import styled from "styled-components";
-import { ButtonProps } from "./ButtonProps";
 import { colors } from "../global-vars";
+
+type ButtonProps = {
+  children: string,
+  size: 'sm' | 'md' | 'lg',
+  type?: 'submit',
+  variant: 'primary' | 'secondary'
+}
 
 export const StyledButton = styled.button<ButtonProps>`
   background: ${p => p.variant === "primary" ? colors.primary : colors.secondary};
