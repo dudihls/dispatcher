@@ -8,3 +8,14 @@ export const colors = {
   primaryHover:`#3379c6`,
   secondaryHover: `#e1e2ed`
 };
+
+const size = {
+  mobile: '375px',
+  tablet: '770px',
+}
+
+
+export const device = {
+  mobile: `(max-width: ${size.mobile})`,
+  tablet: `(max-width: ${size.tablet})`,
+};

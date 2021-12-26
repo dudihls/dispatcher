@@ -1,11 +1,15 @@
+import React from "react";
 import { StyledFlexLayout } from "./style";
 
 type FlexLayoutProps = {
-  direction: "row" | "col",
-  children: JSX.Element|JSX.Element[],
-  sidePadding?: number
+  direction?: "row" | "col",
+  sidePadding?: number,
+  tp?:number,
+  rp?:number,
+  bp?:number,
+  lp?:number
 };
 
-export const FlexLayout = ({ children, direction ,sidePadding}: FlexLayoutProps) => {
-  return <StyledFlexLayout direction={direction} sidePadding={sidePadding}>{children}</StyledFlexLayout>;
+export const FlexLayout: React.FC<FlexLayoutProps> = (props) => {
+  return <StyledFlexLayout {...props}>{props.children}</StyledFlexLayout>;
 };
