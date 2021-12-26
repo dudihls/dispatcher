@@ -26,6 +26,7 @@ ${p => {switch (p.size) {
     `
  }}}
   font-size: 14px;
+  font-family: 'Roboto', sans-serif;
   background: ${p => p.variant === "secondary" ?  colors.secondary: colors.primary};
   color : ${p => p.variant === "secondary" ? 'black': 'white'};
   display:flex;

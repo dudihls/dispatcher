@@ -11,7 +11,7 @@ interface CardProps  {
     button: JSX.Element
 }
 
-export const Card = (props : CardProps): JSX.Element => <FlexLayout direction="row">
+export const Card = (props : CardProps) => <FlexLayout direction="row">
     <img src={props.img}/>
     <StyledCard {...props}/>
     </FlexLayout>

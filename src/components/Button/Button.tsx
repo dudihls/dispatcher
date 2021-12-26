@@ -9,7 +9,7 @@ type ButtonProps = {
   icon?: JSX.Element;
 };
 
-export const Button = (props: ButtonProps): JSX.Element => (
+export const Button = (props: ButtonProps) => (
   <StyledButton {...props}>
     {props.children}
     {props.icon && props.icon}

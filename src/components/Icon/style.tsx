@@ -5,6 +5,7 @@ type IconProps = {
   src: string
 };
 
+
 export const StyledIcon = styled.img.attrs(({src}: IconProps)  => ({
       src: src
 }))<IconProps>`
@@ -13,10 +14,10 @@ export const StyledIcon = styled.img.attrs(({src}: IconProps)  => ({
       case "white":
         return `filter: brightness(3)`;
       case "purple":
-        return
+        return;
       case "black":
       default:
-             return `filter: invert(0%) sepia(97%) saturate(8%) hue-rotate(325deg) brightness(113%) contrast(100%)`;
+        return `filter: invert(0%) sepia(97%) saturate(8%) hue-rotate(325deg) brightness(113%) contrast(100%)`;
 
     }
   }}

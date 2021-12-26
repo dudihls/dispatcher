@@ -16,8 +16,8 @@ const Template: ComponentStory<typeof Icon> = (args) => <Icon {...args} />;
 export const SimpleIcon = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 SimpleIcon.args = {
-  color: "white",
-  name: "back",
+  color: "purple",
+  src: "./back.svg",
 };
 
 // export const Secondary = Template.bind({});
