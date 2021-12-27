@@ -1,16 +1,14 @@
 import styled from "styled-components";
-import { Button } from "../Button/Button";
-import { colors, device } from "../global-vars";
 import { Icon } from "../Icon/Icon";
 
 export const TagsContainer = styled.div`
   position: absolute;
   display: flex;
   top: 17px;
-  @media ${device.tablet} {
+  @media ${({ theme }) => theme.device.tablet} {
     top: 9px;
   }
-  @media ${device.mobile} {
+  @media ${({ theme }) => theme.device.mobile} {
     top: 159px;
   }
   right: 16px;
@@ -27,8 +25,8 @@ export const StyledTag = styled.div`
   align-items: center;
   border-radius: 10px;
   padding: 1px 10px;
-  color: ${colors.lightPurple};
-  background-color: ${colors.lightGray2};
+  color: ${({ theme }) => theme.colors.lightPurple};
+  background-color: ${({ theme }) => theme.colors.lightGray2};
 `;
 
 export const StyledImage = styled.img.attrs(({ src }: { src: string }) => ({
@@ -38,7 +36,7 @@ export const StyledImage = styled.img.attrs(({ src }: { src: string }) => ({
   width: 244px;
   border-radius: 20px 0px 0px 20px;
   object-fit: cover;
-  @media ${device.mobile} {
+  @media ${({ theme }) => theme.device.mobile} {
     height: 149px;
     width: 343px;
     border-radius: 20px 20px 0px 0px;
@@ -54,11 +52,11 @@ export const StyledLayout = styled.div`
   background-color: white;
   border: 1px solid #d9dbe9;
   box-shadow: 0px 32px 64px rgba(0, 0, 0, 0.05);
-  @media ${device.tablet} {
+  @media ${({ theme }) => theme.device.tablet} {
     height: 242px;
     width: 728px;
   }
-  @media ${device.mobile} {
+  @media ${({ theme }) => theme.device.mobile} {
     flex-direction: column;
     height: 449px;
     width: 343px;
@@ -69,46 +67,38 @@ export const ContentLayout = styled.div`
   display: flex;
   padding: 16px;
   flex-direction: column;
-  @media ${device.tablet} {
+  @media ${({ theme }) => theme.device.tablet} {
     padding: 8.5px 16px 0 17px;
   }
-  @media ${device.mobile} {
+  @media ${({ theme }) => theme.device.mobile} {
     width: 311px;
     padding: 9px 16px 12px;
   }
 `;
 
-export const StyledButton = styled(Button).attrs(() => ({
-  size: "lg",
-}))`
+export const StyledButtonContainer = styled.div`
   position: absolute;
   right: 16px;
   bottom: 16px;
-  text-transform: uppercase;
-  font-weight: 500;
-  @media ${device.tablet} {
+  width: 226px;
+  @media ${({ theme }) => theme.device.tablet} {
     bottom: 8.5px;
   }
-  @media ${device.mobile} {
+  @media ${({ theme }) => theme.device.mobile} {
     width: 311px;
     right: 16px;
     bottom: 12px;
-    justify-content: space-around;
   }
 `;
 
 export const StyledIcon = styled(Icon)`
-  margin-inline-start: 10px;
   transform: rotate(180deg);
-  @media ${device.mobile} {
-    margin-inline-start: 0;
-  }
 `;
 
 export const StyledLabel = styled.p<{
   type?: "subtitle" | "content" | "header";
 }>`
-  font-family: "Roboto", sans-serif;
+  /* font-family: "Roboto", sans-serif; */
   margin: 0;
   ${(p) => {
     switch (p.type) {
@@ -117,8 +107,7 @@ export const StyledLabel = styled.p<{
               font-weight: 700;
               line-height: 21px;`;
       case "content":
-        return `
-                  color: ${colors.lightPurple} ;
+        return   `color: #5A5A89;
                   font-size: 14px;
                   font-style: normal;
                   line-height: 16px;`;
@@ -134,10 +123,10 @@ export const StyledLabel = styled.p<{
     }
   }}
   margin-bottom: 19px;
-  @media ${device.tablet} {
+  @media ${({ theme }) => theme.device.tablet} {
     margin-bottom: 13.75px;
   }
-  @media ${device.mobile} {
+  @media ${({ theme }) => theme.device.moblie} {
     margin-bottom: 10px;
   }
 `;

@@ -7,7 +7,7 @@ type FlexLayoutProps = {
   tp?:number,
   rp?:number,
   bp?:number,
-  lp?:number
+  lp?:number,
 };
 
 export const FlexLayout: React.FC<FlexLayoutProps> = (props) => {

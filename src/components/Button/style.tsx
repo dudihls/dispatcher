@@ -1,52 +1,39 @@
 import styled from "styled-components";
-import { colors } from "../global-vars";
 
 type ButtonProps = {
-  size?: "sm" | "md" | "lg";
+  width?: number;
+  height?: number;
+  toUpperCase?: boolean;
   variant?: "primary" | "secondary";
-  type: "submit";
+  justify?: "around" | "between" | "center";
 };
 
-export const StyledButton = styled.button.attrs(
-  ({ type}: ButtonProps) => ({
-    type: type === "submit" ? type : "button",
-   
-  })
-)<ButtonProps>`
-  ${(p) => {
-    switch (p.size) {
-      case "md":
-        return `
-
-    `;
-      case "lg":
-        return `
-        width: 226px;
-        height: 36px;
-
-    `;
-      case "sm":
-      default:
-        return `
-    padding: 4px 16px;
-
-    `;
-    }
-  }}
+export const StyledButton = styled.button<ButtonProps>`
+  width: ${(p) => (p.width ? p.width + "px" : "100%")};
+  height: ${(p) => (p.height ? p.height + "px" : "100%")};
+  text-transform: ${(p) => p.toUpperCase && "uppercase"};
   font-size: 14px;
-  background: ${(p) =>
-    p.variant === "secondary" ? colors.secondary : colors.primary};
+  font-family: inherit;
+  font-weight: 500;
+  background: ${({variant,theme}) =>
+    variant === "secondary" ? theme.colors.secondary : theme.colors.primary};
   color: ${(p) => (p.variant === "secondary" ? "black" : "white")};
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: ${(p) =>
+    p.justify === "around"
+      ? "space-around"
+      : p.justify === "between"
+      ? "space-between"
+      : "center"};
   letter-spacing: 0.25px;
   border-radius: 20px;
   border: none;
   &:hover,
   &:active {
-    background: ${(p) =>
-      p.variant === "secondary" ? colors.secondaryHover : colors.primaryHover};
+    background: ${({theme,variant}) =>
+      variant === "secondary" ? theme.colors.secondaryHover : theme.colors.primaryHover};
   }
   cursor: pointer;
 `;
+
