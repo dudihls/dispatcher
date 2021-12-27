@@ -1,8 +1,11 @@
 import styled from "styled-components";
 
 type LayoutProps = {
-  direction: "row" | "col",
-  sidePadding?: number
+  direction?: "row" | "col",
+  tp?:number,
+  rp?:number,
+  bp?:number,
+  lp?:number
 };
 
 export const StyledFlexLayout = styled.div<LayoutProps>`
@@ -11,5 +14,8 @@ export const StyledFlexLayout = styled.div<LayoutProps>`
   display: flex;
   align-items: center;
   flex-direction: ${(p) => p.direction === "col" && "column"};
-  padding: 0px ${(p) => p.sidePadding && p.sidePadding+'px'};
-`;
+  padding-top:  ${(p) => p.tp && p.tp+'px'};
+  padding-right:  ${(p) => p.rp && p.rp+'px'};
+  padding-bottom:  ${(p) => p.bp && p.bp+'px'};
+  padding-left:  ${(p) => p.lp && p.lp+'px'};
+`

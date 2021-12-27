@@ -1,11 +1,11 @@
+import React from "react";
 import { StyledIcon } from "./style";
 
 type IconProps = {
-  src: string,
-  color?: "black" | "white" | "purple"
+  src: string;
+  color?: "black" | "white" | "purple";
 };
 
-export const Icon  = ({src,color} :IconProps) : JSX.Element => {
-
-return <StyledIcon src={src} color={color} />
-} 
+export const Icon: React.FC<IconProps> = (props : IconProps) => {
+  return <StyledIcon {...props} />;
+};

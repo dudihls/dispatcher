@@ -1,17 +1,14 @@
 // import Icon from "../Icon/Icon";
+import React from "react";
 import { StyledButton } from "./style";
 
 type ButtonProps = {
-  children: string;
   size?: "sm" | "md" | "lg";
   type?: "submit";
   variant?: "primary" | "secondary";
-  icon?: JSX.Element;
+  onClick?: (...args: any[]) => any;
 };
 
-export const Button = (props: ButtonProps) => (
-  <StyledButton {...props}>
-    {props.children}
-    {props.icon && props.icon}
-  </StyledButton>
+export const Button: React.FC<ButtonProps> = ({ children, ...props }) => (
+  <StyledButton {...props}>{children}</StyledButton>
 );
