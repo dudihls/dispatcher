@@ -6,7 +6,7 @@ type ButtonProps = {
   size?: "sm" | "md" | "lg";
   type?: "submit";
   variant?: "primary" | "secondary";
-  onclick?: (...args: any[]) => any;
+  onClick?: (...args: any[]) => any;
 };
 
 export const Button: React.FC<ButtonProps> = ({ children, ...props }) => (

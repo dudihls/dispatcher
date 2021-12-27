@@ -18,7 +18,7 @@ interface CardProps {
   tags?: string[];
   header: string;
   source: string;
-  onclick?: (...args: any[]) => any;
+  onClick?: (...args: any[]) => any;
 }
 
 export const Card: React.FC<CardProps> = ({
@@ -28,7 +28,7 @@ export const Card: React.FC<CardProps> = ({
   content,
   source,
   date,
-  onclick,
+  onClick,
 }: CardProps) => (
   <StyledLayout>
     <StyledImage src={img}></StyledImage>
@@ -44,7 +44,7 @@ export const Card: React.FC<CardProps> = ({
       <StyledLabel type="header">{header}</StyledLabel>
       <StyledLabel type="subtitle">{source}</StyledLabel>
       <StyledLabel type="content">{content}</StyledLabel>
-      <StyledButton onclick={onclick}>
+      <StyledButton onClick={onClick}>
         Navigate to dispatch <StyledIcon color="white" src={back}></StyledIcon>
       </StyledButton>
     </ContentLayout>

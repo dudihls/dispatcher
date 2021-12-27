@@ -5,13 +5,12 @@ type ButtonProps = {
   size?: "sm" | "md" | "lg";
   variant?: "primary" | "secondary";
   type: "submit";
-  onclick?: (...args: any[]) => any;
 };
 
 export const StyledButton = styled.button.attrs(
-  ({ type, onclick }: ButtonProps) => ({
+  ({ type}: ButtonProps) => ({
     type: type === "submit" ? type : "button",
-    onClick: onclick,
+   
   })
 )<ButtonProps>`
   ${(p) => {
