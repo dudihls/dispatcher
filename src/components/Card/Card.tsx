@@ -2,6 +2,7 @@ import { Icon } from "../Icon/Icon";
 import back from "../../assets/Icons/back.svg";
 import {
   ContentLayout,
+  StyledIcon,
   StyledImage,
   StyledLabel,
   StyledLayout,
@@ -17,7 +18,7 @@ interface CardProps {
   tags?: string[];
   header: string;
   source: string;
-  onclick?: () => {};
+  onclick?: (...args: any[]) => any;
 }
 
 export const Card: React.FC<CardProps> = ({
@@ -34,8 +35,8 @@ export const Card: React.FC<CardProps> = ({
     <ContentLayout>
       {tags && (
         <TagsContainer>
-          {tags.map((tag) => (
-            <StyledTag>{tag}</StyledTag>
+          {tags.map((tag,idx) => (
+            <StyledTag key={idx}>{tag}</StyledTag>
           ))}
         </TagsContainer>
       )}
@@ -44,13 +45,8 @@ export const Card: React.FC<CardProps> = ({
       <StyledLabel type="subtitle">{source}</StyledLabel>
       <StyledLabel type="content">{content}</StyledLabel>
       <StyledButton onclick={onclick}>
-        Navigate to dispatch <Icon color="white" src={back}></Icon>
+        Navigate to dispatch <StyledIcon color="white" src={back}></StyledIcon>
       </StyledButton>
     </ContentLayout>
   </StyledLayout>
 );
-
-//     <StyledGrayLabel label={header} />
-//     <StyledContent content={content} />
-//     <StyledGrayLabel label={source} />
-//     <Button>{button}</Button>

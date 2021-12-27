@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Button } from "../Button/Button";
 import { colors, device } from "../global-vars";
+import { Icon } from "../Icon/Icon";
 
 export const TagsContainer = styled.div`
   position: absolute;
@@ -25,7 +26,7 @@ export const StyledTag = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-  padding: 3px 10px;
+  padding: 1px 10px;
   color: ${colors.lightPurple};
   background-color: ${colors.lightGray2};
 `;
@@ -77,12 +78,9 @@ export const ContentLayout = styled.div`
   }
 `;
 
-export const StyledButton = styled(Button).attrs(
-  ({ onclick }: { onclick: () => {} }) => ({
-    onclick: onclick,
-    size: "lg",
-  })
-)`
+export const StyledButton = styled(Button).attrs(() => ({
+  size: "lg",
+}))`
   position: absolute;
   right: 16px;
   bottom: 16px;
@@ -91,18 +89,19 @@ export const StyledButton = styled(Button).attrs(
   @media ${device.tablet} {
     bottom: 8.5px;
   }
-  img {
-    margin-inline-start: 10px;
-    transform: rotate(180deg);
-  }
   @media ${device.mobile} {
     width: 311px;
-    right: 16;
-    bottom: 12;
-    img {
-      margin-inline-start: 0;
-    }
+    right: 16px;
+    bottom: 12px;
     justify-content: space-around;
+  }
+`;
+
+export const StyledIcon = styled(Icon)`
+  margin-inline-start: 10px;
+  transform: rotate(180deg);
+  @media ${device.mobile} {
+    margin-inline-start: 0;
   }
 `;
 
