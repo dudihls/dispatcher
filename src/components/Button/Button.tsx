@@ -2,8 +2,7 @@ import React from "react";
 import { StyledButton } from "./style";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  width?: number;
-  height?: number;
+  size?: "sm" | "md" | "lg";
   variant?: "primary" | "secondary";
   toUpperCase?: boolean;
   justify?: "around" | "between" | "center";

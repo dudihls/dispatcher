@@ -45,7 +45,7 @@ export const Card: React.FC<CardProps> = ({
       <StyledLabel type="subtitle">{source}</StyledLabel>
       <StyledLabel type="content">{content}</StyledLabel>
       <StyledButtonContainer>
-        <Button toUpperCase justify="around" height={36} onClick={onClick}>
+        <Button toUpperCase justify="around" onClick={onClick}>
           Navigate to dispatch
           <StyledIcon color="white" src={back}></StyledIcon>
         </Button>
