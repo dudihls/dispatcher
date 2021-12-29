@@ -1,11 +1,18 @@
 import React from "react";
-import { StyledIcon } from "./style";
+import { IconContainer, StyledIcon } from "./style";
 
 type IconProps = {
   src: string;
   color?: "black" | "white" | "purple";
+  size?: "sm" | "md";
+  margin?: number;
+  ml?: number;
 };
 
-export const Icon: React.FC<IconProps> = (props : IconProps) => {
-  return <StyledIcon {...props} />;
+export const Icon: React.FC<IconProps> = ({ ml, margin, size, ...props }) => {
+  return (
+    <IconContainer ml={ml} margin={margin} size={size}>
+      <StyledIcon {...props} />
+    </IconContainer>
+  );
 };
