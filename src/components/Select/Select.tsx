@@ -23,6 +23,12 @@ export const Select: React.FC<SelectProps> = ({
   const [selectedVal, setSelectedVal] = useState(initialValue);
   const ref = useRef(null);
   const onCloseMenu = () => setToggleOptions(false);
+
+  const onClickItem = (option: string) => {
+    setSelectedVal(option);
+    onChange && onChange(option);
+    onCloseMenu();
+  };
   useOnClickOutside(ref, onCloseMenu, "mousedown");
 
   return (
@@ -34,14 +40,7 @@ export const Select: React.FC<SelectProps> = ({
       {ToggleOptions && (
         <MenuList>
           {options.map((option, idx) => (
-            <MenuItem
-              onClick={() => {
-                setSelectedVal(option);
-                onChange && onChange(option);
-                onCloseMenu();
-              }}
-              key={idx}
-            >
+            <MenuItem onClick={() => onClickItem(option)} key={idx}>
               {option}
             </MenuItem>
           ))}
