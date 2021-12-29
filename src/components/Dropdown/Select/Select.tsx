@@ -1,16 +1,16 @@
 import React, { useRef, useState } from "react";
-import { Icon } from "../Icon/Icon";
+import { Icon } from "../../Icon/Icon";
 import { Container, MenuHeader, MenuItem, MenuList } from "./style";
-import dropdown from "../../assets/Icons/dropdown.svg";
-import useOnClickOutside from "../../hooks/useClickOutside";
+import dropdown from "../../../assets/Icons/dropdown.svg";
+import useOnClickOutside from "../../../hooks/useClickOutside";
 
-interface SelectProps {
-  options: string[];
-  initialValue: string;
+export type SelectProps = {
+  options?: string[];
+  initialValue?: string;
   endIcon?: string;
   onChange?: (value: string) => any;
   noBorder?: boolean;
-}
+};
 
 export const Select: React.FC<SelectProps> = ({
   initialValue,
@@ -18,7 +18,7 @@ export const Select: React.FC<SelectProps> = ({
   options,
   onChange,
   noBorder,
-}) => {
+}: SelectProps) => {
   const [ToggleOptions, setToggleOptions] = useState(false);
   const [selectedVal, setSelectedVal] = useState(initialValue);
   const ref = useRef(null);
@@ -33,17 +33,21 @@ export const Select: React.FC<SelectProps> = ({
 
   return (
     <Container ref={ref}>
-      <MenuHeader noBorder={noBorder} onClick={() => setToggleOptions(true)}>
+      <MenuHeader
+        noBorder={noBorder}
+        onClick={() => setToggleOptions(!ToggleOptions)}
+      >
         {selectedVal}
         {endIcon ? <Icon src={endIcon} /> : <Icon src={dropdown} />}
       </MenuHeader>
       {ToggleOptions && (
         <MenuList>
-          {options.map((option, idx) => (
-            <MenuItem onClick={() => onClickItem(option)} key={idx}>
-              {option}
-            </MenuItem>
-          ))}
+          {options &&
+            options.map((option, idx) => (
+              <MenuItem onClick={() => onClickItem(option)} key={idx}>
+                {option}
+              </MenuItem>
+            ))}
         </MenuList>
       )}
     </Container>

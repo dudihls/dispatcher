@@ -15,8 +15,10 @@ export const SearchContainer = styled.div`
 `;
 
 export const SelectContainer = styled.div`
-  min-width: 140px;
+  min-width: 150px;
   max-width: 170px;
+  height: 40px;
+  border-left: 0.5px solid ${({ theme }) => theme.colors.lightGray2};
   @media ${({ theme }) => theme.device.tablet} {
     display: none;
   }
