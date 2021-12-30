@@ -5,8 +5,8 @@ import dropdown from "../../../assets/Icons/dropdown.svg";
 import useOnClickOutside from "../../../hooks/useClickOutside";
 
 export type SelectProps = {
-  options?: string[];
-  initialValue?: string;
+  options: string[];
+  initialValue: string;
   endIcon?: string;
   onChange?: (value: string) => any;
   noBorder?: boolean;

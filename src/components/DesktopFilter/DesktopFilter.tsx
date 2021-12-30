@@ -10,8 +10,8 @@ interface DesktopFilterProps {
 export const DesktopFilter: React.FC<DesktopFilterProps> = ({ dropdowns }) => {
   return (
     <StyledContainer>
-      {dropdowns.map(({ type, ...props }, idx) => (
-        <DropDown key={idx} type={type} {...props} />
+      {dropdowns.map((props, idx) => (
+        <DropDown key={idx} {...props} />
       ))}
     </StyledContainer>
   );

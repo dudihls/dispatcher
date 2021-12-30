@@ -3,8 +3,7 @@ import { Icon } from "../Icon/Icon";
 import { Input } from "../Input/Input";
 import search from "../../assets/Icons/search.svg";
 import { SearchContainer, SelectContainer } from "./style";
-import { Select } from "../Dropdown/Select/Select";
-import { Spacer } from "../Spacer/Spacer";
+import { DropDown } from "../Dropdown/Dropdown";
 
 interface SearchProps {
   options?: string[];
@@ -17,7 +16,7 @@ export const Search: React.FC<SearchProps> = ({ onChange }) => (
     <Icon src={search} margin={13} color="purple" />
     <Input noBorder placeholder="Search" />
     <SelectContainer>
-      <Select
+      <DropDown
         onChange={onChange}
         initialValue={"Top Headlines"}
         noBorder

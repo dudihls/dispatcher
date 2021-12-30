@@ -7,9 +7,10 @@ export const Container = styled.div`
   font-size: 14px;
 `;
 
-export const MenuHeader = styled.div<{ noBorder?: boolean }>`
+export const MenuHeader = styled.button<{ noBorder?: boolean }>`
   cursor: pointer;
   height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -38,5 +39,3 @@ export const MenuItem = styled.div`
     background: #dfe0eb69;
   }
 `;
-
-

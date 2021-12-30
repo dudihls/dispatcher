@@ -44,6 +44,7 @@ export const StyledImage = styled.img.attrs(({ src }: { src: string }) => ({
 `;
 
 export const StyledLayout = styled.div`
+  z-index: -1;
   position: relative;
   display: flex;
   height: 242px;
@@ -107,7 +108,7 @@ export const StyledLabel = styled.p<{
               font-weight: 700;
               line-height: 21px;`;
       case "content":
-        return   `color: #5A5A89;
+        return `color: #5A5A89;
                   font-size: 14px;
                   font-style: normal;
                   line-height: 16px;`;
