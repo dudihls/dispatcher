@@ -2,19 +2,16 @@ import { MouseEvent, useRef, useState } from "react";
 import { MenuHeader } from "../Select/style";
 import { Icon } from "../../Icon/Icon";
 import date from "../../../assets/Icons/date.svg";
-import {
-  Calendar,
-  StyledButton,
-  StyledContainer,
-  StyledDatePicker,
-} from "./style";
+import { StyledButton, StyledContainer, StylingCalendar } from "./style";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
 import useOnClickOutside from "../../../hooks/useClickOutside";
 export type DatePickerProps = {
   onSubmitDate?: (startDate: Date | null, endDate: Date | null) => any;
   initialDate: Date;
 };
 
-export const DatePicker: React.FC<DatePickerProps> = ({
+export const DateDropDown: React.FC<DatePickerProps> = ({
   onSubmitDate,
   initialDate,
 }) => {
@@ -48,18 +45,17 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         <Icon src={date} />
       </MenuHeader>
       {isOpen && (
-        <StyledDatePicker
+        <DatePicker
           selected={startDate}
           onChange={onChange}
           startDate={startDate}
           endDate={endDate}
           selectsRange
           inline
-          calendarContainer={Calendar}
-          dayClassName={() => "blue"}
+          calendarContainer={StylingCalendar}
         >
           <StyledButton onClick={handleOnSubmit}>Submit</StyledButton>
-        </StyledDatePicker>
+        </DatePicker>
       )}
     </StyledContainer>
   );

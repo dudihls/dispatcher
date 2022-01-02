@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Button } from "../../Button/Button";
-import "react-datepicker/dist/react-datepicker.css";
-import DatePicker from "react-datepicker";
+
 
 export const StyledContainer = styled.div`
   width: 100%;
@@ -18,12 +17,9 @@ export const StyledButton = styled(Button)`
   }
 `;
 
-export const StyledDatePicker = styled(({ ...props }) => (
-  <DatePicker {...props} />
-))`
-  width: 100%;
-`;
 
-export const Calendar = styled.div`
+
+export const StylingCalendar = styled.div`
+  z-index: 2;
   background-color: ${({ theme }) => theme.colors.lightGray2};
 `;

@@ -22,6 +22,7 @@ export const theme = {
     inputBorder: "#d9dbe9",
     background: `#F8F8FF`,
     lightPurple2: `#636393b0`,
+    textGray: "rgba(90, 90, 137, 0.5)",
   },
   device,
   spacing: (number: number) => 8 * Math.pow(2, number - 1) + "px",

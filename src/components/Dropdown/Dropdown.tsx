@@ -1,5 +1,5 @@
 import { Select, SelectProps } from "./Select/Select";
-import { DatePicker, DatePickerProps } from "./DatePicker/DatePicker";
+import { DateDropDown, DatePickerProps } from "./DatePicker/DatePicker";
 
 export type DropDownProps = SelectProps | DatePickerProps;
 
@@ -8,7 +8,7 @@ const isDatePicker = (props: DropDownProps): props is DatePickerProps =>
 
 export const DropDown: React.FC<DropDownProps> = (props) =>
   isDatePicker(props) ? (
-    <DatePicker
+    <DateDropDown
       initialDate={props.initialDate}
       onSubmitDate={props.onSubmitDate}
     />

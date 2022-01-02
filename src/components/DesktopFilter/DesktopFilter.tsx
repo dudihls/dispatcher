@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
 import { DropDown, DropDownProps } from "../Dropdown/Dropdown";
-import { Select, SelectProps } from "../Dropdown/Select/Select";
 import { StyledContainer } from "./style";
 
 interface DesktopFilterProps {
@@ -10,8 +8,8 @@ interface DesktopFilterProps {
 export const DesktopFilter: React.FC<DesktopFilterProps> = ({ dropdowns }) => {
   return (
     <StyledContainer>
-      {dropdowns.map((props, idx) => (
-        <DropDown key={idx} {...props} />
+      {dropdowns.map((dropdown, idx) => (
+        <DropDown key={idx} {...dropdown} />
       ))}
     </StyledContainer>
   );
