@@ -7,4 +7,7 @@ export const StyledContainer = styled.div`
   & > div:not(:last-child) {
     margin-inline-end: 20px;
   }
+  @media ${({ theme }) => theme.device.tablet} {
+    display: none;
+  }
 `;

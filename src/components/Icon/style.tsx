@@ -3,10 +3,12 @@ import styled from "styled-components";
 type IconProps = {
   color?: "white" | "black" | "purple";
   src: string;
+  onClick?: (...args: any) => any;
 };
 
-export const StyledIcon = styled.img.attrs(({ src }: IconProps) => ({
-  src: src,
+export const StyledIcon = styled.img.attrs(({ src, onClick }: IconProps) => ({
+  src,
+  onClick,
 }))<IconProps>`
   ${(p) => {
     switch (p.color) {
@@ -31,7 +33,7 @@ export const IconContainer = styled.div<IconContainerProps>`
   height: ${({ size }) => (size === "md" ? "30px" : "24px")};
   width: ${({ size }) => (size === "md" ? "30px" : "24px")};
   margin: ${({ margin }) => margin + "px"};
-  margin-inline-end: ${({ ml }) => ml + "px"};
+  margin-inline-end: ${({ ml }) => (ml ? ml + "px" : 0)};
   display: flex;
   align-items: center;
   justify-content: center;

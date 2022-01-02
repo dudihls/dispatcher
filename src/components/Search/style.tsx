@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Input } from "../Input/Input";
 
 export const SearchContainer = styled.div`
   display: flex;
@@ -6,7 +7,6 @@ export const SearchContainer = styled.div`
   margin: 12px 0;
   border-radius: 10px;
   min-width: 423px;
-  display: flex;
   align-items: center;
   justify-content: center;
   @media ${({ theme }) => theme.device.mobile} {
@@ -14,9 +14,15 @@ export const SearchContainer = styled.div`
   }
 `;
 
+export const StyledInput = styled(Input)`
+  transition: all 0.45s ease-in-out;
+  &:focus {
+    width: 400px;
+  }
+`;
+
 export const SelectContainer = styled.div`
   min-width: 150px;
-  max-width: 170px;
   height: 40px;
   border-left: 0.5px solid ${({ theme }) => theme.colors.lightGray2};
   @media ${({ theme }) => theme.device.tablet} {

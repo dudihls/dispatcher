@@ -18,4 +18,5 @@ export const StyledInput = styled.input<InputProps>`
   border-radius: 10px;
   border: ${({ noBorder, theme }) =>
     !noBorder ? "1px solid " + theme.colors.inputBorder : "none"};
+
 `;

@@ -25,7 +25,6 @@ box-sizing: border-box;
 }
 .react-datepicker__day--in-selecting-range{
   background-color:  ${({ theme }) => theme.colors.lightPurple2} !important;
-
 }
 
 html{

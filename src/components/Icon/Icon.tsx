@@ -7,6 +7,7 @@ type IconProps = {
   size?: "sm" | "md";
   margin?: number;
   ml?: number;
+  onClick?: (...args: any) => any;
 };
 
 export const Icon: React.FC<IconProps> = ({ ml, margin, size, ...props }) => {

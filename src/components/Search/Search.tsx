@@ -2,7 +2,7 @@ import React from "react";
 import { Icon } from "../Icon/Icon";
 import { Input } from "../Input/Input";
 import search from "../../assets/Icons/search.svg";
-import { SearchContainer, SelectContainer } from "./style";
+import { SearchContainer, SelectContainer, StyledInput } from "./style";
 import { DropDown } from "../Dropdown/Dropdown";
 
 interface SearchProps {
@@ -14,7 +14,7 @@ interface SearchProps {
 export const Search: React.FC<SearchProps> = ({ onChange }) => (
   <SearchContainer>
     <Icon src={search} margin={13} color="purple" />
-    <Input noBorder placeholder="Search" />
+    <StyledInput noBorder placeholder="Search" />
     <SelectContainer>
       <DropDown
         onChange={onChange}
