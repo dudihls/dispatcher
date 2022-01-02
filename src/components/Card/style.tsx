@@ -44,6 +44,7 @@ export const StyledImage = styled.img.attrs(({ src }: { src: string }) => ({
 `;
 
 export const StyledLayout = styled.div`
+  z-index: 1;
   position: relative;
   display: flex;
   height: 242px;
@@ -100,21 +101,21 @@ export const StyledLabel = styled.p<{
 }>`
   /* font-family: "Roboto", sans-serif; */
   margin: 0;
-  ${(p) => {
-    switch (p.type) {
+  ${({ type, theme }) => {
+    switch (type) {
       case "header":
         return `font-size: 18px;
               font-weight: 700;
               line-height: 21px;`;
       case "content":
-        return   `color: #5A5A89;
+        return `color: ${theme.colors.purple};
                   font-size: 14px;
                   font-style: normal;
                   line-height: 16px;`;
       case "subtitle":
       default:
         return `
-            color: rgba(90, 90, 137, 0.5);
+            color: ${theme.colors.textGray};
             font-size: 14px;
             line-height: 22px;
             letter-spacing: 0.25px;
