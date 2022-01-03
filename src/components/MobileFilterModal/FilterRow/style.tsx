@@ -15,8 +15,8 @@ export const StyledName = styled.p`
   color: ${({ theme }) => theme.colors.lightPurple};
   font-size: 14px;
 `;
-export const StyledValue = styled.p<{ isFirst: boolean }>`
-  color: ${({ theme, isFirst }) =>
-    theme.colors.lightPurple + (isFirst ? "D9" : "80")};
+export const StyledValue = styled.p<{ isDefault?: boolean }>`
+  color: ${({ theme, isDefault }) =>
+    theme.colors.lightPurple + (isDefault ? "80" : "D9")};
   font-size: 14px;
 `;
