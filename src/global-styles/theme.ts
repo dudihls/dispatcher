@@ -6,6 +6,7 @@ const size = {
 const device = {
   mobile: `(max-width: ${size.mobile})`,
   tablet: `(max-width: ${size.tablet})`,
+  desktop: `(min-width: ${size.tablet})`,
 };
 
 export const theme = {
