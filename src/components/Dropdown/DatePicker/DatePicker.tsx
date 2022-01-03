@@ -26,13 +26,13 @@ export const DateDropDown: React.FC<DatePickerProps> = ({
     setEndDate(end);
   };
 
-  const onClose = (ev: MouseEvent) => {
-    ev.preventDefault();
+  const onClose = () => {
     setIsOpen(false);
   };
 
   const handleOnSubmit = (ev: MouseEvent) => {
-    onClose(ev);
+    ev.preventDefault();
+    onClose();
     onSubmitDate && onSubmitDate(startDate, endDate);
   };
 

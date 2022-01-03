@@ -1,6 +1,5 @@
 import React from "react";
 import { Icon } from "../Icon/Icon";
-import { Input } from "../Input/Input";
 import search from "../../assets/Icons/search.svg";
 import { SearchContainer, SelectContainer, StyledInput } from "./style";
 import { DropDown } from "../Dropdown/Dropdown";

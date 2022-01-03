@@ -5,6 +5,10 @@ export const StyledFilterRow = styled.div`
   justify-content: space-between;
   padding: 25px 7%;
   border-bottom: 1px solid ${({ theme }) => theme.colors.secondary};
+  cursor: pointer;
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.secondary};
+  }
 `;
 
 export const StyledName = styled.p`

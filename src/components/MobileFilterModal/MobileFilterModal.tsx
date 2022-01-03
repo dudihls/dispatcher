@@ -9,40 +9,50 @@ import {
   StyledHeader,
   TopWrapper,
 } from "./style";
-import { FlexLayout } from "../FlexLayout/FlexLayout";
 import { FilterRow } from "./FilterRow/FilterRow";
 import { Button } from "../Button/Button";
-type FilterProps = {};
+
+type FilterProps = {
+  name: string;
+  options: string | string[];
+  value: string;
+};
 
 interface MobileFilterModalProps {
+  filters: FilterProps[];
   open: boolean;
 }
 
 export const MobileFilterModal: React.FC<MobileFilterModalProps> = ({
   open,
+  filters,
 }) => {
-  const [displayIcon, setDisplayIcon] = useState(false);
-  const filters = [
-    {
-      name: "Search in",
-      value: "Everything",
-      options: ["Everything", "Top headings"],
-    },
-    {
-      name: "Sources",
-      value: "Walla",
-      options: ["CSS", "ACDME", "CNN", "JavaScript"],
-    },
-  ];
+  const [header, setHeader] = useState("Filter");
+
+  const onClickFilter = (name: string) => {
+    setHeader(name);
+  };
+
+  const onGoBack = () => {
+    setHeader("Filter");
+  };
+
   return (
     <Container open={open}>
       <TopWrapper>
         <HeaderWrapper>
-          {displayIcon && <Icon src={back} />}
-          <StyledHeader>Filter</StyledHeader>
+          {header !== "Filter" && (
+            <Icon size="sm" ml={17} src={back} onClick={onGoBack} />
+          )}
+          <StyledHeader>{header}</StyledHeader>
         </HeaderWrapper>
         {filters.map((filter, idx) => (
-          <FilterRow {...filter} key={idx} isFirst={idx === 0} />
+          <FilterRow
+            {...filter}
+            onClickFilter={onClickFilter}
+            key={idx}
+            isFirst={idx === 0}
+          />
         ))}
       </TopWrapper>
       <StyledFooter>

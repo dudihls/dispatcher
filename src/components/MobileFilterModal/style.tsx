@@ -22,9 +22,10 @@ export const StyledHeader = styled.p`
 
 export const HeaderWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  align-items: center;
   text-transform: uppercase;
-  padding: 25px 7%;
+  padding-left: 7%;
+  height: 75px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.secondary};
 `;
 
