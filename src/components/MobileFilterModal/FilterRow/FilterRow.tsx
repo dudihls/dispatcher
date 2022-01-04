@@ -1,22 +1,22 @@
 import { StyledFilterRow, StyledName, StyledValue } from "./style";
 
 type FilterRowProps = {
-  name: string;
-  value: string;
-  isFirst: boolean;
-  onClickFilter: (name: string) => any;
+  header: string;
+  value?: string;
+  isDefaultValue?: boolean;
+  onClickRow: (header: string) => any;
 };
 
 export const FilterRow: React.FC<FilterRowProps> = ({
-  name,
+  header,
   value,
-  isFirst,
-  onClickFilter,
+  onClickRow,
+  isDefaultValue,
 }) => {
   return (
-    <StyledFilterRow onClick={() => onClickFilter(name)}>
-      <StyledName>{name}</StyledName>
-      <StyledValue isFirst={isFirst}>{value}</StyledValue>
+    <StyledFilterRow onClick={() => onClickRow(header)}>
+      <StyledName>{header}</StyledName>
+      {value && <StyledValue isDefault={isDefaultValue}>{value}</StyledValue>}
     </StyledFilterRow>
   );
 };
