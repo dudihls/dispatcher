@@ -1,4 +1,5 @@
-import { Home } from "./pages/Home";
+import { Home } from "./pages/Home/Home";
+import { Login } from "./pages/Login/Login";
 type RouteProps = {
   path: string;
   element: JSX.Element;
@@ -6,7 +7,11 @@ type RouteProps = {
 
 export const routes: RouteProps[] = [
   {
-    path: "/",
+    path: "/home",
     element: <Home />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ];
