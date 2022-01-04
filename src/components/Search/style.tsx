@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { Input } from "../Input/Input";
 export const StyledInput = styled(Input)``;
 
-export const SearchContainer = styled.div<{ hasFocus: boolean }>`
+export const SearchContainer = styled.form<{ hasFocus: boolean }>`
+  position: relative;
   display: flex;
   background-color: white;
   margin: 12px 0;
