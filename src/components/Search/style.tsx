@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { Input } from "../Input/Input";
+export const StyledInput = styled(Input)``;
 
-export const SearchContainer = styled.div`
+export const SearchContainer = styled.div<{ hasFocus: boolean }>`
   display: flex;
   background-color: white;
   margin: 12px 0;
@@ -9,15 +10,10 @@ export const SearchContainer = styled.div`
   min-width: 423px;
   align-items: center;
   justify-content: center;
+  flex-grow: ${({ hasFocus }) => hasFocus && 0.25};
+  transition: all 0.45s ease-in-out;
   @media ${({ theme }) => theme.device.mobile} {
     display: none;
-  }
-`;
-
-export const StyledInput = styled(Input)`
-  transition: all 0.45s ease-in-out;
-  &:focus {
-    width: 400px;
   }
 `;
 

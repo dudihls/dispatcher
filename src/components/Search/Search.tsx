@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Icon } from "../Icon/Icon";
 import search from "../../assets/Icons/search.svg";
 import { SearchContainer, SelectContainer, StyledInput } from "./style";
@@ -10,17 +10,26 @@ interface SearchProps {
   onChange?: (value: string) => any;
 }
 
-export const Search: React.FC<SearchProps> = ({ onChange }) => (
-  <SearchContainer>
-    <Icon src={search} margin={13} color="purple" />
-    <StyledInput noBorder placeholder="Search" />
-    <SelectContainer>
-      <DropDown
-        onChange={onChange}
-        initialValue={"Top Headlines"}
+export const Search: React.FC<SearchProps> = ({ onChange }) => {
+  const [hasFocus, setHasFocus] = useState(false);
+
+  return (
+    <SearchContainer hasFocus={hasFocus}>
+      <Icon src={search} margin={13} color="purple" />
+      <StyledInput
+        onFocus={() => setHasFocus(true)}
+        onBlur={() => setHasFocus(false)}
         noBorder
-        options={["Everything", "Top Headlines"]}
+        placeholder="Search"
       />
-    </SelectContainer>
-  </SearchContainer>
-);
+      <SelectContainer>
+        <DropDown
+          onChange={onChange}
+          initialValue={"Top Headlines"}
+          noBorder
+          options={["Everything", "Top Headlines"]}
+        />
+      </SelectContainer>
+    </SearchContainer>
+  );
+};
