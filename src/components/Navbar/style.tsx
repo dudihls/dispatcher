@@ -5,7 +5,7 @@ export const Container = styled.div`
   height: 74px;
   justify-content: space-between;
   background-color: ${({ theme }) => theme.colors.purple};
-  width: 100vw;
+  width: 100%;
 `;
 
 export const Wrapper = styled.div`
