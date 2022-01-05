@@ -10,6 +10,9 @@ const device = {
 };
 
 export const theme = {
+  graphColorPalette: {
+    doughnut: ["#FF9800", "#DDF3FE", "#E8E8E8", "#030035", "#343A6E"],
+  },
   colors: {
     primary: `#0058B9`,
     primaryHover: `#3379c6`,
@@ -24,7 +27,7 @@ export const theme = {
     background: `#F8F8FF`,
     lightPurple2: `#636393b0`,
     textGray: "rgba(90, 90, 137, 0.5)",
-    hoverDropDown: "#dfe0eb69"
+    hoverDropDown: "#dfe0eb69",
   },
   device,
   spacing: (number: number) => 8 * Math.pow(2, number - 1) + "px",
