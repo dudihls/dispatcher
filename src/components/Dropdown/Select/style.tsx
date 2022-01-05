@@ -24,7 +24,7 @@ export const MenuHeader = styled.button<{ noBorder?: boolean }>`
 
 export const MenuList = styled.div`
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   width: 100%;
   background-color: white;
   border-radius: 10px;
@@ -36,6 +36,6 @@ export const MenuItem = styled.div`
   color: ${({ theme }) => theme.colors.lightPurple};
   padding: 9px;
   :hover {
-    background: #dfe0eb69;
+    background: ${({ theme }) => theme.colors.hoverDropDown};
   }
 `;

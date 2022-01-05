@@ -34,6 +34,7 @@ export const Select: React.FC<SelectProps> = ({
   return (
     <Container ref={ref}>
       <MenuHeader
+        type="button"
         noBorder={noBorder}
         onClick={() => setToggleOptions(!ToggleOptions)}
       >
