@@ -28,12 +28,17 @@ box-sizing: border-box;
 }
 
 html{
+  height: 100%;
   background-color: ${({ theme }) => theme.colors.background};
   width: auto;
   font-family: 'Roboto';
 }
 body {
- 
+  height: 100%;
+}
+
+#root{
+  height: 100%;
 }
 
 
