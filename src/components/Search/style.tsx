@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import { Input } from "../Input/Input";
-export const StyledInput = styled(Input)``;
 
 export const SearchContainer = styled.form<{ hasFocus: boolean }>`
   position: relative;

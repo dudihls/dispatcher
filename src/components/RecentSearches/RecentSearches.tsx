@@ -10,28 +10,43 @@ import {
 import exit from "../../assets/Icons/exit.svg";
 
 type RecentSearchesProps = {
-  searches: string[];
+  onClickSearch: (value: string) => any;
   onClear: () => any;
+  searches: string[];
   onDeleteSearch: (idx: number) => any;
-  onClickSearch: (idx: number) => any;
 };
 
 export const RecentSearches: React.FC<RecentSearchesProps> = ({
-  searches,
-  onDeleteSearch,
-  onClear,
   onClickSearch,
+  searches,
+  onClear,
+  onDeleteSearch,
 }) => {
   return (
     <Container>
       <HeaderWrapper>
         <StyledHeadline>Recent Searches</StyledHeadline>
-        <StyledButton onClick={onClear}>Clear</StyledButton>
+        <StyledButton
+          type="button"
+          onClick={(ev) => {
+            ev.stopPropagation();
+            onClear();
+          }}
+        >
+          Clear
+        </StyledButton>
       </HeaderWrapper>
-      {searches.map((search, idx) => (
-        <RowWrapper key={idx} onClick={() => onClickSearch(idx)}>
+      {searches.map((search: string, idx: number) => (
+        <RowWrapper key={idx} onClick={() => onClickSearch(search)}>
           <StyledContent>{search}</StyledContent>
-          <Icon onClick={() => onDeleteSearch(idx)} src={exit} size="xs" />
+          <Icon
+            onClick={(ev) => {
+              ev.stopPropagation();
+              onDeleteSearch(idx);
+            }}
+            src={exit}
+            size="xs"
+          />
         </RowWrapper>
       ))}
     </Container>

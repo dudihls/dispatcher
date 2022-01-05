@@ -5,7 +5,9 @@ export const Container = styled.div`
   position: absolute;
   width: 100%;
   top: 55px;
+  max-height: 140px;
   border-radius: 10px;
+  overflow: auto;
   z-index: 2;
 `;
 
