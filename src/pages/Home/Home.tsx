@@ -1,4 +1,3 @@
-import { FlexLayout } from "../../components/FlexLayout/FlexLayout";
 import { Card } from "../../components/Card/Card";
 import { ThemeProvider } from "styled-components";
 import { theme } from "../../global-styles/theme";
@@ -86,10 +85,14 @@ export const Home: React.FC = () => {
       <DoughnutGraph
         innerText="Sum"
         header="Sources"
-        data={{
-          dataValues: [12, 19, 3, 5],
-          colorPalette: theme.graphColorPalette.doughnut,
-        }}
+        data={[
+          { name: "a", value: 12 },
+          { name: "b", value: 19 },
+          { name: "c", value: 3 },
+          { name: "d", value: 5 },
+     
+        ]}
+        colorPalette={theme.graphColorPalette.doughnut}
       />
     </ThemeProvider>
   );
