@@ -30,7 +30,7 @@ export const Search: React.FC<SearchProps> = ({ onSubmit, onChangeFilter }) => {
 
   useEffect(() => {
     setRecentSearches(searches);
-  }, [searches]);
+  }, [searches,setRecentSearches]);
 
   const onClear = () => {
     setSearches([]);

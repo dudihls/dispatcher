@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { FlexLayout } from "../FlexLayout/FlexLayout";
 import { Icon } from "../Icon/Icon";
 
 export const Wrapper = styled.div`

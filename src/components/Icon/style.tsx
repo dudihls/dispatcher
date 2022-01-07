@@ -19,19 +19,23 @@ export const StyledIcon = styled.img.attrs(({ src }: IconProps) => ({
         return `filter: invert(0%) sepia(97%) saturate(8%) hue-rotate(325deg) brightness(113%) contrast(100%);`;
     }
   }}
+  width: 100%;
+  height: 100%;
 `;
 
 type IconContainerProps = {
   margin?: number;
   ml?: number;
-  size?: "sm" | "md";
+  mr?: number;
+  size?: "xs" | "sm";
 };
 
 export const IconContainer = styled.div<IconContainerProps>`
-  height: ${({ size }) => (size === "md" ? "30px" : "24px")};
-  width: ${({ size }) => (size === "md" ? "30px" : "24px")};
-  margin: ${({ margin }) => margin + "px"};
-  margin-inline-end: ${({ ml }) => (ml ? ml + "px" : 0)};
+  height: ${({ size }) => (size === "xs" ? "12px" : "24px")};
+  width: ${({ size }) => (size === "xs" ? "12px" : "24px")};
+  margin: ${({ margin }) => margin && margin + "px"};
+  margin-inline-end: ${({ ml }) => ml && ml + "px"};
+  margin-inline-start: ${({ mr }) => mr && mr + "px"};
   display: flex;
   align-items: center;
   justify-content: center;
