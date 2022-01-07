@@ -1,5 +1,4 @@
 import { Card } from "../../components/Card/Card";
-import { ThemeProvider } from "styled-components";
 import { theme } from "../../global-styles/theme";
 import { GlobalStyles } from "../../global-styles/Global";
 import { Navbar } from "../../components/Navbar/Navbar";
@@ -9,6 +8,8 @@ import { Modal } from "../../components/Modal/Modal";
 import { MobileFilterModal } from "../../components/MobileFilterModal/MobileFilterModal";
 import { MobileFilter } from "../../components/MobileFilterBar/MobileFilterBar";
 import { DoughnutGraph } from "../../components/Graphs";
+import { AreaGraph } from "../../components/Graphs/AreaGraph/AreaGraph";
+import { BarGraph } from "../../components/Graphs/BarGraph/BarGraph";
 const args = {
   img: "https://i.natgeofe.com/k/8fd6eca1-0808-4e4a-ac49-bb87f8821a0b/first-olympics-textimage_2_4x3.jpg",
   content:
@@ -33,7 +34,7 @@ export const Home: React.FC = () => {
   }, [startDate, endDate]);
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       {modal && (
         <Modal
           ToggleModal={() => {
@@ -90,10 +91,69 @@ export const Home: React.FC = () => {
           { name: "b", value: 19 },
           { name: "c", value: 3 },
           { name: "d", value: 5 },
-     
         ]}
         colorPalette={theme.graphColorPalette.doughnut}
       />
-    </ThemeProvider>
+      <AreaGraph
+        header="Dates"
+        data={[
+          {
+            name: "Jan",
+            value: 2400,
+          },
+          {
+            name: "Fab",
+            value: 2210,
+          },
+          {
+            name: "Mar",
+            value: 2290,
+          },
+          {
+            name: "APR",
+            value: 4000,
+          },
+
+          {
+            name: "AUG",
+            value: 5000,
+          },
+          {
+            name: "AUG",
+            value: 5000,
+          },
+          {
+            name: "AUG",
+            value: 5000,
+          },
+        ]}
+      ></AreaGraph>
+      <BarGraph
+        data={[
+          {
+            name: "APR",
+            value: 4000,
+          },
+
+          {
+            name: "AUG",
+            value: 5000,
+          },
+          {
+            name: "AUG",
+            value: 5000,
+          },
+          {
+            name: "AUG",
+            value: 5000,
+          },
+          { name: "asshjf", value: 1234 },
+          { name: "bsadf", value: 12349 },
+          { name: "cs", value: 3333 },
+          { name: "dff", value: 25 },
+        ]}
+        header="Tags"
+      />
+    </>
   );
 };

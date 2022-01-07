@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ResponsiveContainer } from "recharts";
 
 export const StyledHeader = styled.p`
   font-size: 24px;
@@ -26,4 +27,9 @@ export const HeaderLine = styled.div`
   width: 20px;
   border-radius: 10px;
   border: 4px solid ${({ theme }) => theme.colors.lightPurple};
+`;
+
+export const GraphContainer = styled(ResponsiveContainer)`
+  height: 100%;
+  width: 100%;
 `;

@@ -12,6 +12,7 @@ const device = {
 export const theme = {
   graphColorPalette: {
     doughnut: ["#FF9800", "#DDF3FE", "#E8E8E8", "#030035", "#343A6E"],
+    area: { lightBlue: "#00B9FF", blue: "#0058B9" },
   },
   colors: {
     piePercent: "#9FA2B4",
