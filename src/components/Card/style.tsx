@@ -48,15 +48,10 @@ export const StyledLayout = styled.div`
   position: relative;
   display: flex;
   height: 242px;
-  width: 986px;
   border-radius: 20px;
   background-color: white;
   border: 1px solid #d9dbe9;
   box-shadow: 0px 32px 64px rgba(0, 0, 0, 0.05);
-  @media ${({ theme }) => theme.device.tablet} {
-    height: 242px;
-    width: 728px;
-  }
   @media ${({ theme }) => theme.device.mobile} {
     flex-direction: column;
     height: 449px;
@@ -72,7 +67,7 @@ export const ContentLayout = styled.div`
     padding: 8.5px 16px 0 17px;
   }
   @media ${({ theme }) => theme.device.mobile} {
-    width: 311px;
+    width: 100%;
     padding: 9px 16px 12px;
   }
 `;
@@ -86,9 +81,8 @@ export const StyledButtonContainer = styled.div`
     bottom: 8.5px;
   }
   @media ${({ theme }) => theme.device.mobile} {
-    width: 311px;
-    right: 16px;
-    bottom: 12px;
+    width: 100%;
+    position: static;
   }
 `;
 

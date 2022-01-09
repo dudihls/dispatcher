@@ -25,8 +25,8 @@ export const DoughnutGraph: React.FC<DoughnutGraphProps> = ({
         <HeaderLine />
       </HeaderWrapper>
       <DoughnutGraphContainer width="100%" height="100%">
-        <PieChart width={360} height={280}>
-          <text x={180} y={74} dy={8} textAnchor="middle">
+        <PieChart >
+          <text x={156} y={74} dy={8} textAnchor="middle">
             {innerText}
           </text>
           <Pie

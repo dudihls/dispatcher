@@ -6,10 +6,19 @@ import { useEffect, useState } from "react";
 import { DesktopFilter } from "../../components/DesktopFilter/DesktopFilter";
 import { Modal } from "../../components/Modal/Modal";
 import { MobileFilterModal } from "../../components/MobileFilterModal/MobileFilterModal";
-import { MobileFilter } from "../../components/MobileFilterBar/MobileFilterBar";
-import { DoughnutGraph } from "../../components/Graphs";
-import { AreaGraph } from "../../components/Graphs/AreaGraph/AreaGraph";
-import { BarGraph } from "../../components/Graphs/BarGraph/BarGraph";
+import { MobileFilterBar } from "../../components/MobileFilterBar/MobileFilterBar";
+import { AreaGraph, BarGraph, DoughnutGraph } from "../../components/Graphs";
+import {
+  AppHeader,
+  CardsContainer,
+  FiltersContainer,
+  GraphsContainer,
+  Layout,
+  MainLayout,
+  SimpleWrapper,
+  Spacer,
+  StyledHeader,
+} from "./style";
 const args = {
   img: "https://i.natgeofe.com/k/8fd6eca1-0808-4e4a-ac49-bb87f8821a0b/first-olympics-textimage_2_4x3.jpg",
   content:
@@ -22,138 +31,148 @@ const args = {
   onClick: () => console.log("hello world"),
 };
 
+const doughnutData = [
+  { name: "a", value: 12 },
+  { name: "b", value: 19 },
+  { name: "c", value: 3 },
+  { name: "d", value: 5 },
+];
+const barData = [
+  {
+    name: "APR",
+    value: 4000,
+  },
+
+  {
+    name: "AUG",
+    value: 5000,
+  },
+  {
+    name: "AUG",
+    value: 5000,
+  },
+  {
+    name: "AUG",
+    value: 5000,
+  },
+  { name: "asshjf", value: 1234 },
+  { name: "bsadf", value: 12349 },
+  { name: "cs", value: 3333 },
+  { name: "dff", value: 25 },
+];
+const areaData = [
+  {
+    name: "Jan",
+    value: 2400,
+  },
+  {
+    name: "Fab",
+    value: 2210,
+  },
+  {
+    name: "Mar",
+    value: 2290,
+  },
+  {
+    name: "APR",
+    value: 4000,
+  },
+
+  {
+    name: "AUG",
+    value: 5000,
+  },
+  {
+    name: "AUG",
+    value: 5000,
+  },
+  {
+    name: "AUG",
+    value: 5000,
+  },
+];
+
+const filters = [
+  {
+    header: "Search in",
+    value: "Everything",
+    options: ["Everything", "Top headings"],
+  },
+  {
+    header: "Sources",
+    value: "",
+    options: ["CSS", "ACDME", "CNN", "JavaScript"],
+  },
+];
+const filters2 = [
+  { initialValue: "Country", options: ["1", "2"] },
+  { initialValue: "papa", options: ["23"] },
+  {
+    initialDate: new Date(),
+    onSubmitDate: () => {},
+  },
+];
+
 export const Home: React.FC = () => {
   const [modal, setModal] = useState(false);
-  const [filter, setFilter] = useState(false);
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
-
-  useEffect(() => {
-    console.log(startDate);
-    console.log(endDate);
-  }, [startDate, endDate]);
-
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   return (
-    <>
-      {modal && (
-        <Modal
-          ToggleModal={() => {
-            setModal(false);
-            setFilter(false);
+    <Layout>
+      <GlobalStyles />
+      <AppHeader>
+        <Navbar />
+        {modal && (
+          <Modal
+            ToggleModal={() => {
+              setModal(false);
+              setIsMobileFilterOpen(false);
+            }}
+          />
+        )}
+        <MobileFilterModal filters={filters} open={isMobileFilterOpen} />
+        <MobileFilterBar
+          onToggleFilter={() => {
+            setModal(true);
+            setIsMobileFilterOpen(true);
           }}
         />
-      )}
-      <MobileFilterModal
-        filters={[
-          {
-            header: "Search in",
-            value: "Everything",
-            options: ["Everything", "Top headings"],
-          },
-          {
-            header: "Sources",
-            value: "",
-            options: ["CSS", "ACDME", "CNN", "JavaScript"],
-          },
-        ]}
-        open={filter}
-      />
-      <GlobalStyles />
-      <Navbar />
-
-      <MobileFilter
-        onToggleFilter={() => {
-          setModal(true);
-          setFilter(true);
-        }}
-      />
-
-      <DesktopFilter
-        dropdowns={[
-          { initialValue: "Country", options: ["1", "2"] },
-          { initialValue: "papa", options: ["23"] },
-          {
-            initialDate: new Date(),
-            onSubmitDate: (startDate, endDate) => {
-              setStartDate(startDate);
-              setEndDate(endDate);
-            },
-          },
-        ]}
-      />
-
-      <Card {...args} />
-      <DoughnutGraph
-        innerText="Sum"
-        header="Sources"
-        data={[
-          { name: "a", value: 12 },
-          { name: "b", value: 19 },
-          { name: "c", value: 3 },
-          { name: "d", value: 5 },
-        ]}
-        colorPalette={theme.graphColorPalette.doughnut}
-      />
-      <AreaGraph
-        header="Dates"
-        data={[
-          {
-            name: "Jan",
-            value: 2400,
-          },
-          {
-            name: "Fab",
-            value: 2210,
-          },
-          {
-            name: "Mar",
-            value: 2290,
-          },
-          {
-            name: "APR",
-            value: 4000,
-          },
-
-          {
-            name: "AUG",
-            value: 5000,
-          },
-          {
-            name: "AUG",
-            value: 5000,
-          },
-          {
-            name: "AUG",
-            value: 5000,
-          },
-        ]}
-      ></AreaGraph>
-      <BarGraph
-        data={[
-          {
-            name: "APR",
-            value: 4000,
-          },
-
-          {
-            name: "AUG",
-            value: 5000,
-          },
-          {
-            name: "AUG",
-            value: 5000,
-          },
-          {
-            name: "AUG",
-            value: 5000,
-          },
-          { name: "asshjf", value: 1234 },
-          { name: "bsadf", value: 12349 },
-          { name: "cs", value: 3333 },
-          { name: "dff", value: 25 },
-        ]}
-        header="Tags"
-      />
-    </>
+      </AppHeader>
+      <MainLayout>
+        <FiltersContainer>
+          <DesktopFilter dropdowns={filters2} />
+        </FiltersContainer>
+        <SimpleWrapper direction="col">
+          <Spacer />
+          <StyledHeader>Top Headlines in Israel</StyledHeader>
+          <SimpleWrapper>
+            <CardsContainer>
+              <Card {...args} />
+              <Card {...args} />
+              <Card {...args} />
+              <Card {...args} />
+              <Card {...args} />
+              <Card {...args} />
+              <Card {...args} />
+              <Card {...args} />
+              <Card {...args} />
+              <Card {...args} />
+              <Card {...args} />
+              <Card {...args} />
+              <Card {...args} />
+            </CardsContainer>
+            <GraphsContainer>
+              <DoughnutGraph
+                innerText="Sum"
+                header="Sources"
+                data={doughnutData}
+                colorPalette={theme.graphColorPalette.doughnut}
+              />
+              <AreaGraph header="Dates" data={areaData}></AreaGraph>
+              <BarGraph data={barData} header="Tags" />
+            </GraphsContainer>
+          </SimpleWrapper>
+        </SimpleWrapper>
+      </MainLayout>
+    </Layout>
   );
 };

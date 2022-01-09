@@ -29,8 +29,8 @@ box-sizing: border-box;
 
 html{
   height: 100%;
+  width: 100%;
   background-color: ${({ theme }) => theme.colors.background};
-  width: auto;
   font-family: 'Roboto';
 }
 body {
@@ -39,6 +39,8 @@ body {
 
 #root{
   height: 100%;
+  width: 100%;
+
 }
 
 

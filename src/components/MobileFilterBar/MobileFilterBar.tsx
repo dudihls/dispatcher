@@ -7,7 +7,7 @@ type MobileFilterProps = {
   onToggleFilter: () => any;
 };
 
-export const MobileFilter: React.FC<MobileFilterProps> = ({
+export const MobileFilterBar: React.FC<MobileFilterProps> = ({
   onToggleFilter,
 }) => {
   return (

@@ -9,7 +9,7 @@ export const StyledHeader = styled.p`
 
 export const GraphCard = styled.div`
   height: 378px;
-  width: 412px;
+  width: 360px;
   border-radius: 20px;
   padding: 25px;
   background-color: white;
