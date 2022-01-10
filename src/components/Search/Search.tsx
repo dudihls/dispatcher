@@ -9,8 +9,6 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import Input from "../Input/Input";
 
 interface SearchProps {
-  options?: string[];
-  initialValue?: string;
   onSubmit?: (searchValue: string) => any;
   onChangeFilter?: (filterValue: string) => any;
 }
