@@ -9,7 +9,7 @@ export const Layout = styled.div`
     min-width: 800px;
   }
   @media ${({ theme }) => theme.device.mobile} {
-    min-width: 400px;
+    min-width: 360px;
   }
 `;
 
@@ -30,6 +30,9 @@ export const SimpleWrapper = styled.div<{ direction?: "col" | "row" }>`
   display: flex;
   align-items: flex-start;
   flex-direction: ${({ direction }) => direction === "col" && "column"};
+  @media ${({ theme }) => theme.device.mobile} {
+    align-self: center;
+  }
 `;
 
 export const Spacer = styled.div`
@@ -73,10 +76,11 @@ export const CardsContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.background};
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
   & > div:not(:last-child) {
     margin-block-end: 24px;
   }
-  overflow-y: auto;
+
 `;
 
 export const StyledHeader = styled.p`
