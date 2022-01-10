@@ -11,7 +11,7 @@ import {
 } from "./style";
 import { Button } from "../Button/Button";
 
-interface CardProps {
+export type CardProps = {
   img: string;
   content: string;
   date: string;
@@ -19,7 +19,7 @@ interface CardProps {
   header: string;
   source: string;
   onClick?: (...args: any[]) => any;
-}
+};
 
 export const Card: React.FC<CardProps> = ({
   img,
@@ -29,7 +29,7 @@ export const Card: React.FC<CardProps> = ({
   source,
   date,
   onClick,
-}: CardProps) => (
+}) => (
   <StyledLayout>
     <StyledImage src={img}></StyledImage>
     <ContentLayout>

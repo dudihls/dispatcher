@@ -10,7 +10,6 @@ import { MobileFilterBar } from "../../components/MobileFilterBar/MobileFilterBa
 import { AreaGraph, BarGraph, DoughnutGraph } from "../../components/Graphs";
 import {
   AppHeader,
-  CardsContainer,
   FiltersContainer,
   GraphsContainer,
   Layout,
@@ -19,17 +18,14 @@ import {
   Spacer,
   StyledHeader,
 } from "./style";
-const args = {
-  img: "https://i.natgeofe.com/k/8fd6eca1-0808-4e4a-ac49-bb87f8821a0b/first-olympics-textimage_2_4x3.jpg",
-  content:
-    "Make it five for Caeleb Dressel.\r\nThe American star won his fifth gold medal of the Tokyo Games, finishing off one of the great performances in Olympic history. He joins an elite club of just four ot… [+1179 chars]",
-  date: "Friday Jun 25, 2021",
-  tags: ["sport", "news", "+2"],
-  header:
-    "Caeleb Dressel joins elite club with 5th Olympic gold medal - Fox News",
-  source: "Associated Press, Fox News",
-  onClick: () => console.log("hello world"),
-};
+import { Articles } from "./components/Articles/Articles";
+import axios from "axios";
+import {
+  countryCodeToString,
+  countryOptions,
+  stringToCountryCode,
+} from "../../services/utils";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const doughnutData = [
   { name: "a", value: 12 },
@@ -104,23 +100,53 @@ const filters = [
     options: ["CSS", "ACDME", "CNN", "JavaScript"],
   },
 ];
-const filters2 = [
-  { initialValue: "Country", options: ["1", "2"] },
-  { initialValue: "papa", options: ["23"] },
-  {
-    initialDate: new Date(),
-    onSubmitDate: () => {},
-  },
-];
 
 export const Home: React.FC = () => {
-  const [modal, setModal] = useState(false);
-  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [modal, setModal] = useState<boolean>(false);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState<string | null>();
+  const [userCountry, setUserCountry] = useState<string | null>(null);
+  const [userCountryStorage, setUserCountryStorage] = useLocalStorage(
+    "user_country",
+    ""
+  );
+
+  const topHeadlinesFilters = [
+    {
+      initialValue: "Country",
+      options: countryOptions,
+    },
+    { initialValue: "Category", options: ["23"] },
+    {
+      initialValue: "Sources",
+      options: ["Fetch"],
+    },
+  ];
+
+  useEffect(() => {
+    if (userCountryStorage) {
+      setUserCountry(userCountryStorage);
+      return;
+    }
+    console.log("run");
+
+    axios
+      .get(
+        `https://ipinfo.io/json?token=${process.env.REACT_APP_IP_INFO_TOKEN}`
+      )
+      .then((res) => {
+        const { country } = res.data;
+        const userCountryCode = country.toLowerCase();
+        setUserCountryStorage(userCountryCode);
+        setUserCountry(userCountryCode);
+      });
+  }, []);
+
   return (
     <Layout>
       <GlobalStyles />
       <AppHeader>
-        <Navbar />
+        <Navbar onSubmitSearch={(val) => setSearchValue(val)} />
         {modal && (
           <Modal
             ToggleModal={() => {
@@ -139,27 +165,16 @@ export const Home: React.FC = () => {
       </AppHeader>
       <MainLayout>
         <FiltersContainer>
-          <DesktopFilter dropdowns={filters2} />
+          <DesktopFilter dropdowns={topHeadlinesFilters} />
         </FiltersContainer>
         <SimpleWrapper direction="col">
           <Spacer />
-          <StyledHeader>Top Headlines in Israel</StyledHeader>
+          <StyledHeader>
+            Top Headlines in {userCountry && countryCodeToString[userCountry]}
+          </StyledHeader>
           <SimpleWrapper>
-            <CardsContainer>
-              <Card {...args} />
-              <Card {...args} />
-              <Card {...args} />
-              <Card {...args} />
-              <Card {...args} />
-              <Card {...args} />
-              <Card {...args} />
-              <Card {...args} />
-              <Card {...args} />
-              <Card {...args} />
-              <Card {...args} />
-              <Card {...args} />
-              <Card {...args} />
-            </CardsContainer>
+            <Articles searchQuery={searchValue} />
+
             <GraphsContainer>
               <DoughnutGraph
                 innerText="Sum"
