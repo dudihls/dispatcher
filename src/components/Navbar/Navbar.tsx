@@ -7,13 +7,17 @@ import { Search } from "../Search/Search";
 
 interface NavbarProps {
   onSubmitSearch?: (searchVal: string) => any;
+  onChangeEndpoint: (endpoint: string) => any;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onSubmitSearch }) => (
+export const Navbar: React.FC<NavbarProps> = ({
+  onSubmitSearch,
+  onChangeEndpoint,
+}) => (
   <Container>
     <Logo src={logo} />
     <Wrapper>
-      <Search onSubmit={onSubmitSearch} />
+      <Search onSubmit={onSubmitSearch} onChangeFilter={onChangeEndpoint} />
       <Personal />
     </Wrapper>
   </Container>

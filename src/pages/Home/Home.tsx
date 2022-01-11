@@ -1,4 +1,3 @@
-import { Card } from "../../components/Card/Card";
 import { theme } from "../../global-styles/theme";
 import { GlobalStyles } from "../../global-styles/Global";
 import { Navbar } from "../../components/Navbar/Navbar";
@@ -26,6 +25,10 @@ import {
   stringToCountryCode,
 } from "../../services/utils";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { filtersActions } from "../../store/filters-slice";
+import { parseDate } from "../../services/articleService";
 
 const doughnutData = [
   { name: "a", value: 12 },
@@ -105,18 +108,34 @@ export const Home: React.FC = () => {
   const [modal, setModal] = useState<boolean>(false);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string | null>();
-  const [userCountry, setUserCountry] = useState<string | null>(null);
   const [userCountryStorage, setUserCountryStorage] = useLocalStorage(
     "user_country",
     ""
   );
+  const dispatch = useDispatch();
+  const country = useSelector((state: RootState) => state.filters.country);
 
   const topHeadlinesFilters = [
     {
       initialValue: "Country",
       options: countryOptions,
+      onChange: (countryString: string) =>
+        dispatch(filtersActions.setCountry(stringToCountryCode[countryString])),
     },
-    { initialValue: "Category", options: ["23"] },
+    {
+      initialValue: "Category",
+      options: [
+        "Business",
+        "Entertainment",
+        "General",
+        "Health",
+        "Science",
+        "Sports",
+        "Technology",
+      ],
+      onChange: (category: string) =>
+        dispatch(filtersActions.setCategory(category)),
+    },
     {
       initialValue: "Sources",
       options: ["Fetch"],
@@ -124,11 +143,11 @@ export const Home: React.FC = () => {
   ];
 
   useEffect(() => {
+
     if (userCountryStorage) {
-      setUserCountry(userCountryStorage);
+      dispatch(filtersActions.setCountry(userCountryStorage));
       return;
     }
-    console.log("run");
 
     axios
       .get(
@@ -138,7 +157,6 @@ export const Home: React.FC = () => {
         const { country } = res.data;
         const userCountryCode = country.toLowerCase();
         setUserCountryStorage(userCountryCode);
-        setUserCountry(userCountryCode);
       });
   }, []);
 
@@ -146,7 +164,14 @@ export const Home: React.FC = () => {
     <Layout>
       <GlobalStyles />
       <AppHeader>
-        <Navbar onSubmitSearch={(val) => setSearchValue(val)} />
+        <Navbar
+          onSubmitSearch={(val) => dispatch(filtersActions.setSearchQuery(val))}
+          onChangeEndpoint={(endpoint) => {
+            console.log(endpoint);
+
+            dispatch(filtersActions.changeEndpoint(endpoint));
+          }}
+        />
         {modal && (
           <Modal
             ToggleModal={() => {
@@ -170,10 +195,10 @@ export const Home: React.FC = () => {
         <SimpleWrapper direction="col">
           <Spacer />
           <StyledHeader>
-            Top Headlines in {userCountry && countryCodeToString[userCountry]}
+            Top Headlines in {country && countryCodeToString[country]}
           </StyledHeader>
           <SimpleWrapper>
-            <Articles searchQuery={searchValue} />
+            <Articles />
 
             <GraphsContainer>
               <DoughnutGraph

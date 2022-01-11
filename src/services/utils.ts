@@ -68,3 +68,8 @@ function _inverse(obj: CountryMap) {
 export const countryOptions = Object.keys(countryCodeToString).map(
   (k) => countryCodeToString[k]
 );
+
+export enum EndPoints {
+  HEADLINES = "Top Headlines",
+  EVERYTHING = "Everything",
+}
