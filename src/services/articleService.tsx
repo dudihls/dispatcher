@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import datejs from "dayjs";
 import { ArticleType } from "../pages/Home/components/Articles/types";
 
 export const parseArticleToCard = (article: ArticleType) => {
@@ -16,12 +17,5 @@ export const parseArticleToCard = (article: ArticleType) => {
 };
 
 export const parseDate = (date: Date) => {
-  const dateString = date.toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-
-  return dateString.replace(",", "");
+  return datejs(date).format("ddd MMM D, YYYY");
 };
