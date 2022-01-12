@@ -11,26 +11,32 @@ import { RootState } from "../store";
 interface useGetArticlesI {
   pageNumber: number;
   pageSize: number;
+  setPageNumber: (prevPage: number) => any;
 }
 
 export const useGetArticles = ({
   pageNumber,
   pageSize,
+  setPageNumber,
 }: useGetArticlesI): {
   hasMore: boolean;
   loading: boolean;
+  firstLoad: boolean;
   articles: ArticlesCards;
 } => {
   const [articles, setArticles] = useState<ArticlesCards>([]);
   const [hasMore, setHasMore] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [firstLoad, setFirstLoad] = useState(true);
   const { country, searchQuery, category, endpoint } = useSelector(
     (state: RootState) => state.filters
   );
 
   useEffect(() => {
     setArticles([]);
-  }, [searchQuery, category, country, endpoint]);
+    setPageNumber(1);
+    setFirstLoad(true);
+  }, [searchQuery, category, country, endpoint,setPageNumber]);
 
   useEffect(() => {
     let cancel: Canceler;
@@ -41,7 +47,7 @@ export const useGetArticles = ({
       params: {
         page: pageNumber,
         pageSize,
-        country: endpoint == "top-headlines" ? country : null,
+        country: endpoint === "top-headlines" ? country : null,
         apiKey: process.env.REACT_APP_API_KEY,
         q: searchQuery,
         category,
@@ -58,6 +64,7 @@ export const useGetArticles = ({
         ]);
         setHasMore(articles.length > 0);
         setLoading(false);
+        setFirstLoad(false);
       })
       .catch((err) => {
         if (axios.isCancel(err)) return;
@@ -65,7 +72,7 @@ export const useGetArticles = ({
       });
 
     return () => cancel();
-  }, [pageNumber, searchQuery, country, category, endpoint]);
+  }, [pageNumber, searchQuery, country, category, endpoint, pageSize]);
 
-  return { hasMore, articles, loading };
+  return { hasMore, articles, loading, firstLoad };
 };
