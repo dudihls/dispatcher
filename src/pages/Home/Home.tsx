@@ -1,7 +1,7 @@
 import { theme } from "../../global-styles/theme";
 import { GlobalStyles } from "../../global-styles/Global";
 import { Navbar } from "../../components/Navbar/Navbar";
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { DesktopFilter } from "../../components/DesktopFilter/DesktopFilter";
 import { Modal } from "../../components/Modal/Modal";
 import { MobileFilterModal } from "../../components/MobileFilterModal/MobileFilterModal";
@@ -17,7 +17,6 @@ import {
   Spacer,
   StyledHeader,
 } from "./style";
-import { Articles } from "./components/Articles/Articles";
 import axios from "axios";
 import {
   countryCodeToString,
@@ -28,7 +27,12 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { filtersActions } from "../../store/filters-slice";
-import { parseDate } from "../../services/articleService";
+import { CardsSkeletonList } from "../../components/Skeletons/CardsSkeleton/CardSkeletonList";
+
+const LazyArticles = lazy(async () => {
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  return import("./components/Articles/Articles");
+});
 
 const doughnutData = [
   { name: "a", value: 12 },
@@ -107,7 +111,6 @@ const filters = [
 export const Home: React.FC = () => {
   const [modal, setModal] = useState<boolean>(false);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
-  const [searchValue, setSearchValue] = useState<string | null>();
   const [userCountryStorage, setUserCountryStorage] = useLocalStorage(
     "user_country",
     ""
@@ -143,7 +146,6 @@ export const Home: React.FC = () => {
   ];
 
   useEffect(() => {
-
     if (userCountryStorage) {
       dispatch(filtersActions.setCountry(userCountryStorage));
       return;
@@ -158,7 +160,7 @@ export const Home: React.FC = () => {
         const userCountryCode = country.toLowerCase();
         setUserCountryStorage(userCountryCode);
       });
-  }, []);
+  }, [userCountryStorage, dispatch, setUserCountryStorage]);
 
   return (
     <Layout>
@@ -166,11 +168,9 @@ export const Home: React.FC = () => {
       <AppHeader>
         <Navbar
           onSubmitSearch={(val) => dispatch(filtersActions.setSearchQuery(val))}
-          onChangeEndpoint={(endpoint) => {
-            console.log(endpoint);
-
-            dispatch(filtersActions.changeEndpoint(endpoint));
-          }}
+          onChangeEndpoint={(endpoint) =>
+            dispatch(filtersActions.changeEndpoint(endpoint))
+          }
         />
         {modal && (
           <Modal
@@ -197,9 +197,10 @@ export const Home: React.FC = () => {
           <StyledHeader>
             Top Headlines in {country && countryCodeToString[country]}
           </StyledHeader>
-          <SimpleWrapper>
-            <Articles />
-
+          <SimpleWrapper width="100%">
+            <Suspense fallback={<CardsSkeletonList amount={8} />}>
+              <LazyArticles />
+            </Suspense>
             <GraphsContainer>
               <DoughnutGraph
                 innerText="Sum"

@@ -26,7 +26,11 @@ export const MainLayout = styled.div`
   }
 `;
 
-export const SimpleWrapper = styled.div<{ direction?: "col" | "row" }>`
+export const SimpleWrapper = styled.div<{
+  direction?: "col" | "row";
+  width?: "100%";
+}>`
+  width: ${({ width }) => width && width};
   display: flex;
   align-items: flex-start;
   flex-direction: ${({ direction }) => direction === "col" && "column"};
@@ -69,7 +73,6 @@ export const GraphsContainer = styled.div`
     display: none;
   }
 `;
-
 
 export const StyledHeader = styled.p`
   font-size: 24px;
