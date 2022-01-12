@@ -10,11 +10,12 @@ import {
   StyledButtonContainer,
 } from "./style";
 import { Button } from "../Button/Button";
+import { parseDate } from "../../services/articleService";
 
 export type CardProps = {
   img: string;
   content: string;
-  date: string;
+  date: Date;
   tags?: string[];
   header: string;
   source: string;
@@ -40,7 +41,7 @@ export const Card: React.FC<CardProps> = ({
           ))}
         </TagsContainer>
       )}
-      <StyledLabel type="subtitle">{date}</StyledLabel>
+      <StyledLabel type="subtitle">{parseDate(date)}</StyledLabel>
       <StyledLabel type="header">{header}</StyledLabel>
       <StyledLabel type="subtitle">{source}</StyledLabel>
       <StyledLabel type="content">{content}</StyledLabel>

@@ -7,6 +7,7 @@ import { RecentSearches } from "../RecentSearches/RecentSearches";
 import useOnClickOutside from "../../hooks/useClickOutside";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import Input from "../Input/Input";
+import { EndPoints } from "../../services/utils";
 
 interface SearchProps {
   onSubmit?: (searchValue: string) => any;
@@ -28,7 +29,7 @@ export const Search: React.FC<SearchProps> = ({ onSubmit, onChangeFilter }) => {
 
   useEffect(() => {
     setRecentSearches(searches);
-  }, [searches,setRecentSearches]);
+  }, [searches, setRecentSearches]);
 
   const onClear = () => {
     setSearches([]);
@@ -49,7 +50,6 @@ export const Search: React.FC<SearchProps> = ({ onSubmit, onChangeFilter }) => {
     isRecentSearch: boolean,
     value: string
   ) => {
-    if (!value) return;
     ev && ev.preventDefault();
     if (!isRecentSearch && !isExistInRecentSearches(value))
       addRecentSearch(value);
@@ -91,9 +91,9 @@ export const Search: React.FC<SearchProps> = ({ onSubmit, onChangeFilter }) => {
       <SelectContainer>
         <DropDown
           onChange={onChangeFilter}
-          initialValue={"Top Headlines"}
+          initialValue={EndPoints.HEADLINES}
           noBorder
-          options={["Everything", "Top Headlines"]}
+          options={[EndPoints.EVERYTHING, EndPoints.HEADLINES]}
         />
       </SelectContainer>
       {hasFocus && searchesToDisplay.length > 0 && (
