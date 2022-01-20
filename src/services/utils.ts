@@ -55,21 +55,28 @@ export const countryCodeToString: CountryMap = {
   sk: "Slovakia",
 };
 
-export const stringToCountryCode: CountryMap = _inverse(countryCodeToString);
+export const langList = [
+  { value: "ar", name: "Arabic" },
+  { value: "de", name: "German" },
+  { value: "en", name: "English" },
+  { value: "es", name: "Spanish" },
+  { value: "fr", name: "French" },
+  { value: "he", name: "Hebrew" },
+  { value: "it", name: "Italian" },
+  { value: "nl", name: "Dutch" },
+  { value: "no", name: "Norwegian" },
+  { value: "pt", name: "Portuguese" },
+  { value: "ru", name: "Russian" },
+  { value: "se", name: "Northern Sami" },
+  { value: "ud", name: "UD" },
+  { value: "zh", name: "Chinese" },
+];
 
-function _inverse(obj: CountryMap) {
-  var retobj: CountryMap = {};
-  for (var key in obj) {
-    retobj[obj[key]] = key;
-  }
-  return retobj;
-}
-
-export const countryOptions = Object.keys(countryCodeToString).map(
-  (k) => countryCodeToString[k]
+export const countryOptions = Object.entries(countryCodeToString).map(
+  ([k, v]) => ({ name: v, value: k })
 );
 
 export enum EndPoints {
-  HEADLINES = "Top Headlines",
-  EVERYTHING = "Everything",
+  HEADLINES = "top-headlines",
+  EVERYTHING = "everything",
 }

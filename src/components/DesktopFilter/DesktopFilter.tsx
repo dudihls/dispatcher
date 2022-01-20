@@ -2,14 +2,14 @@ import { DropDown, DropDownProps } from "../Dropdown/Dropdown";
 import { StyledContainer } from "./style";
 
 interface DesktopFilterProps {
-  dropdowns: DropDownProps[];
+  dropdowns: ({ id: string } & DropDownProps)[];
 }
 
 export const DesktopFilter: React.FC<DesktopFilterProps> = ({ dropdowns }) => {
   return (
     <StyledContainer>
-      {dropdowns.map((dropdown, idx) => (
-        <DropDown key={idx} {...dropdown} />
+      {dropdowns.map(({ id, ...dropdown }) => (
+        <DropDown key={id} {...dropdown} />
       ))}
     </StyledContainer>
   );

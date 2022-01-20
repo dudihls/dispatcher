@@ -1,8 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import { Card } from "../../../../components/Card/Card";
-import {
-  CardsSkeletonList,
-} from "../../../../components/Skeletons/CardsSkeleton/CardSkeletonList";
+import { CardsSkeletonList } from "../../../../components/Skeletons/CardsSkeleton/CardSkeletonList";
 import { useGetArticles } from "../../../../hooks/useGetArticles";
 import { CardsContainer } from "./style";
 import { ArticleCard } from "./types";

@@ -8,7 +8,6 @@ import useOnClickOutside from "../../hooks/useClickOutside";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import Input from "../Input/Input";
 import { EndPoints } from "../../services/utils";
-
 interface SearchProps {
   onSubmit?: (searchValue: string) => any;
   onChangeFilter?: (filterValue: string) => any;
@@ -91,9 +90,12 @@ export const Search: React.FC<SearchProps> = ({ onSubmit, onChangeFilter }) => {
       <SelectContainer>
         <DropDown
           onChange={onChangeFilter}
-          initialValue={EndPoints.HEADLINES}
+          initialValue="Top Headlines"
           noBorder
-          options={[EndPoints.EVERYTHING, EndPoints.HEADLINES]}
+          options={[
+            { value: EndPoints.EVERYTHING, name: "Everything" },
+            { value: EndPoints.HEADLINES, name: "Top Headlines" },
+          ]}
         />
       </SelectContainer>
       {hasFocus && searchesToDisplay.length > 0 && (

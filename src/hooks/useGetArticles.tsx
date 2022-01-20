@@ -1,18 +1,22 @@
 import axios, { Canceler } from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   ArticlesCards,
   ArticleType,
 } from "../pages/Home/components/Articles/types";
 import { parseArticleToCard } from "../services/articleService";
+import { EndPoints } from "../services/utils";
 import { RootState } from "../store";
+import { fetchSourcesList } from "../store/filters-actions";
 
 interface useGetArticlesI {
   pageNumber: number;
   pageSize: number;
   setPageNumber: (prevPage: number) => any;
 }
+
+const baseURL = "https://newsapi.org/v2";
 
 export const useGetArticles = ({
   pageNumber,
@@ -28,30 +32,53 @@ export const useGetArticles = ({
   const [hasMore, setHasMore] = useState(false);
   const [loading, setLoading] = useState(true);
   const [firstLoad, setFirstLoad] = useState(true);
-  const { country, searchQuery, category, endpoint } = useSelector(
-    (state: RootState) => state.filters
-  );
+  const { country, searchQuery, category, endpoint, selectedSource } =
+    useSelector((state: RootState) => state.filters);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setArticles([]);
     setPageNumber(1);
     setFirstLoad(true);
-  }, [searchQuery, category, country, endpoint,setPageNumber]);
+  }, [searchQuery, category, country, endpoint, setPageNumber]);
+
+  useEffect(() => {
+    dispatch(fetchSourcesList());
+  }, [category, country, dispatch]);
 
   useEffect(() => {
     let cancel: Canceler;
-    setLoading(true);
-    axios({
-      method: "GET",
-      url: `https://newsapi.org/v2/${endpoint}`,
-      params: {
+    let params = {};
+
+    if (endpoint === EndPoints.HEADLINES) {
+      params = {
         page: pageNumber,
         pageSize,
-        country: endpoint === "top-headlines" ? country : null,
+        country: country,
         apiKey: process.env.REACT_APP_API_KEY,
         q: searchQuery,
-        category,
-      },
+        category: category,
+        sources: selectedSource,
+      };
+    } else {
+      params = {
+        sortBy: "publishedAt",
+        page: pageNumber,
+        pageSize,
+        apiKey: process.env.REACT_APP_API_KEY,
+        q: searchQuery,
+        sources: selectedSource,
+      };
+    }
+
+    console.log(params);
+
+    setLoading(true);
+
+    axios({
+      method: "GET",
+      url: `${baseURL}/${endpoint}`,
+      params,
       cancelToken: new axios.CancelToken((c) => (cancel = c)),
     })
       .then((res) => {
@@ -68,11 +95,20 @@ export const useGetArticles = ({
       })
       .catch((err) => {
         if (axios.isCancel(err)) return;
-        console.log(err);
+        const { data } = err.response;
+        data && console.log(data);
       });
 
     return () => cancel();
-  }, [pageNumber, searchQuery, country, category, endpoint, pageSize]);
+  }, [
+    pageNumber,
+    searchQuery,
+    country,
+    category,
+    endpoint,
+    pageSize,
+    selectedSource,
+  ]);
 
   return { hasMore, articles, loading, firstLoad };
 };

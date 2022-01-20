@@ -4,7 +4,6 @@ export const BarGraphContainer = styled.div`
   width: 100%;
   height: 100%;
   margin-block-end: 24px;
-  padding-right: 20px;
   overflow-y: auto;
 `;
 
@@ -36,7 +35,6 @@ export const StyledRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 311px;
   height: 42px;
   margin-block-start: 8px;
 `;
