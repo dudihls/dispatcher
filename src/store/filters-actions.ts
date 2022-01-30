@@ -5,7 +5,10 @@ const URL = "https://newsapi.org/v2/top-headlines/sources";
 
 export const fetchSourcesList = () => {
   return async (dispatch: any, getState: any) => {
-    const { country, category } = getState().filters;
+    const {
+      country: { value: country },
+      category: { value: category },
+    } = getState().filters;
     try {
       const response = await axios({
         url: URL,

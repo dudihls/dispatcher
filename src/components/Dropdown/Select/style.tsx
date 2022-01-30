@@ -35,9 +35,17 @@ export const MenuList = styled.div`
 `;
 
 export const MenuItem = styled.div`
+  cursor: pointer;
   color: ${({ theme }) => theme.colors.lightPurple};
   padding: 9px;
   :hover {
     background: ${({ theme }) => theme.colors.hoverDropDown};
   }
+`;
+
+export const StyledLabel = styled.div`
+  cursor: default;
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.lightPurple};
+  padding: 9px;
 `;

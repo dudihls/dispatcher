@@ -11,7 +11,7 @@ const Articles: React.FC<ArticlesProps> = () => {
   const [pageNumber, setPageNumber] = useState(1);
 
   const { hasMore, loading, articles, firstLoad } = useGetArticles({
-    pageNumber: pageNumber,
+    pageNumber,
     pageSize: 10,
     setPageNumber,
   });
@@ -32,7 +32,9 @@ const Articles: React.FC<ArticlesProps> = () => {
   );
 
   return firstLoad ? (
-    <CardsSkeletonList amount={8} />
+    <>
+      <CardsSkeletonList amount={8} />
+    </>
   ) : (
     <CardsContainer>
       {articles.map((articleProps: ArticleCard, idx: number) => {
@@ -44,6 +46,7 @@ const Articles: React.FC<ArticlesProps> = () => {
           );
         return <Card key={idx} {...articleProps} />;
       })}
+      {loading && <h1>loading...</h1>}
     </CardsContainer>
   );
 };

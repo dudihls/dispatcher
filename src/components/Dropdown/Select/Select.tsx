@@ -1,20 +1,23 @@
 import React, { useRef, useState } from "react";
 import { Icon } from "../../Icon/Icon";
-import { Container, MenuHeader, MenuItem, MenuList } from "./style";
+import {
+  Container,
+  MenuHeader,
+  MenuItem,
+  MenuList,
+  StyledLabel,
+} from "./style";
 import dropdown from "../../../assets/Icons/dropdown.svg";
 import useOnClickOutside from "../../../hooks/useClickOutside";
-
-type Option = {
-  name: string;
-  value: string;
-};
+import { EndPointType, Option } from "../../../store/filters-slice";
 
 export type SelectProps = {
-  options: Option[];
+  options: Option[] | EndPointType[];
   initialValue: string;
   endIcon?: string;
-  onChange?: (value: string) => any;
+  onChange: (option: Option | EndPointType) => any;
   noBorder?: boolean;
+  currValue?: Option;
 };
 
 export const Select: React.FC<SelectProps> = ({
@@ -22,16 +25,15 @@ export const Select: React.FC<SelectProps> = ({
   endIcon,
   options,
   onChange,
+  currValue,
   noBorder,
 }: SelectProps) => {
   const [ToggleOptions, setToggleOptions] = useState(false);
-  const [selectedVal, setSelectedVal] = useState<string | null>(null);
   const ref = useRef(null);
   const onCloseMenu = () => setToggleOptions(false);
 
   const onClickItem = (option: Option) => {
-    setSelectedVal(option.name);
-    onChange && onChange(option.value);
+    onChange && onChange(option);
     onCloseMenu();
   };
   useOnClickOutside(ref, onCloseMenu);
@@ -43,17 +45,20 @@ export const Select: React.FC<SelectProps> = ({
         noBorder={noBorder}
         onClick={() => setToggleOptions(!ToggleOptions)}
       >
-        {selectedVal || initialValue}
+        {currValue?.name || initialValue}
         {endIcon ? <Icon src={endIcon} /> : <Icon src={dropdown} />}
       </MenuHeader>
       {ToggleOptions && (
         <MenuList>
-          {options &&
+          {options && options.length > 0 ? (
             options.map((option, idx) => (
               <MenuItem onClick={() => onClickItem(option)} key={idx}>
                 {option.name}
               </MenuItem>
-            ))}
+            ))
+          ) : (
+            <StyledLabel>There no results yet...</StyledLabel>
+          )}
         </MenuList>
       )}
     </Container>
