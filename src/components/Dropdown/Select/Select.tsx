@@ -4,8 +4,13 @@ import { Container, MenuHeader, MenuItem, MenuList } from "./style";
 import dropdown from "../../../assets/Icons/dropdown.svg";
 import useOnClickOutside from "../../../hooks/useClickOutside";
 
+type Option = {
+  name: string;
+  value: string;
+};
+
 export type SelectProps = {
-  options: string[];
+  options: Option[];
   initialValue: string;
   endIcon?: string;
   onChange?: (value: string) => any;
@@ -20,16 +25,16 @@ export const Select: React.FC<SelectProps> = ({
   noBorder,
 }: SelectProps) => {
   const [ToggleOptions, setToggleOptions] = useState(false);
-  const [selectedVal, setSelectedVal] = useState(initialValue);
+  const [selectedVal, setSelectedVal] = useState<string | null>(null);
   const ref = useRef(null);
   const onCloseMenu = () => setToggleOptions(false);
 
-  const onClickItem = (option: string) => {
-    setSelectedVal(option);
-    onChange && onChange(option);
+  const onClickItem = (option: Option) => {
+    setSelectedVal(option.name);
+    onChange && onChange(option.value);
     onCloseMenu();
   };
-  useOnClickOutside(ref, onCloseMenu, "mousedown");
+  useOnClickOutside(ref, onCloseMenu);
 
   return (
     <Container ref={ref}>
@@ -38,7 +43,7 @@ export const Select: React.FC<SelectProps> = ({
         noBorder={noBorder}
         onClick={() => setToggleOptions(!ToggleOptions)}
       >
-        {selectedVal}
+        {selectedVal || initialValue}
         {endIcon ? <Icon src={endIcon} /> : <Icon src={dropdown} />}
       </MenuHeader>
       {ToggleOptions && (
@@ -46,7 +51,7 @@ export const Select: React.FC<SelectProps> = ({
           {options &&
             options.map((option, idx) => (
               <MenuItem onClick={() => onClickItem(option)} key={idx}>
-                {option}
+                {option.name}
               </MenuItem>
             ))}
         </MenuList>

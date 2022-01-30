@@ -1,7 +1,7 @@
 import { theme } from "../../global-styles/theme";
 import { GlobalStyles } from "../../global-styles/Global";
 import { Navbar } from "../../components/Navbar/Navbar";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { DesktopFilter } from "../../components/DesktopFilter/DesktopFilter";
 import { Modal } from "../../components/Modal/Modal";
 import { MobileFilterModal } from "../../components/MobileFilterModal/MobileFilterModal";
@@ -21,13 +21,15 @@ import axios from "axios";
 import {
   countryCodeToString,
   countryOptions,
-  stringToCountryCode,
+  EndPoints,
+  langList,
 } from "../../services/utils";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { filtersActions } from "../../store/filters-slice";
 import { CardsSkeletonList } from "../../components/Skeletons/CardsSkeleton/CardSkeletonList";
+import _ from "lodash";
 
 const LazyArticles = lazy(async () => {
   await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -109,6 +111,8 @@ const filters = [
 ];
 
 export const Home: React.FC = () => {
+  console.log("render");
+
   const [modal, setModal] = useState<boolean>(false);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
   const [userCountryStorage, setUserCountryStorage] = useLocalStorage(
@@ -116,34 +120,84 @@ export const Home: React.FC = () => {
     ""
   );
   const dispatch = useDispatch();
-  const country = useSelector((state: RootState) => state.filters.country);
+  const { country, sourcesList, endpoint } = useSelector(
+    (state: RootState) => state.filters
+  );
 
-  const topHeadlinesFilters = [
-    {
-      initialValue: "Country",
-      options: countryOptions,
-      onChange: (countryString: string) =>
-        dispatch(filtersActions.setCountry(stringToCountryCode[countryString])),
-    },
-    {
-      initialValue: "Category",
-      options: [
-        "Business",
-        "Entertainment",
-        "General",
-        "Health",
-        "Science",
-        "Sports",
-        "Technology",
-      ],
-      onChange: (category: string) =>
-        dispatch(filtersActions.setCategory(category)),
-    },
-    {
-      initialValue: "Sources",
-      options: ["Fetch"],
-    },
-  ];
+  const topHeadlinesFilters = useMemo(
+    () =>
+      [
+        {
+          initialValue: "Country",
+          options: countryOptions,
+          onChange: (countryCode: string) =>
+            dispatch(filtersActions.setCountry(countryCode)),
+        },
+        {
+          initialValue: "Category",
+          options: [
+            "Business",
+            "Entertainment",
+            "General",
+            "Health",
+            "Science",
+            "Sports",
+            "Technology",
+          ].map((option) => ({ name: option, value: option })),
+          onChange: (category: string) =>
+            dispatch(filtersActions.setCategory(category)),
+        },
+        {
+          initialValue: "Sources",
+          options: sourcesList,
+          onChange: (sourceId: string) =>
+            dispatch(filtersActions.setSelectedSource(sourceId)),
+        },
+      ].map((obj) => ({ ...obj, id: _.uniqueId("Dropdown-") })),
+    [sourcesList, dispatch]
+  );
+
+  const everythingFilters = useMemo(
+    () =>
+      [
+        {
+          initialValue: "Sort by",
+          options: [
+            { name: "Relevancy", value: "relevancy" },
+            { name: "Popularity", value: "popularity" },
+            { name: "Published at", value: "publishedAt" },
+          ],
+          onChange: (language: string) =>
+            dispatch(filtersActions.setLanguage(language)),
+        },
+        {
+          initialDate: new Date(),
+        },
+        {
+          initialValue: "Language",
+          options: langList,
+          onChange: (language: string) =>
+            dispatch(filtersActions.setLanguage(language)),
+        },
+        {
+          initialValue: "Sources",
+          options: sourcesList,
+          onChange: (sourceId: string) =>
+            dispatch(filtersActions.setSelectedSource(sourceId)),
+        },
+      ].map((obj) => ({ ...obj, id: _.uniqueId("Dropdown-") })),
+    [sourcesList, dispatch]
+  );
+
+  const isTopHeadlines = useMemo(
+    () => endpoint === EndPoints.HEADLINES,
+    [endpoint]
+  );
+
+  const DesktopFilters = useMemo(
+    () => (isTopHeadlines ? topHeadlinesFilters : everythingFilters),
+    [isTopHeadlines, topHeadlinesFilters, everythingFilters]
+  );
 
   useEffect(() => {
     if (userCountryStorage) {
@@ -160,7 +214,7 @@ export const Home: React.FC = () => {
         const userCountryCode = country.toLowerCase();
         setUserCountryStorage(userCountryCode);
       });
-  }, [userCountryStorage, dispatch, setUserCountryStorage]);
+  }, [userCountryStorage, dispatch, setUserCountryStorage, endpoint]);
 
   return (
     <Layout>
@@ -190,13 +244,15 @@ export const Home: React.FC = () => {
       </AppHeader>
       <MainLayout>
         <FiltersContainer>
-          <DesktopFilter dropdowns={topHeadlinesFilters} />
+          <DesktopFilter dropdowns={DesktopFilters} />
         </FiltersContainer>
         <SimpleWrapper direction="col">
           <Spacer />
-          <StyledHeader>
-            Top Headlines in {country && countryCodeToString[country]}
-          </StyledHeader>
+          {isTopHeadlines && country && (
+            <StyledHeader>
+              Top Headlines in {country && countryCodeToString[country]}
+            </StyledHeader>
+          )}
           <SimpleWrapper width="100%">
             <Suspense fallback={<CardsSkeletonList amount={8} />}>
               <LazyArticles />

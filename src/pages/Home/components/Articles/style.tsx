@@ -7,8 +7,10 @@ export const CardsContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  @media ${({ theme }) => theme.device.tablet} {
+    height: calc(100vh - 186px);
+  }
   & > div:not(:last-child) {
     margin-block-end: 24px;
   }
 `;
-

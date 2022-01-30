@@ -93,7 +93,9 @@ export const StyledIcon = styled(Icon)`
 export const StyledLabel = styled.p<{
   type?: "subtitle" | "content" | "header";
 }>`
-  /* font-family: "Roboto", sans-serif; */
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
   margin: 0;
   ${({ type, theme }) => {
     switch (type) {

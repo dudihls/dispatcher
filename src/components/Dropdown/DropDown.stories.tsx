@@ -19,7 +19,7 @@ export const Select = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Select.args = {
   initialValue: "Select",
-  options: ["1", "2"],
+  options: ["1", "2"].map((k) => ({ name: k, value: k })),
 };
 export const DatePicker = Template.bind({});
 DatePicker.args = {
