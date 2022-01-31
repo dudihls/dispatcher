@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Icon } from "../Icon/Icon";
 import search from "../../assets/Icons/search.svg";
-import { SearchContainer, SelectContainer } from "./style";
+import { SearchContainer, SelectContainer, StyledMsg, Wrapper } from "./style";
 import { DropDown } from "../Dropdown/Dropdown";
 import { RecentSearches } from "../RecentSearches/RecentSearches";
 import useOnClickOutside from "../../hooks/useClickOutside";
@@ -25,6 +25,7 @@ export const Search: React.FC<SearchProps> = ({ onSubmit, onChangeFilter }) => {
   const [endpointState, setEndpointState] = useState<Option | EndPointType>(
     endpoint
   );
+  const [msg, setMsg] = useState("");
 
   const closeInputExpand = () => setHasFocus(false);
 
@@ -57,11 +58,15 @@ export const Search: React.FC<SearchProps> = ({ onSubmit, onChangeFilter }) => {
     value: string
   ) => {
     ev && ev.preventDefault();
+    if (!value && endpointState.value === EndPoints.EVERYTHING) {
+      setMsg("Enter search query");
+      return;
+    }
     if (!isRecentSearch && !isExistInRecentSearches(value))
       addRecentSearch(value);
     onSubmit(value);
     onChangeFilter(endpointState);
-
+    setMsg("");
     closeInputExpand();
     searchInputRef.current?.blur();
   };
@@ -90,14 +95,17 @@ export const Search: React.FC<SearchProps> = ({ onSubmit, onChangeFilter }) => {
       <div onClick={() => onEnterSearch(null, false, inputValue)}>
         <Icon src={search} margin={13} color="purple" />
       </div>
-      <Input
-        ref={searchInputRef}
-        value={inputValue}
-        onChange={inputChangeHandler}
-        onFocus={() => setHasFocus(true)}
-        noBorder
-        placeholder="Search"
-      />
+      <Wrapper>
+        <Input
+          ref={searchInputRef}
+          value={inputValue}
+          onChange={inputChangeHandler}
+          onFocus={() => setHasFocus(true)}
+          noBorder
+          placeholder="Search"
+        />
+        <StyledMsg>{msg && msg}</StyledMsg>
+      </Wrapper>
       <SelectContainer>
         <DropDown
           onChange={(option) => setEndpointState(option)}

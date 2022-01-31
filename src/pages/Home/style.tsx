@@ -19,7 +19,9 @@ export const MainLayout = styled.div`
   width: 90%;
   margin-left: 10%;
   padding-right: 10%;
+  margin-block-end: 40px;
   @media ${({ theme }) => theme.device.tablet} {
+    margin-block-end: 0;
     width: 97.5%;
     margin-left: 2.5%;
     padding-right: 2.5%;
@@ -73,4 +75,3 @@ export const GraphsContainer = styled.div`
     display: none;
   }
 `;
-

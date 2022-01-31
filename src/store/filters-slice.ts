@@ -14,8 +14,8 @@ interface IFilters {
   endpoint: EndPointType;
   category: Option;
   date: {
-    startDate: Date | null;
-    endDate: Date | null;
+    startDate: string | null;
+    endDate: string | null;
   };
   country: Option;
   sourcesList: { name: string; value: string }[];
@@ -98,6 +98,9 @@ const filtersSlice = createSlice({
     },
     setSortBy(state, action) {
       state.sortBy = action.payload;
+    },
+    setDate(state, action) {
+      state.date = action.payload;
     },
   },
 });
