@@ -3,21 +3,26 @@ import { filtersActions } from "./filters-slice";
 
 const URL = "https://newsapi.org/v2/top-headlines/sources";
 
-export const fetchSourcesList = () => {
+export const fetchSourcesList = (isEverything: boolean) => {
   return async (dispatch: any, getState: any) => {
     const {
       country: { value: country },
       category: { value: category },
     } = getState().filters;
     try {
+      console.log(isEverything);
       const response = await axios({
         url: URL,
         method: "GET",
-        params: {
-          country,
-          category,
-          apiKey: process.env.REACT_APP_API_KEY,
-        },
+        params: isEverything
+          ? {
+              apiKey: process.env.REACT_APP_API_KEY,
+            }
+          : {
+              country,
+              category,
+              apiKey: process.env.REACT_APP_API_KEY,
+            },
       });
 
       const sources = response.data.sources.map(

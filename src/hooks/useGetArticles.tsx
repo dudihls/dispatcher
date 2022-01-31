@@ -40,6 +40,8 @@ export const useGetArticles = ({
     category: { value: category },
     endpoint: { value: endpoint },
     selectedSource: { value: selectedSource },
+    date: { startDate, endDate },
+    language: { value: lang },
   } = useSelector((state: RootState) => state.filters);
   const dispatch = useDispatch();
 
@@ -55,20 +57,22 @@ export const useGetArticles = ({
     category,
     endpoint,
     selectedSource,
+    endDate,
+    startDate,
+    lang,
   ]);
 
   useEffect(() => {
-    if (!category && !country) return;
-    dispatch(fetchSourcesList());
-  }, [category, country, dispatch]);
+    dispatch(fetchSourcesList(endpoint === EndPoints.EVERYTHING));
+  }, [category, country, dispatch, endpoint]);
 
   useEffect(() => {
+    if (!pageNumber) return;
     let cancel: Canceler;
     let params = {};
     const apiKey = process.env.REACT_APP_API_KEY;
 
     if (endpoint === EndPoints.HEADLINES) {
-      if (!category && !country) return;
       params = {
         page: pageNumber,
         pageSize,
@@ -86,6 +90,9 @@ export const useGetArticles = ({
         apiKey,
         q: searchQuery,
         sources: selectedSource,
+        from: startDate,
+        to: endDate,
+        language: lang,
       };
     }
 
@@ -125,6 +132,9 @@ export const useGetArticles = ({
     category,
     endpoint,
     pageSize,
+    startDate,
+    endDate,
+    lang,
     selectedSource,
   ]);
 

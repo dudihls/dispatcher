@@ -24,3 +24,12 @@ export const SelectContainer = styled.div`
     display: none;
   }
 `;
+
+export const Wrapper = styled.div`
+  width: 100%;
+`;
+
+export const StyledMsg = styled.p`
+  font-size: 12px;
+  color: red;
+`;
