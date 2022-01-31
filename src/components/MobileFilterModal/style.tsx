@@ -1,8 +1,11 @@
 import styled from "styled-components";
 
 export const Container = styled.div<{ open: boolean }>`
-  position: absolute;
+  position: fixed;
   width: ${({ open }) => (open ? "48%" : "0%")};
+  @media ${({ theme }) => theme.device.mobile} {
+    width: ${({ open }) => (open ? "70%" : "0%")};
+  }
   overflow: hidden;
   height: 100%;
   right: 0;

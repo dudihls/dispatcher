@@ -32,47 +32,64 @@ export const useGetArticles = ({
   const [hasMore, setHasMore] = useState(false);
   const [loading, setLoading] = useState(true);
   const [firstLoad, setFirstLoad] = useState(true);
-  const { country, searchQuery, category, endpoint, selectedSource } =
-    useSelector((state: RootState) => state.filters);
+
+  const {
+    country: { value: country },
+    searchQuery,
+    sortBy: { value: sortBy },
+    category: { value: category },
+    endpoint: { value: endpoint },
+    selectedSource: { value: selectedSource },
+  } = useSelector((state: RootState) => state.filters);
   const dispatch = useDispatch();
 
   useEffect(() => {
     setArticles([]);
     setPageNumber(1);
     setFirstLoad(true);
-  }, [searchQuery, category, country, endpoint, setPageNumber]);
+  }, [
+    searchQuery,
+    setPageNumber,
+    sortBy,
+    country,
+    category,
+    endpoint,
+    selectedSource,
+  ]);
 
   useEffect(() => {
+    if (!category && !country) return;
     dispatch(fetchSourcesList());
   }, [category, country, dispatch]);
 
   useEffect(() => {
     let cancel: Canceler;
     let params = {};
+    const apiKey = process.env.REACT_APP_API_KEY;
 
     if (endpoint === EndPoints.HEADLINES) {
+      if (!category && !country) return;
       params = {
         page: pageNumber,
         pageSize,
         country: country,
-        apiKey: process.env.REACT_APP_API_KEY,
+        apiKey,
         q: searchQuery,
         category: category,
         sources: selectedSource,
       };
     } else {
       params = {
-        sortBy: "publishedAt",
+        sortBy: sortBy,
         page: pageNumber,
         pageSize,
-        apiKey: process.env.REACT_APP_API_KEY,
+        apiKey,
         q: searchQuery,
         sources: selectedSource,
       };
     }
 
     console.log(params);
-
     setLoading(true);
 
     axios({
@@ -103,6 +120,7 @@ export const useGetArticles = ({
   }, [
     pageNumber,
     searchQuery,
+    sortBy,
     country,
     category,
     endpoint,

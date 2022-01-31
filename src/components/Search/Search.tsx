@@ -8,9 +8,12 @@ import useOnClickOutside from "../../hooks/useClickOutside";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import Input from "../Input/Input";
 import { EndPoints } from "../../services/utils";
+import { EndPointType, Option } from "../../store/filters-slice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 interface SearchProps {
-  onSubmit?: (searchValue: string) => any;
-  onChangeFilter?: (filterValue: string) => any;
+  onSubmit: (searchValue: string) => any;
+  onChangeFilter: (filterValue: EndPointType | Option) => any;
 }
 
 export const Search: React.FC<SearchProps> = ({ onSubmit, onChangeFilter }) => {
@@ -18,6 +21,10 @@ export const Search: React.FC<SearchProps> = ({ onSubmit, onChangeFilter }) => {
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const [hasFocus, setHasFocus] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
+  const { endpoint } = useSelector((state: RootState) => state.filters);
+  const [endpointState, setEndpointState] = useState<Option | EndPointType>(
+    endpoint
+  );
 
   const closeInputExpand = () => setHasFocus(false);
 
@@ -52,7 +59,9 @@ export const Search: React.FC<SearchProps> = ({ onSubmit, onChangeFilter }) => {
     ev && ev.preventDefault();
     if (!isRecentSearch && !isExistInRecentSearches(value))
       addRecentSearch(value);
-    onSubmit && onSubmit(value);
+    onSubmit(value);
+    onChangeFilter(endpointState);
+
     closeInputExpand();
     searchInputRef.current?.blur();
   };
@@ -78,7 +87,9 @@ export const Search: React.FC<SearchProps> = ({ onSubmit, onChangeFilter }) => {
       hasFocus={hasFocus}
       ref={searchFormRef}
     >
-      <Icon src={search} margin={13} color="purple" />
+      <div onClick={() => onEnterSearch(null, false, inputValue)}>
+        <Icon src={search} margin={13} color="purple" />
+      </div>
       <Input
         ref={searchInputRef}
         value={inputValue}
@@ -89,8 +100,9 @@ export const Search: React.FC<SearchProps> = ({ onSubmit, onChangeFilter }) => {
       />
       <SelectContainer>
         <DropDown
-          onChange={onChangeFilter}
+          onChange={(option) => setEndpointState(option)}
           initialValue="Top Headlines"
+          currValue={endpointState}
           noBorder
           options={[
             { value: EndPoints.EVERYTHING, name: "Everything" },

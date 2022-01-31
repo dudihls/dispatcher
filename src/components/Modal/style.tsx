@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const StyledModal = styled.div`
-  position: absolute;
+  position: fixed;
   z-index: 4;
   width: 100%;
   height: 100%;

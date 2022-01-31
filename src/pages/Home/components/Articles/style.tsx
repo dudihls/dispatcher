@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 export const CardsContainer = styled.div`
   width: 100%;
-  height: 1300px;
   background-color: ${({ theme }) => theme.colors.background};
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  height: 1300px;
   @media ${({ theme }) => theme.device.tablet} {
     height: calc(100vh - 186px);
   }

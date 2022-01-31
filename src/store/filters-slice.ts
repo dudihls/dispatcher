@@ -1,33 +1,44 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { EndPoints } from "../services/utils";
 
+export type Option = {
+  name: string | null;
+  value: string | null;
+};
+
+export type EndPointType =
+  | { value: EndPoints.EVERYTHING; name: "Everything" }
+  | { value: EndPoints.HEADLINES; name: "Top Headlines" };
+
 interface IFilters {
-  endpoint: EndPoints.HEADLINES | EndPoints.EVERYTHING;
-  category: string | null;
+  endpoint: EndPointType;
+  category: Option;
   date: {
     startDate: Date | null;
     endDate: Date | null;
   };
-  country: string | null;
+  country: Option;
   sourcesList: { name: string; value: string }[];
-  selectedSource: string | null;
-  sortBy: "relevancy" | "popularity" | "publishedAt";
-  language: string | null;
+  selectedSource: Option;
+  sortBy: Option;
+  language: Option;
   searchQuery: string | null;
 }
 
+const initialOption: Option = { name: null, value: null };
+
 const initialState = {
-  endpoint: EndPoints.HEADLINES,
-  category: null,
+  endpoint: { value: EndPoints.HEADLINES, name: "Top Headlines" },
+  category: initialOption,
   date: {
     startDate: null,
     endDate: null,
   },
-  country: null,
+  country: initialOption,
   sourcesList: [],
-  selectedSource: null,
-  sortBy: "publishedAt",
-  language: null,
+  selectedSource: initialOption,
+  sortBy: initialOption,
+  language: initialOption,
   searchQuery: "",
 } as IFilters;
 
@@ -36,39 +47,47 @@ const filtersSlice = createSlice({
   initialState,
   reducers: {
     changeEndpoint(state, action) {
-      switch (action.payload) {
+      const { value } = action.payload;
+      if (value === state.endpoint.value) return;
+      switch (value) {
         case EndPoints.HEADLINES:
           return (state = {
             ...initialState,
-            endpoint: EndPoints.HEADLINES,
+            endpoint: action.payload,
             searchQuery: state.searchQuery,
           });
         case EndPoints.EVERYTHING:
           return (state = {
             ...initialState,
-            endpoint: EndPoints.EVERYTHING,
+            endpoint: action.payload,
             searchQuery: state.searchQuery,
           });
       }
     },
     setCountry(state, action) {
-      return { ...state, country: action.payload, selectedSource: null };
+      return {
+        ...state,
+        country: action.payload,
+        selectedSource: initialState.selectedSource,
+      };
     },
     setSearchQuery(state, action) {
       if (action.payload !== state.searchQuery)
         state.searchQuery = action.payload;
     },
     setCategory(state, action) {
-      return { ...state, category: action.payload, selectedSource: null };
+      return {
+        ...state,
+        category: action.payload,
+        selectedSource: initialOption,
+      };
     },
     setSelectedSource(state, action) {
-      console.log(action.payload);
-
       return {
         ...state,
         selectedSource: action.payload,
-        country: null,
-        category: null,
+        country: initialOption,
+        category: initialOption,
       };
     },
     setSourcesList(state, action) {
@@ -76,6 +95,9 @@ const filtersSlice = createSlice({
     },
     setLanguage(state, action) {
       state.language = action.payload;
+    },
+    setSortBy(state, action) {
+      state.sortBy = action.payload;
     },
   },
 });
