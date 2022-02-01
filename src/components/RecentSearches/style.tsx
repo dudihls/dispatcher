@@ -21,7 +21,12 @@ export const RowWrapper = styled.div`
   align-items: center;
   cursor: pointer;
   padding: 8px 16px;
-`;
+  @media ${({ theme }) => theme.device.moblie} {
+    padding: 0px 14px 0px 10px;
+    margin: 0 6px;
+    border-bottom: 1px solid #d9dbe980;
+  }
+  `;
 
 export const StyledContent = styled.p`
   color: ${({ theme }) => theme.colors.lightPurple};
@@ -52,4 +57,38 @@ export const StyledButton = styled.button`
 
 export const StyledHeadline = styled.p`
   font-weight: 500;
+`;
+
+export const MoblieWrapper = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: ${({ theme }) => theme.colors.lightPurple};
+`;
+
+export const MoblieHeaderWrapper = styled.div`
+  height: 8%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 20px;
+  align-items: center;
+`;
+
+export const MoblieButton = styled.button`
+  color: ${({ theme }) => theme.colors.lightPurple};
+  background-color: ${({ theme }) => theme.colors.secondary};
+  text-transform: uppercase;
+  font-weight: 700;
+  border: none;
+  font-size: 12px;
+  padding: 4px;
+  width: 50px;
+  height: 30px;
+`;
+export const StyledMoblieHeadline = styled(StyledHeadline)`
+  font-size: 14px;
+`;
+
+export const IconWrapper = styled.div`
+  padding: 16px 0px 20px 0px;
 `;

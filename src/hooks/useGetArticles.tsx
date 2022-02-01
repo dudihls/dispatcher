@@ -115,7 +115,7 @@ export const useGetArticles = ({
         ]);
         setHasMore(articles.length > 0);
         setLoading(false);
-        setFirstLoad(false);
+        setTimeout(() => setFirstLoad(false), 1000);
       })
       .catch((err) => {
         if (axios.isCancel(err)) return;

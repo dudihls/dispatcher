@@ -32,6 +32,10 @@ html{
   width: 100%;
   background-color: ${({ theme }) => theme.colors.background};
   font-family: 'Roboto';
+
+  @media ${({ theme }) => theme.device.tablet} {
+   overflow: hidden;
+  }
 }
 body {
   height: 100%;

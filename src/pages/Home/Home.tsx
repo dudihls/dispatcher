@@ -10,6 +10,7 @@ import { AreaGraph, BarGraph, DoughnutGraph } from "../../components/Graphs";
 import {
   AppHeader,
   FiltersContainer,
+  GraphArticlesContainer,
   GraphsContainer,
   Layout,
   MainLayout,
@@ -22,6 +23,8 @@ import { RootState } from "../../store";
 import { filtersActions } from "../../store/filters-slice";
 import { CardsSkeletonList } from "../../components/Skeletons/CardsSkeleton/CardSkeletonList";
 import { Header } from "./components/Header/Header";
+import { MoblieSearchModal } from "../../components/MoblieSearchModal/MoblieSearchModal";
+import { useMediaQuery } from "react-responsive";
 
 const LazyArticles = lazy(async () => {
   await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -107,6 +110,9 @@ export const Home: React.FC = () => {
 
   const [modal, setModal] = useState<boolean>(false);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
+  const isMobile = useMediaQuery({
+    query: theme.device.mobile,
+  });
 
   const dispatch = useDispatch();
   const {
@@ -118,21 +124,28 @@ export const Home: React.FC = () => {
     [endpoint]
   );
 
-  // const DesktopFilters = useMemo(
-  //   () => (isTopHeadlines ? topHeadlinesFilters : everythingFilters),
-  //   [isTopHeadlines, topHeadlinesFilters, everythingFilters]
-  // );
-
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   return (
     <Layout>
       <GlobalStyles />
       <AppHeader>
         <Navbar
+          onClickSearchIcon={() => setIsSearchModalOpen((prev) => !prev)}
           onSubmitSearch={(val) => dispatch(filtersActions.setSearchQuery(val))}
           onChangeEndpoint={(endpoint) =>
             dispatch(filtersActions.changeEndpoint(endpoint))
           }
         />
+        {isMobile && (
+          <MoblieSearchModal
+            onSubmit={(val) => dispatch(filtersActions.setSearchQuery(val))}
+            isOpen={isSearchModalOpen}
+            onClose={() => {
+              dispatch(filtersActions.setSearchQuery(""));
+              setIsSearchModalOpen((prev) => !prev);
+            }}
+          />
+        )}
         {modal && (
           <Modal
             ToggleModal={() => {
@@ -156,7 +169,7 @@ export const Home: React.FC = () => {
         <SimpleWrapper direction="col">
           <Spacer />
           {isTopHeadlines && <Header />}
-          <SimpleWrapper width="100%">
+          <GraphArticlesContainer width="100%">
             <Suspense fallback={<CardsSkeletonList amount={8} />}>
               <LazyArticles />
             </Suspense>
@@ -170,7 +183,7 @@ export const Home: React.FC = () => {
               <AreaGraph header="Dates" data={areaData}></AreaGraph>
               <BarGraph data={barData} header="Tags" />
             </GraphsContainer>
-          </SimpleWrapper>
+          </GraphArticlesContainer>
         </SimpleWrapper>
       </MainLayout>
     </Layout>
