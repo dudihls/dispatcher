@@ -21,12 +21,12 @@ export const RowWrapper = styled.div`
   align-items: center;
   cursor: pointer;
   padding: 8px 16px;
-  @media ${({ theme }) => theme.device.moblie} {
+  @media ${({ theme }) => theme.device.mobile} {
     padding: 0px 14px 0px 10px;
     margin: 0 6px;
     border-bottom: 1px solid #d9dbe980;
   }
-  `;
+`;
 
 export const StyledContent = styled.p`
   color: ${({ theme }) => theme.colors.lightPurple};

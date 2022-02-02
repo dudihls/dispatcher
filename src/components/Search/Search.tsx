@@ -54,7 +54,7 @@ export const Search: React.FC<SearchProps> = ({
   };
 
   const addRecentSearch = (value: string) => {
-    setSearches((prevSearches) => [value, ...prevSearches]);
+    value && setSearches((prevSearches) => [value, ...prevSearches]);
   };
 
   const onEnterSearch = (

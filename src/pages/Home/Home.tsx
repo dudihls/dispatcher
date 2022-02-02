@@ -1,7 +1,7 @@
 import { theme } from "../../global-styles/theme";
 import { GlobalStyles } from "../../global-styles/Global";
 import { Navbar } from "../../components/Navbar/Navbar";
-import { lazy, Suspense, useMemo, useState } from "react";
+import { lazy, Suspense, useCallback, useMemo, useState } from "react";
 import { DesktopFilter } from "./components/DesktopFilter/DesktopFilter";
 import { Modal } from "../../components/Modal/Modal";
 import { MobileFilterModal } from "../../components/MobileFilterModal/MobileFilterModal";
@@ -25,71 +25,46 @@ import { CardsSkeletonList } from "../../components/Skeletons/CardsSkeleton/Card
 import { Header } from "./components/Header/Header";
 import { MoblieSearchModal } from "../../components/MoblieSearchModal/MoblieSearchModal";
 import { useMediaQuery } from "react-responsive";
+import { ArticlesCards } from "./components/Articles/types";
+import dayjs from "dayjs";
 
 const LazyArticles = lazy(async () => {
   await new Promise((resolve) => setTimeout(resolve, 2000));
   return import("./components/Articles/Articles");
 });
 
-const doughnutData = [
-  { name: "a", value: 12 },
-  { name: "b", value: 19 },
-  { name: "c", value: 3 },
-  { name: "d", value: 5 },
-];
+const mappingGraphResultObjectToArray = (result: {
+  [key: string]: number;
+}): GraphData => {
+  return Object.keys(result).map((name) => {
+    const value = result[name];
+    let data: { name: string; value: number };
+    data = { name, value };
+    return data;
+  });
+};
+
 const barData = [
   {
-    name: "APR",
+    name: "Sports",
     value: 4000,
   },
 
   {
-    name: "AUG",
+    name: "News",
     value: 5000,
   },
   {
-    name: "AUG",
+    name: "Covid-19",
     value: 5000,
   },
   {
-    name: "AUG",
+    name: "Weather",
     value: 5000,
   },
-  { name: "asshjf", value: 1234 },
-  { name: "bsadf", value: 12349 },
-  { name: "cs", value: 3333 },
-  { name: "dff", value: 25 },
-];
-const areaData = [
-  {
-    name: "Jan",
-    value: 2400,
-  },
-  {
-    name: "Fab",
-    value: 2210,
-  },
-  {
-    name: "Mar",
-    value: 2290,
-  },
-  {
-    name: "APR",
-    value: 4000,
-  },
-
-  {
-    name: "AUG",
-    value: 5000,
-  },
-  {
-    name: "AUG",
-    value: 5000,
-  },
-  {
-    name: "AUG",
-    value: 5000,
-  },
+  { name: "Software", value: 1234 },
+  { name: "Economy", value: 12349 },
+  { name: "Politics", value: 3333 },
 ];
 
 const filters = [
@@ -105,13 +80,66 @@ const filters = [
   },
 ];
 
+type GraphData = { name: string; value: number }[];
+
 export const Home: React.FC = () => {
   console.log("render");
 
+  const [dougnutData, setDougnutData] = useState<{
+    data: GraphData;
+    sum: number;
+  } | null>(null);
+  const [areaData, setAreaData] = useState<GraphData | null>(null);
+
+  const createGraphsData = useCallback((articles: ArticlesCards) => {
+    if (articles.length === 0) {
+      setAreaData(null);
+      setDougnutData(null);
+      return;
+    }
+
+    let sum = 0;
+    var dougnhutResult: { [key: string]: number } = {};
+    var areResult: { [key: string]: number } = {
+      Jan: 0,
+      Feb: 0,
+      Mar: 0,
+      Apr: 0,
+      May: 0,
+      Jun: 0,
+      Jul: 0,
+      Aug: 0,
+      Sep: 0,
+      Oct: 0,
+      Nov: 0,
+      Dec: 0,
+    };
+    articles.forEach((article) => {
+      sum++;
+
+      if (!dougnhutResult.hasOwnProperty(article.source)) {
+        dougnhutResult[article.source] = 1;
+      } else dougnhutResult[article.source] += 1;
+
+      let property = dayjs(article.date).format(`MMM`);
+      areResult[property] += 1;
+    });
+
+    let dougnutData = mappingGraphResultObjectToArray(dougnhutResult);
+    let areaData = mappingGraphResultObjectToArray(areResult);
+
+    setDougnutData({ data: dougnutData, sum });
+    setAreaData(areaData);
+  }, []);
+
   const [modal, setModal] = useState<boolean>(false);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
+
   const isMobile = useMediaQuery({
     query: theme.device.mobile,
+  });
+  const isDesktop = useMediaQuery({
+    query: theme.device.desktop,
   });
 
   const dispatch = useDispatch();
@@ -171,18 +199,20 @@ export const Home: React.FC = () => {
           {isTopHeadlines && <Header />}
           <GraphArticlesContainer width="100%">
             <Suspense fallback={<CardsSkeletonList amount={8} />}>
-              <LazyArticles />
+              <LazyArticles createGraphsData={createGraphsData} />
             </Suspense>
-            <GraphsContainer>
-              <DoughnutGraph
-                innerText="Sum"
-                header="Sources"
-                data={doughnutData}
-                colorPalette={theme.graphColorPalette.doughnut}
-              />
-              <AreaGraph header="Dates" data={areaData}></AreaGraph>
-              <BarGraph data={barData} header="Tags" />
-            </GraphsContainer>
+            {isDesktop && (
+              <GraphsContainer>
+                <DoughnutGraph
+                  innerText={dougnutData?.sum + ""}
+                  header="Sources"
+                  data={dougnutData?.data}
+                  colorPalette={theme.graphColorPalette.doughnut}
+                />
+                <AreaGraph header="Dates" data={areaData}></AreaGraph>
+                <BarGraph data={barData} header="Tags" />
+              </GraphsContainer>
+            )}
           </GraphArticlesContainer>
         </SimpleWrapper>
       </MainLayout>

@@ -29,7 +29,6 @@ export const MoblieSearchModal: React.FC<{
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   useEffect(() => {
     if (isOpen) {
-      searchInputRef.current?.focus();
       setCloseAll(false);
     }
     setIsSearching(isOpen);
@@ -60,7 +59,7 @@ export const MoblieSearchModal: React.FC<{
   };
 
   const addRecentSearch = (value: string) => {
-    setSearches((prevSearches) => [value, ...prevSearches]);
+    value && setSearches((prevSearches) => [value, ...prevSearches]);
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -81,6 +80,11 @@ export const MoblieSearchModal: React.FC<{
 
   const isExistInRecentSearches = (search: string) =>
     searches.findIndex((s) => s === search) > -1;
+
+  const BackToSearch = () => {
+    searchInputRef.current?.focus();
+    setIsSearching((prev) => !prev);
+  };
 
   return createPortal(
     <>
@@ -109,14 +113,11 @@ export const MoblieSearchModal: React.FC<{
             </>
           ) : (
             <>
-              <Icon ml={12} src={back} onClick={onClickBack} />
+              <Icon ml={12} src={back} onClick={BackToSearch} />
               <StyledSearchLabel>
                 {searchVal && `"${searchVal}"`}
               </StyledSearchLabel>
-              <Icon
-                src={search}
-                onClick={() => setIsSearching((prev) => !prev)}
-              />
+              <Icon src={search} onClick={BackToSearch} />
             </>
           )}
         </SearchBarWrapper>

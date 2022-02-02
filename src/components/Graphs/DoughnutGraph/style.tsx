@@ -8,4 +8,5 @@ export const DoughnutGraphContainer = styled(GraphContainer)`
     font-size: 12px;
     font-weight: 400;
   }
+
 `;
