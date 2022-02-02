@@ -21,16 +21,12 @@ export const MoblieSearchModal: React.FC<{
 }> = ({ isOpen, onClose, onSubmit }) => {
   const root = document.getElementById("root")!;
   const [isSearching, setIsSearching] = useState(false);
-  const [closeAll, setCloseAll] = useState(false);
   const [recentSearches, setRecentSearches] = useLocalStorage("searches", []);
   const [searches, setSearches] = useState<string[]>(recentSearches);
   const [searchVal, setSearchVal] = useState("");
 
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   useEffect(() => {
-    if (isOpen) {
-      setCloseAll(false);
-    }
     setIsSearching(isOpen);
   }, [isOpen]);
 
@@ -81,10 +77,7 @@ export const MoblieSearchModal: React.FC<{
   const isExistInRecentSearches = (search: string) =>
     searches.findIndex((s) => s === search) > -1;
 
-  const BackToSearch = () => {
-    searchInputRef.current?.focus();
-    setIsSearching((prev) => !prev);
-  };
+  const BackToSearch = () => setIsSearching((prev) => !prev);
 
   return createPortal(
     <>
@@ -93,16 +86,9 @@ export const MoblieSearchModal: React.FC<{
         onSubmit={(ev) => onEnterSearch(ev, false, searchVal)}
       >
         <SearchBarWrapper>
-          {isSearching || closeAll ? (
+          {!isOpen || isSearching ? (
             <>
-              <Icon
-                ml={2}
-                src={back}
-                onClick={() => {
-                  onClickBack();
-                  setCloseAll(true);
-                }}
-              />
+              <Icon ml={2} src={back} onClick={onClickBack} />
               <Input
                 ref={searchInputRef}
                 value={searchVal}

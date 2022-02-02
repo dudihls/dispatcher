@@ -9,19 +9,28 @@ import {
 import { AreaChart, XAxis, Area } from "recharts";
 import { theme } from "../../../global-styles/theme";
 import { AxisLabel } from "./style";
+import { Skeleton } from "./components/Skeleton";
+import { NotFound } from "../NotFound";
 
 type AreaGraphProps = {
   data: DataProps[] | null;
   header: string;
+  isLoading: boolean;
 };
 
-export const AreaGraph: React.FC<AreaGraphProps> = ({ header, data }) => (
+export const AreaGraph: React.FC<AreaGraphProps> = ({
+  header,
+  isLoading,
+  data,
+}) => (
   <GraphCard>
     <HeaderWrapper>
       <StyledHeader>{header}</StyledHeader>
       <HeaderLine />
     </HeaderWrapper>
-    {data && (
+    {isLoading ? (
+      <Skeleton />
+    ) : data ? (
       <GraphContainer>
         <AreaChart data={data} height={400} width={400} margin={{ top: 100 }}>
           <defs>
@@ -57,6 +66,8 @@ export const AreaGraph: React.FC<AreaGraphProps> = ({ header, data }) => (
           />
         </AreaChart>
       </GraphContainer>
+    ) : (
+      <NotFound />
     )}
   </GraphCard>
 );

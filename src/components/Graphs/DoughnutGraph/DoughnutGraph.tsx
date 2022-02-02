@@ -1,15 +1,23 @@
-import { GraphCard, HeaderLine, HeaderWrapper, StyledHeader } from "../style";
+import {
+  GraphCard,
+  HeaderLine,
+  HeaderWrapper,
+  StyledHeader,
+} from "../style";
 import { DoughnutGraphContainer } from "./style";
 import { PieChart, Pie, Cell, Legend } from "recharts";
 
 import { DataProps } from "..";
 import { CustomLegend } from "./components/CustomLegend/CustomLegend";
+import { Skeleton } from "./components/Skeleton";
+import { NotFound } from "../NotFound";
 
 interface DoughnutGraphProps {
   header?: string;
   data?: DataProps[] | null;
   colorPalette: string[];
   innerText: string;
+  isLoading: boolean;
 }
 
 export const DoughnutGraph: React.FC<DoughnutGraphProps> = ({
@@ -17,6 +25,7 @@ export const DoughnutGraph: React.FC<DoughnutGraphProps> = ({
   data,
   innerText,
   colorPalette,
+  isLoading,
 }) => {
   return (
     <GraphCard>
@@ -24,7 +33,9 @@ export const DoughnutGraph: React.FC<DoughnutGraphProps> = ({
         <StyledHeader>{header}</StyledHeader>
         <HeaderLine />
       </HeaderWrapper>
-      {data && (
+      {isLoading ? (
+        <Skeleton />
+      ) : data ? (
         <DoughnutGraphContainer width="100%" height="100%">
           <PieChart>
             <text x={156} y={74} dy={8} textAnchor="middle">
@@ -50,6 +61,8 @@ export const DoughnutGraph: React.FC<DoughnutGraphProps> = ({
             <Legend content={CustomLegend} />
           </PieChart>
         </DoughnutGraphContainer>
+      ) : (
+        <NotFound />
       )}
     </GraphCard>
   );

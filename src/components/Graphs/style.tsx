@@ -33,3 +33,24 @@ export const GraphContainer = styled(ResponsiveContainer)`
   height: 100%;
   width: 100%;
 `;
+
+export const NotFoundContainer = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+export const StyledLabel = styled.p`
+  font-size: 18px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.lightPurple};
+`;
+
+export const NotFoundGraph = styled.img`
+  width: 133px;
+  height: 133px;
+  margin-block-end: 12px;
+`;
