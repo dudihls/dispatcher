@@ -9,8 +9,9 @@ export const Container = styled.div<{ open: boolean }>`
   overflow: hidden;
   height: 100%;
   right: 0;
+  top: 0;
+  z-index: 10001;
   background-color: white;
-  z-index: 5;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

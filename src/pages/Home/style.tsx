@@ -7,6 +7,7 @@ export const Layout = styled.div`
   min-width: 1500px;
   @media ${({ theme }) => theme.device.tablet} {
     min-width: 800px;
+    height: 100%;
   }
   @media ${({ theme }) => theme.device.mobile} {
     min-width: 360px;
@@ -24,6 +25,7 @@ export const MainLayout = styled.div`
     margin-block-end: 0;
     width: 97.5%;
     margin-left: 2.5%;
+    height: calc(100% - 118px);
     padding-right: 2.5%;
   }
 `;
@@ -38,6 +40,15 @@ export const SimpleWrapper = styled.div<{
   flex-direction: ${({ direction }) => direction === "col" && "column"};
   @media ${({ theme }) => theme.device.mobile} {
     align-self: center;
+  }
+  @media ${({ theme }) => theme.device.tablet} {
+    height: calc(100% - 68px);
+  }
+`;
+
+export const GraphArticlesContainer = styled(SimpleWrapper)`
+  @media ${({ theme }) => theme.device.tablet} {
+    height: 100%;
   }
 `;
 

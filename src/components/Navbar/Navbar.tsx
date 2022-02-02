@@ -9,17 +9,19 @@ import { EndPointType, Option } from "../../store/filters-slice";
 interface NavbarProps {
   onSubmitSearch: (searchVal: string) => any;
   onChangeEndpoint: (endpoint: EndPointType | Option) => any;
+  onClickSearchIcon: () => any;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   onSubmitSearch,
   onChangeEndpoint,
+  onClickSearchIcon,
 }) => (
   <Container>
     <Logo src={logo} />
     <Wrapper>
       <Search onSubmit={onSubmitSearch} onChangeFilter={onChangeEndpoint} />
-      <Personal />
+      <Personal onClickSearchIcon={onClickSearchIcon} />
     </Wrapper>
   </Container>
 );

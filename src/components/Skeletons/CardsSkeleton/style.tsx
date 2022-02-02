@@ -11,6 +11,6 @@ export const StyledWrapper = styled.div`
   width: 100%;
   height: 1300px;
   @media ${({ theme }) => theme.device.tablet} {
-    height: calc(100vh - 186px);
+    height: calc(100% - 68px);
   }
 `;

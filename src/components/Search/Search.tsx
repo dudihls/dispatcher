@@ -14,9 +14,14 @@ import { RootState } from "../../store";
 interface SearchProps {
   onSubmit: (searchValue: string) => any;
   onChangeFilter: (filterValue: EndPointType | Option) => any;
+  isMobile?: boolean;
 }
 
-export const Search: React.FC<SearchProps> = ({ onSubmit, onChangeFilter }) => {
+export const Search: React.FC<SearchProps> = ({
+  onSubmit,
+  onChangeFilter,
+  isMobile,
+}) => {
   const searchFormRef = useRef(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const [hasFocus, setHasFocus] = useState<boolean>(false);

@@ -2,10 +2,15 @@ import { Icon } from "../Icon/Icon";
 import {
   Container,
   HeaderWrapper,
+  IconWrapper,
+  MoblieButton,
+  MoblieHeaderWrapper,
+  MoblieWrapper,
   RowWrapper,
   StyledButton,
   StyledContent,
   StyledHeadline,
+  StyledMoblieHeadline,
 } from "./style";
 import exit from "../../assets/Icons/exit.svg";
 
@@ -14,6 +19,7 @@ type RecentSearchesProps = {
   onClear: () => any;
   searches: string[];
   onDeleteSearch: (idx: number) => any;
+  isMoblie?: boolean;
 };
 
 export const RecentSearches: React.FC<RecentSearchesProps> = ({
@@ -21,8 +27,37 @@ export const RecentSearches: React.FC<RecentSearchesProps> = ({
   searches,
   onClear,
   onDeleteSearch,
+  isMoblie,
 }) => {
-  return (
+  return isMoblie ? (
+    <MoblieWrapper>
+      <MoblieHeaderWrapper>
+        <StyledMoblieHeadline>Recent Searches</StyledMoblieHeadline>
+        <MoblieButton
+          type="button"
+          onClick={(ev) => {
+            ev.stopPropagation();
+            onClear();
+          }}
+        >
+          Clear
+        </MoblieButton>
+      </MoblieHeaderWrapper>
+      {searches.map((search: string, idx: number) => (
+        <RowWrapper key={idx} onClick={() => onClickSearch(search)}>
+          <StyledContent>{search}</StyledContent>
+          <IconWrapper
+            onClick={(ev) => {
+              ev.stopPropagation();
+              onDeleteSearch(idx);
+            }}
+          >
+            <Icon src={exit} size="xs" />
+          </IconWrapper>
+        </RowWrapper>
+      ))}
+    </MoblieWrapper>
+  ) : (
     <Container>
       <HeaderWrapper>
         <StyledHeadline>Recent Searches</StyledHeadline>

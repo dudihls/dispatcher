@@ -10,7 +10,6 @@ export const fetchSourcesList = (isEverything: boolean) => {
       category: { value: category },
     } = getState().filters;
     try {
-      console.log(isEverything);
       const response = await axios({
         url: URL,
         method: "GET",

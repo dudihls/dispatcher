@@ -3,6 +3,7 @@ import { ButtonWrapper, Container, StyledFooter } from "./style";
 import { Button } from "../Button/Button";
 import { MobileFilterMenu } from "./MobileFilterMenu";
 import { MobileFilterOptions } from "./MobileFilterOptions";
+import { createPortal } from "react-dom";
 
 export type FilterProps = {
   header: string;
@@ -52,8 +53,9 @@ export const MobileFilterModal: React.FC<MobileFilterModalProps> = ({
     ev.preventDefault();
     onSubmitResults && onSubmitResults(filtersToSubmit);
   };
+  const root = document.getElementById("root")!;
 
-  return (
+  return createPortal(
     <Container open={open}>
       {isFilterMenu ? (
         <MobileFilterMenu
@@ -74,6 +76,7 @@ export const MobileFilterModal: React.FC<MobileFilterModalProps> = ({
           </Button>
         </ButtonWrapper>
       </StyledFooter>
-    </Container>
+    </Container>,
+    root
   );
 };

@@ -8,7 +8,7 @@ export const CardsContainer = styled.div`
   overflow-y: auto;
   height: 1300px;
   @media ${({ theme }) => theme.device.tablet} {
-    height: calc(100vh - 186px);
+    height: 100%;
   }
   & > div:not(:last-child) {
     margin-block-end: 24px;
