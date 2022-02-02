@@ -3,6 +3,8 @@ import styled from "styled-components";
 export const LabelsContainer = styled.div`
   display: flex;
   flex-direction: column;
+  overflow: scroll;
+  height: 100px;
 `;
 
 export const Dot = styled.div<{ color: string }>`

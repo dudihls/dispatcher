@@ -1,13 +1,13 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Card } from "../../../../components/Card/Card";
 import { CardsSkeletonList } from "../../../../components/Skeletons/CardsSkeleton/CardSkeletonList";
 import { useGetArticles } from "../../../../hooks/useGetArticles";
 import { CardsContainer } from "./style";
-import { ArticleCard } from "./types";
+import { ArticleCard, ArticlesCards } from "./types";
 
-type ArticlesProps = {};
+type ArticlesProps = { createGraphsData: (articles: ArticlesCards) => any };
 
-const Articles: React.FC<ArticlesProps> = () => {
+const Articles: React.FC<ArticlesProps> = ({ createGraphsData }) => {
   const [pageNumber, setPageNumber] = useState(1);
 
   const { hasMore, loading, articles, firstLoad } = useGetArticles({
@@ -15,6 +15,10 @@ const Articles: React.FC<ArticlesProps> = () => {
     pageSize: 10,
     setPageNumber,
   });
+
+  useEffect(() => {
+    articles && createGraphsData(articles);
+  }, [articles, createGraphsData]);
 
   const observer = useRef<IntersectionObserver>();
   const lastCardRef = useCallback(

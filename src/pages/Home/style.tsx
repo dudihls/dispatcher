@@ -82,7 +82,5 @@ export const GraphsContainer = styled.div`
   & > div:not(:last-child) {
     margin-block-end: 24px;
   }
-  @media ${({ theme }) => theme.device.tablet} {
-    display: none;
-  }
+
 `;
