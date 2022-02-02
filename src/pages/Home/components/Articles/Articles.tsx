@@ -9,7 +9,7 @@ import {
   StyledLabel,
 } from "./style";
 import { ArticleCard, ArticlesCards } from "./types";
-
+import notFoundArticles from "../../../../assets/imgs/notFoundArticles.png";
 type ArticlesProps = {
   createGraphsData: (articles: ArticlesCards) => any;
 };
@@ -61,9 +61,7 @@ const Articles: React.FC<ArticlesProps> = ({ createGraphsData }) => {
     </CardsContainer>
   ) : (
     <Container>
-      <ResultNotFound
-        src={require("../../../../assets/imgs/notFoundArticles.png")}
-      />
+      <ResultNotFound src={notFoundArticles} />
       <StyledLabel>We couldn’t find any matches for your query</StyledLabel>
     </Container>
   );
