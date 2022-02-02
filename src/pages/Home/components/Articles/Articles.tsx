@@ -2,10 +2,17 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Card } from "../../../../components/Card/Card";
 import { CardsSkeletonList } from "../../../../components/Skeletons/CardsSkeleton/CardSkeletonList";
 import { useGetArticles } from "../../../../hooks/useGetArticles";
-import { CardsContainer } from "./style";
+import {
+  CardsContainer,
+  Container,
+  ResultNotFound,
+  StyledLabel,
+} from "./style";
 import { ArticleCard, ArticlesCards } from "./types";
-
-type ArticlesProps = { createGraphsData: (articles: ArticlesCards) => any };
+import notFoundArticles from "../../../../assets/imgs/notFoundArticles.png";
+type ArticlesProps = {
+  createGraphsData: (articles: ArticlesCards) => any;
+};
 
 const Articles: React.FC<ArticlesProps> = ({ createGraphsData }) => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -39,7 +46,7 @@ const Articles: React.FC<ArticlesProps> = ({ createGraphsData }) => {
     <>
       <CardsSkeletonList amount={8} />
     </>
-  ) : (
+  ) : articles.length > 0 ? (
     <CardsContainer>
       {articles.map((articleProps: ArticleCard, idx: number) => {
         if (articles.length === idx + 1)
@@ -52,6 +59,11 @@ const Articles: React.FC<ArticlesProps> = ({ createGraphsData }) => {
       })}
       {loading && <h1>loading...</h1>}
     </CardsContainer>
+  ) : (
+    <Container>
+      <ResultNotFound src={notFoundArticles} />
+      <StyledLabel>We couldn’t find any matches for your query</StyledLabel>
+    </Container>
   );
 };
 

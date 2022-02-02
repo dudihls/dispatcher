@@ -10,10 +10,9 @@ export const SearchLayout = styled.form<{ isOpen: boolean }>`
     isOpen ? "top:0" : "translateY(100%) translateY(+74px)"}; */
   top: ${({ isOpen }) => (isOpen ? "0" : "-74px")};
   display: flex;
+
   transition: top 500ms ease-in-out;
 `;
-
-
 
 export const RecentSearchesLayout = styled.div<{ isOpen: boolean }>`
   position: fixed;
@@ -24,7 +23,7 @@ export const RecentSearchesLayout = styled.div<{ isOpen: boolean }>`
   width: 100%;
   transform: ${({ isOpen }) =>
     isOpen ? "translateX(0%)" : "translateX(100%)"};
-  transition: transform 500ms ease-in-out;
+  transition: all 500ms ease-in-out;
 `;
 
 export const SearchBarWrapper = styled.div`

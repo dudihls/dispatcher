@@ -44,7 +44,7 @@ const mappingGraphResultObjectToArray = (result: {
   });
 };
 
-const barData = [
+const barDataMock = [
   {
     name: "Sports",
     value: 4000,
@@ -90,11 +90,15 @@ export const Home: React.FC = () => {
     sum: number;
   } | null>(null);
   const [areaData, setAreaData] = useState<GraphData | null>(null);
+  const [barData, setBarData] = useState<GraphData | null>(null);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const createGraphsData = useCallback((articles: ArticlesCards) => {
     if (articles.length === 0) {
       setAreaData(null);
       setDougnutData(null);
+      setBarData(null);
       return;
     }
 
@@ -130,6 +134,8 @@ export const Home: React.FC = () => {
 
     setDougnutData({ data: dougnutData, sum });
     setAreaData(areaData);
+    setBarData(barDataMock);
+    setIsLoading(false);
   }, []);
 
   const [modal, setModal] = useState<boolean>(false);
@@ -204,13 +210,18 @@ export const Home: React.FC = () => {
             {isDesktop && (
               <GraphsContainer>
                 <DoughnutGraph
+                  isLoading={isLoading}
                   innerText={dougnutData?.sum + ""}
                   header="Sources"
                   data={dougnutData?.data}
                   colorPalette={theme.graphColorPalette.doughnut}
                 />
-                <AreaGraph header="Dates" data={areaData}></AreaGraph>
-                <BarGraph data={barData} header="Tags" />
+                <AreaGraph
+                  isLoading={isLoading}
+                  header="Dates"
+                  data={areaData}
+                ></AreaGraph>
+                <BarGraph isLoading={isLoading} data={barData} header="Tags" />
               </GraphsContainer>
             )}
           </GraphArticlesContainer>
