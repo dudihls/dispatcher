@@ -29,13 +29,22 @@ export const HeaderWrapper = styled.div`
   align-items: center;
   text-transform: uppercase;
   padding-left: 7%;
-  height: 75px;
+  height: 9%;
   border-bottom: 1px solid ${({ theme }) => theme.colors.secondary};
 `;
 
 export const TopWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+`;
+
+export const Body = styled.div`
+  display: flex;
+  height: 91%;
+  flex-direction: column;
+  overflow-y: auto;
 `;
 
 export const StyledFooter = styled.div`

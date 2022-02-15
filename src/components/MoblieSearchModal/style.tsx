@@ -26,6 +26,8 @@ export const RecentSearchesLayout = styled.div<{ isOpen: boolean }>`
   transition: all 500ms ease-in-out;
 `;
 
+
+
 export const SearchBarWrapper = styled.div`
   display: flex;
   padding: 0 16px;
@@ -38,4 +40,5 @@ export const StyledSearchLabel = styled.p`
   color: ${({ theme }) => theme.colors.lightPurple};
   font-size: 14px;
   font-weight: 500;
+  margin-inline-start: ${({ theme }) => theme.spacing(1)};
 `;

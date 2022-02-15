@@ -4,7 +4,7 @@ export const Layout = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-width: 1500px;
+  min-width: 1400px;
   @media ${({ theme }) => theme.device.tablet} {
     min-width: 800px;
     height: 100%;

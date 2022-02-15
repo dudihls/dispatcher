@@ -6,6 +6,7 @@ import {
   Dot,
   LabelContainer,
   LabelsContainer,
+  Layout,
   StyledPrecentage,
   StyledValueText,
   Wrapper,
@@ -14,19 +15,21 @@ import {
 export const CustomLegend: LegendType = (props: LegendProps) => {
   const { payload } = props;
   return (
-    <LabelsContainer>
-      {payload &&
-        payload.map((entry: any, index: any) => (
-          <LabelContainer key={`item-${index}`}>
-            <Wrapper>
-              <Dot color={entry.color} />
-              <StyledValueText>{entry.value}</StyledValueText>
-            </Wrapper>
-            <StyledPrecentage>
-              {Math.round(entry.payload.percent * 100)}%
-            </StyledPrecentage>
-          </LabelContainer>
-        ))}
-    </LabelsContainer>
+    <Layout>
+      <LabelsContainer>
+        {payload &&
+          payload.map((entry: any, index: any) => (
+            <LabelContainer key={`item-${index}`}>
+              <Wrapper>
+                <Dot color={entry.color} />
+                <StyledValueText>{entry.value}</StyledValueText>
+              </Wrapper>
+              <StyledPrecentage>
+                {Math.round(entry.payload.percent * 100)}%
+              </StyledPrecentage>
+            </LabelContainer>
+          ))}
+      </LabelsContainer>
+    </Layout>
   );
 };

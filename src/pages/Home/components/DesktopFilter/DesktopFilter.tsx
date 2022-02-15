@@ -1,9 +1,14 @@
 import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DropDown } from "../../../../components/Dropdown/Dropdown";
-import { countryOptions, langList } from "../../../../services/utils";
+import {
+  categoryOptions,
+  countryOptions,
+  langList,
+} from "../../../../services/utils";
 import { RootState } from "../../../../store";
-import { filtersActions, Option } from "../../../../store/filters-slice";
+import { filtersActions } from "../../../../store/filters-slice";
+import { Option } from "../../../../types";
 import { StyledContainer } from "./style";
 
 interface DesktopFilterProps {
@@ -32,15 +37,7 @@ export const DesktopFilter: React.FC<DesktopFilterProps> = ({
     () => ({
       initialValue: "Category",
       currValue: category,
-      options: [
-        "Business",
-        "Entertainment",
-        "General",
-        "Health",
-        "Science",
-        "Sports",
-        "Technology",
-      ].map((option) => ({ name: option, value: option })),
+      options: categoryOptions,
       onChange: (category: Option) =>
         dispatch(filtersActions.setCategory(category)),
     }),

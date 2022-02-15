@@ -6,6 +6,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary";
   toUpperCase?: boolean;
   justify?: "around" | "between" | "center";
+  isDisabled?: boolean;
 }
 
 export const Button: React.FC<ButtonProps> = ({ children, ...props }) => (

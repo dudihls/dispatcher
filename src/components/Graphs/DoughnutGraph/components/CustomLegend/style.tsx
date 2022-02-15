@@ -1,10 +1,15 @@
 import styled from "styled-components";
 
+export const Layout = styled.div`
+  overflow: scroll;
+  height: 130px;
+`;
+
 export const LabelsContainer = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
-  height: 100px;
+  padding: ${({ theme }) => theme.spacing(2)};
 `;
 
 export const Dot = styled.div<{ color: string }>`
@@ -38,5 +43,5 @@ export const LabelContainer = styled.div`
   height: 100%;
   align-items: center;
   justify-content: space-between;
-  margin-block-end: 12px;
+  padding-block-end: 12px;
 `;

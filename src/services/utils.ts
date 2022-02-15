@@ -56,6 +56,7 @@ export const countryCodeToString: CountryMap = {
 };
 
 export const langList = [
+  { value: "", name: "All" },
   { value: "ar", name: "Arabic" },
   { value: "de", name: "German" },
   { value: "en", name: "English" },
@@ -72,8 +73,24 @@ export const langList = [
   { value: "zh", name: "Chinese" },
 ];
 
-export const countryOptions = Object.entries(countryCodeToString).map(
+const countryObjectToArray = Object.entries(countryCodeToString).map(
   ([k, v]) => ({ name: v, value: k })
+);
+
+export const countryOptions = [{ name: "All", value: "" }].concat(
+  countryObjectToArray
+);
+
+export const categoryOptions = [{ name: "All", value: "" }].concat(
+  [
+    "Business",
+    "Entertainment",
+    "General",
+    "Health",
+    "Science",
+    "Sports",
+    "Technology",
+  ].map((option) => ({ name: option, value: option }))
 );
 
 export enum EndPoints {

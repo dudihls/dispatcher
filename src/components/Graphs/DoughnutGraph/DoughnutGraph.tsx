@@ -1,9 +1,4 @@
-import {
-  GraphCard,
-  HeaderLine,
-  HeaderWrapper,
-  StyledHeader,
-} from "../style";
+import { GraphCard, HeaderLine, HeaderWrapper, StyledHeader } from "../style";
 import { DoughnutGraphContainer } from "./style";
 import { PieChart, Pie, Cell, Legend } from "recharts";
 
@@ -38,7 +33,11 @@ export const DoughnutGraph: React.FC<DoughnutGraphProps> = ({
       ) : data ? (
         <DoughnutGraphContainer width="100%" height="100%">
           <PieChart>
-            <text x={156} y={74} dy={8} textAnchor="middle">
+            <text
+              x={"50%"}
+              y={80}
+              textAnchor="middle"
+            >
               {innerText}
             </text>
             <Pie

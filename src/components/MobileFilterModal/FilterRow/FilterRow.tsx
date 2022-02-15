@@ -5,6 +5,7 @@ type FilterRowProps = {
   value?: string;
   isDefaultValue?: boolean;
   onClickRow: (header: string) => any;
+  isDisabled?: boolean;
 };
 
 export const FilterRow: React.FC<FilterRowProps> = ({
@@ -12,9 +13,10 @@ export const FilterRow: React.FC<FilterRowProps> = ({
   value,
   onClickRow,
   isDefaultValue,
+  isDisabled = false,
 }) => {
   return (
-    <StyledFilterRow onClick={() => onClickRow(header)}>
+    <StyledFilterRow isDisabled={isDisabled} onClick={() => onClickRow(header)}>
       <StyledName>{header}</StyledName>
       {value && <StyledValue isDefault={isDefaultValue}>{value}</StyledValue>}
     </StyledFilterRow>

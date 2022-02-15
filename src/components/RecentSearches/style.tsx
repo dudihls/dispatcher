@@ -28,6 +28,11 @@ export const RowWrapper = styled.div`
   }
 `;
 
+export const ScrollContainer = styled.div`
+  overflow-y: auto;
+  height: 92%;
+`;
+
 export const StyledContent = styled.p`
   color: ${({ theme }) => theme.colors.lightPurple};
   font-weight: 400;

@@ -1,14 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { EndPoints } from "../services/utils";
-
-export type Option = {
-  name: string | null;
-  value: string | null;
-};
-
-export type EndPointType =
-  | { value: EndPoints.EVERYTHING; name: "Everything" }
-  | { value: EndPoints.HEADLINES; name: "Top Headlines" };
+import { EndPointType, Option } from "../types";
 
 interface IFilters {
   endpoint: EndPointType;
@@ -23,9 +15,10 @@ interface IFilters {
   sortBy: Option;
   language: Option;
   searchQuery: string | null;
+  fullSourceList: { name: string; value: string }[];
 }
 
-const initialOption: Option = { name: null, value: null };
+const initialOption: Option = { name: "All", value: "" };
 
 const initialState = {
   endpoint: { value: EndPoints.HEADLINES, name: "Top Headlines" },
@@ -40,6 +33,7 @@ const initialState = {
   sortBy: initialOption,
   language: initialOption,
   searchQuery: "",
+  fullSourceList: [],
 } as IFilters;
 
 const filtersSlice = createSlice({
@@ -65,6 +59,7 @@ const filtersSlice = createSlice({
       }
     },
     setCountry(state, action) {
+      if (action.payload === state.country) return;
       return {
         ...state,
         country: action.payload,
@@ -76,13 +71,18 @@ const filtersSlice = createSlice({
         state.searchQuery = action.payload;
     },
     setCategory(state, action) {
+      if (action.payload === state.category) return;
       return {
         ...state,
         category: action.payload,
         selectedSource: initialOption,
       };
     },
+    setIntialCountry(state, action) {
+      state.country = action.payload;
+    },
     setSelectedSource(state, action) {
+      if (action.payload === state.selectedSource) return;
       return {
         ...state,
         selectedSource: action.payload,
@@ -93,14 +93,44 @@ const filtersSlice = createSlice({
     setSourcesList(state, action) {
       state.sourcesList = [...action.payload];
     },
+    setFullSourceList(state, action) {
+      state.fullSourceList = [...action.payload];
+    },
     setLanguage(state, action) {
+      if (action.payload === state.language) return;
       state.language = action.payload;
     },
     setSortBy(state, action) {
+      if (action.payload === state.sortBy) return;
+
       state.sortBy = action.payload;
     },
     setDate(state, action) {
       state.date = action.payload;
+    },
+    setMobileFilter(state, action) {
+      const { endpoint, results } = action.payload;
+
+      switch (endpoint.value) {
+        case EndPoints.HEADLINES:
+          return (state = {
+            ...initialState,
+            searchQuery: state.searchQuery,
+            country: results.country,
+            endpoint: endpoint,
+            category: results.category,
+            selectedSource: results.source,
+          });
+        case EndPoints.EVERYTHING:
+          return (state = {
+            ...initialState,
+            searchQuery: state.searchQuery,
+            sortBy: results.sortBy,
+            endpoint: endpoint,
+            language: results.lang,
+            selectedSource: results.source,
+          });
+      }
     },
   },
 });
