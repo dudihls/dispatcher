@@ -31,7 +31,8 @@ export const theme = {
     lightPurple2: `#636393b0`,
     textGray: "rgba(90, 90, 137, 0.5)",
     hoverDropDown: "#dfe0eb69",
+    warning: "#d52d2d",
   },
   device,
-  spacing: (number: number) => 8 * Math.pow(2, number - 1) + "px",
+  spacing: (number: number) => 8 * number + "px",
 };

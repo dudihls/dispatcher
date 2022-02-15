@@ -7,6 +7,8 @@ export type ArticleType = {
   source: { id: string; name: string };
   title: string;
   publishedAt: string;
+  tags?: string[];
+
   url: string;
   onClick: (...args: any) => any;
 };

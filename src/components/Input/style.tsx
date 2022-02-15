@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 interface InputProps {
   noBorder?: boolean;
+  isValid?: boolean;
 }
 
 export const StyledInput = styled.input<InputProps>`
@@ -19,4 +20,9 @@ export const StyledInput = styled.input<InputProps>`
   border: ${({ noBorder, theme }) =>
     !noBorder ? "1px solid " + theme.colors.inputBorder : "none"};
 
+  ${({ isValid, theme }) =>
+    !isValid &&
+    `::placeholder {
+      color: ${theme.colors.warning};
+    }`};
 `;

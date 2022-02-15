@@ -1,27 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Icon } from "../Icon/Icon";
 import search from "../../assets/Icons/search.svg";
-import { SearchContainer, SelectContainer, StyledMsg, Wrapper } from "./style";
+import { SearchContainer, SelectContainer, Wrapper } from "./style";
 import { DropDown } from "../Dropdown/Dropdown";
 import { RecentSearches } from "../RecentSearches/RecentSearches";
 import useOnClickOutside from "../../hooks/useClickOutside";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import Input from "../Input/Input";
 import { EndPoints } from "../../services/utils";
-import { EndPointType, Option } from "../../store/filters-slice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { EndPointType, Option } from "../../types";
 interface SearchProps {
   onSubmit: (searchValue: string) => any;
   onChangeFilter: (filterValue: EndPointType | Option) => any;
-  isMobile?: boolean;
 }
 
-export const Search: React.FC<SearchProps> = ({
-  onSubmit,
-  onChangeFilter,
-  isMobile,
-}) => {
+export const Search: React.FC<SearchProps> = ({ onSubmit, onChangeFilter }) => {
   const searchFormRef = useRef(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const [hasFocus, setHasFocus] = useState<boolean>(false);
@@ -30,7 +25,7 @@ export const Search: React.FC<SearchProps> = ({
   const [endpointState, setEndpointState] = useState<Option | EndPointType>(
     endpoint
   );
-  const [msg, setMsg] = useState("");
+  const [isValid, setIsValid] = useState(true);
 
   const closeInputExpand = () => setHasFocus(false);
 
@@ -64,14 +59,14 @@ export const Search: React.FC<SearchProps> = ({
   ) => {
     ev && ev.preventDefault();
     if (!value && endpointState.value === EndPoints.EVERYTHING) {
-      setMsg("Enter search query");
+      setIsValid(false);
       return;
     }
     if (!isRecentSearch && !isExistInRecentSearches(value))
       addRecentSearch(value);
     onSubmit(value);
     onChangeFilter(endpointState);
-    setMsg("");
+    setIsValid(true);
     closeInputExpand();
     searchInputRef.current?.blur();
   };
@@ -93,6 +88,7 @@ export const Search: React.FC<SearchProps> = ({
 
   return (
     <SearchContainer
+      isValid={isValid}
       onSubmit={(ev) => onEnterSearch(ev, false, inputValue)}
       hasFocus={hasFocus}
       ref={searchFormRef}
@@ -107,9 +103,9 @@ export const Search: React.FC<SearchProps> = ({
           onChange={inputChangeHandler}
           onFocus={() => setHasFocus(true)}
           noBorder
-          placeholder="Search"
+          isValid={isValid}
+          placeholder={isValid ? "Search" : "Please enter your search term"}
         />
-        <StyledMsg>{msg && msg}</StyledMsg>
       </Wrapper>
       <SelectContainer>
         <DropDown

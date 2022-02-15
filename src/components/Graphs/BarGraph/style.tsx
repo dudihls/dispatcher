@@ -3,13 +3,12 @@ import styled, { keyframes } from "styled-components";
 export const BarGraphContainer = styled.div`
   width: 100%;
   height: 100%;
-  margin-block-end: 24px;
   overflow-y: auto;
 `;
 
 export const StyledLineBackGround = styled.div`
   background-color: ${({ theme }) => theme.colors.lightGray2};
-  width: 190px;
+  width: 170px;
   height: 12px;
   border-radius: 10px;
   margin-inline-start: 8px;
@@ -35,8 +34,9 @@ export const StyledRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 42px;
-  margin-block-start: 8px;
+  height: 20px;
+  margin: ${({ theme }) => theme.spacing(3)} 0;
+  padding-inline-end: ${({ theme }) => theme.spacing(1.5)};
 `;
 
 export const StyledLabel = styled.p`

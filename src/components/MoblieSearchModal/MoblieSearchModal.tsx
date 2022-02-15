@@ -99,7 +99,6 @@ export const MoblieSearchModal: React.FC<{
             </>
           ) : (
             <>
-              <Icon ml={12} src={back} onClick={BackToSearch} />
               <StyledSearchLabel>
                 {searchVal && `"${searchVal}"`}
               </StyledSearchLabel>

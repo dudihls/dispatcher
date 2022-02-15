@@ -1,12 +1,6 @@
-import { useMemo } from "react";
 import { DataProps } from "..";
 import { NotFound } from "../NotFound";
-import {
-  GraphCard,
-  HeaderLine,
-  HeaderWrapper,
-  StyledHeader,
-} from "../style";
+import { GraphCard, HeaderLine, HeaderWrapper, StyledHeader } from "../style";
 import { Skeleton } from "./components/Skeleton";
 import {
   BarGraphContainer,
@@ -28,10 +22,10 @@ export const BarGraph: React.FC<BarGraphProps> = ({
   header,
   data,
 }) => {
-  const sum = useMemo(() => {
-    data &&
-      data.reduce((accumulator, instance) => accumulator + instance.value, 0);
-  }, [data]);
+  const sum = data?.reduce(
+    (accumulator, instance) => accumulator + instance.value,
+    0
+  );
 
   return (
     <GraphCard>
@@ -44,7 +38,7 @@ export const BarGraph: React.FC<BarGraphProps> = ({
       ) : data ? (
         <BarGraphContainer>
           {data.map((instance, idx) => {
-            const percentage = (100 * instance.value) / sum!;
+            const percentage = sum === 0 ? 0 : (100 * instance.value) / sum!;
             return (
               <StyledRow key={idx}>
                 <StyledLabel>{instance.name}</StyledLabel>

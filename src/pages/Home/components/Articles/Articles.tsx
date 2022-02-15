@@ -11,7 +11,7 @@ import {
 import { ArticleCard, ArticlesCards } from "./types";
 import notFoundArticles from "../../../../assets/imgs/notFoundArticles.png";
 type ArticlesProps = {
-  createGraphsData: (articles: ArticlesCards) => any;
+  createGraphsData: (articles: ArticlesCards, firstLoad: boolean) => any;
 };
 
 const Articles: React.FC<ArticlesProps> = ({ createGraphsData }) => {
@@ -24,8 +24,8 @@ const Articles: React.FC<ArticlesProps> = ({ createGraphsData }) => {
   });
 
   useEffect(() => {
-    articles && createGraphsData(articles);
-  }, [articles, createGraphsData]);
+    createGraphsData(articles, firstLoad);
+  }, [firstLoad, createGraphsData, articles]);
 
   const observer = useRef<IntersectionObserver>();
   const lastCardRef = useCallback(

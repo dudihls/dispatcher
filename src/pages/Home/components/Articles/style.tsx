@@ -6,7 +6,9 @@ export const CardsContainer = styled.div`
   flex-direction: column;
   overflow-y: auto;
   height: 1300px;
+  padding-right: ${({ theme }) => theme.spacing(2)};
   @media ${({ theme }) => theme.device.tablet} {
+    padding-right: 0;
     height: 100%;
   }
   & > div:not(:last-child) {

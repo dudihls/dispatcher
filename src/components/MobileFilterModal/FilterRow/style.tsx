@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledFilterRow = styled.div`
+export const StyledFilterRow = styled.div<{ isDisabled: boolean }>`
   display: flex;
   justify-content: space-between;
   padding: 25px 7%;
@@ -9,6 +9,14 @@ export const StyledFilterRow = styled.div`
   &:hover {
     background-color: ${({ theme }) => theme.colors.secondary};
   }
+  ${({ isDisabled }) =>
+    isDisabled
+      ? `
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.4;
+  `
+      : ``}
 `;
 
 export const StyledName = styled.p`

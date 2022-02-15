@@ -5,6 +5,7 @@ type ButtonProps = {
   toUpperCase?: boolean;
   variant?: "primary" | "secondary";
   justify?: "around" | "between" | "center";
+  isDisabled?: boolean;
 };
 
 export const StyledButton = styled.button<ButtonProps>`
@@ -12,12 +13,12 @@ export const StyledButton = styled.button<ButtonProps>`
   ${({ size }) => {
     switch (size) {
       case "sm":
-        return `height: 20px;`
+        return `height: 20px;`;
       case "lg":
-        return `height: 72px;`
+        return `height: 72px;`;
       case "md":
       default:
-        return `height: 36px;`
+        return `height: 36px;`;
     }
   }}
   text-transform: ${(p) => p.toUpperCase && "uppercase"};
@@ -46,4 +47,12 @@ export const StyledButton = styled.button<ButtonProps>`
         : theme.colors.primaryHover};
   }
   cursor: pointer;
+  ${({ isDisabled }) =>
+    isDisabled
+      ? `
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.4;
+  `
+      : ``}
 `;

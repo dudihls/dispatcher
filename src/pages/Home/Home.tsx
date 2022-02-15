@@ -4,7 +4,6 @@ import { Navbar } from "../../components/Navbar/Navbar";
 import { lazy, Suspense, useCallback, useMemo, useState } from "react";
 import { DesktopFilter } from "./components/DesktopFilter/DesktopFilter";
 import { Modal } from "../../components/Modal/Modal";
-import { MobileFilterModal } from "../../components/MobileFilterModal/MobileFilterModal";
 import { MobileFilterBar } from "../../components/MobileFilterBar/MobileFilterBar";
 import { AreaGraph, BarGraph, DoughnutGraph } from "../../components/Graphs";
 import {
@@ -27,11 +26,9 @@ import { MoblieSearchModal } from "../../components/MoblieSearchModal/MoblieSear
 import { useMediaQuery } from "react-responsive";
 import { ArticlesCards } from "./components/Articles/types";
 import dayjs from "dayjs";
+import { MoblieFilter } from "./components/MobileFilter/MobileFilter";
 
-const LazyArticles = lazy(async () => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  return import("./components/Articles/Articles");
-});
+const LazyArticles = lazy(() => import("./components/Articles/Articles"));
 
 const mappingGraphResultObjectToArray = (result: {
   [key: string]: number;
@@ -67,38 +64,39 @@ const barDataMock = [
   { name: "Politics", value: 3333 },
 ];
 
-const filters = [
-  {
-    header: "Search in",
-    value: "Everything",
-    options: ["Everything", "Top headings"],
-  },
-  {
-    header: "Sources",
-    value: "",
-    options: ["CSS", "ACDME", "CNN", "JavaScript"],
-  },
-];
-
 type GraphData = { name: string; value: number }[];
 
 export const Home: React.FC = () => {
-  console.log("render");
-
   const [dougnutData, setDougnutData] = useState<{
     data: GraphData;
     sum: number;
   } | null>(null);
   const [areaData, setAreaData] = useState<GraphData | null>(null);
   const [barData, setBarData] = useState<GraphData | null>(null);
-
   const [isLoading, setIsLoading] = useState(true);
+  const [modal, setModal] = useState<boolean>(false);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
-  const createGraphsData = useCallback((articles: ArticlesCards) => {
+  const isMobile = useMediaQuery({
+    query: theme.device.mobile,
+  });
+  const isDesktop = useMediaQuery({
+    query: theme.device.desktop,
+  });
+  const dispatch = useDispatch();
+
+  const createGraphsData = useCallback((articles: ArticlesCards, firstLoad) => {
+    if (firstLoad) {
+      setIsLoading(true);
+      return;
+    }
+
     if (articles.length === 0) {
       setAreaData(null);
       setDougnutData(null);
       setBarData(null);
+      setIsLoading(false);
       return;
     }
 
@@ -118,6 +116,11 @@ export const Home: React.FC = () => {
       Nov: 0,
       Dec: 0,
     };
+    var barResult: { [key: string]: number } = {
+      Sports: 0,
+      Health: 0,
+    };
+
     articles.forEach((article) => {
       sum++;
 
@@ -127,38 +130,27 @@ export const Home: React.FC = () => {
 
       let property = dayjs(article.date).format(`MMM`);
       areResult[property] += 1;
+
+      article.tags && article.tags.forEach((t) => (barResult[t] += 1));
     });
 
     let dougnutData = mappingGraphResultObjectToArray(dougnhutResult);
     let areaData = mappingGraphResultObjectToArray(areResult);
+    let barData = mappingGraphResultObjectToArray(barResult);
 
     setDougnutData({ data: dougnutData, sum });
     setAreaData(areaData);
-    setBarData(barDataMock);
+    setBarData(barData);
     setIsLoading(false);
   }, []);
 
-  const [modal, setModal] = useState<boolean>(false);
-  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
-
-  const isMobile = useMediaQuery({
-    query: theme.device.mobile,
-  });
-  const isDesktop = useMediaQuery({
-    query: theme.device.desktop,
-  });
-
-  const dispatch = useDispatch();
-  const {
-    endpoint: { value: endpoint },
-  } = useSelector((state: RootState) => state.filters);
+  const { endpoint } = useSelector((state: RootState) => state.filters);
 
   const isTopHeadlines = useMemo(
-    () => endpoint === EndPoints.HEADLINES,
+    () => endpoint.value === EndPoints.HEADLINES,
     [endpoint]
   );
 
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   return (
     <Layout>
       <GlobalStyles />
@@ -188,7 +180,13 @@ export const Home: React.FC = () => {
             }}
           />
         )}
-        <MobileFilterModal filters={filters} open={isMobileFilterOpen} />
+        <MoblieFilter
+          isOpen={isMobileFilterOpen}
+          onClose={() => {
+            setIsMobileFilterOpen(false);
+            setModal(false);
+          }}
+        />
         <MobileFilterBar
           onToggleFilter={() => {
             setModal(true);
@@ -202,7 +200,7 @@ export const Home: React.FC = () => {
         </FiltersContainer>
         <SimpleWrapper direction="col">
           <Spacer />
-          {isTopHeadlines && <Header />}
+          <Header />
           <GraphArticlesContainer width="100%">
             <Suspense fallback={<CardsSkeletonList amount={8} />}>
               <LazyArticles createGraphsData={createGraphsData} />

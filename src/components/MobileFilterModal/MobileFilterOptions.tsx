@@ -1,13 +1,14 @@
 import { Icon } from "../Icon/Icon";
 import { FilterRow } from "./FilterRow/FilterRow";
-import { FilterProps } from "./MobileFilterModal";
-import { HeaderWrapper, StyledHeader, TopWrapper } from "./style";
+import { EndPointFilter, FilterProps } from "./MobileFilterModal";
+import { Body, HeaderWrapper, StyledHeader, TopWrapper } from "./style";
 import back from "../../assets/Icons/back.svg";
+import { EndPointType, Option } from "../../types";
 
 type MobileFilterOptionProps = {
-  filter: FilterProps;
+  filter: FilterProps | EndPointFilter;
   onGoBack: () => void;
-  onClickOption: (idx: number) => any;
+  onClickOption: (option: Option | EndPointType, header: string) => any;
 };
 
 export const MobileFilterOptions: React.FC<MobileFilterOptionProps> = ({
@@ -20,12 +21,14 @@ export const MobileFilterOptions: React.FC<MobileFilterOptionProps> = ({
       <Icon size="sm" ml={17} src={back} onClick={onGoBack} />
       <StyledHeader>{filter.header}</StyledHeader>
     </HeaderWrapper>
-    {filter.options.map((option, idx) => (
-      <FilterRow
-        header={option}
-        onClickRow={() => onClickOption(idx)}
-        key={idx}
-      />
-    ))}
+    <Body>
+      {filter.options.map((option, idx) => (
+        <FilterRow
+          header={option.name}
+          onClickRow={() => onClickOption(option, filter.header)}
+          key={idx}
+        />
+      ))}
+    </Body>
   </TopWrapper>
 );

@@ -7,6 +7,7 @@ import {
   MoblieHeaderWrapper,
   MoblieWrapper,
   RowWrapper,
+  ScrollContainer,
   StyledButton,
   StyledContent,
   StyledHeadline,
@@ -43,19 +44,21 @@ export const RecentSearches: React.FC<RecentSearchesProps> = ({
           Clear
         </MoblieButton>
       </MoblieHeaderWrapper>
-      {searches.map((search: string, idx: number) => (
-        <RowWrapper key={idx} onClick={() => onClickSearch(search)}>
-          <StyledContent>{search}</StyledContent>
-          <IconWrapper
-            onClick={(ev) => {
-              ev.stopPropagation();
-              onDeleteSearch(idx);
-            }}
-          >
-            <Icon src={exit} size="xs" />
-          </IconWrapper>
-        </RowWrapper>
-      ))}
+      <ScrollContainer>
+        {searches.map((search: string, idx: number) => (
+          <RowWrapper key={idx} onClick={() => onClickSearch(search)}>
+            <StyledContent>{search}</StyledContent>
+            <IconWrapper
+              onClick={(ev) => {
+                ev.stopPropagation();
+                onDeleteSearch(idx);
+              }}
+            >
+              <Icon src={exit} size="xs" />
+            </IconWrapper>
+          </RowWrapper>
+        ))}
+      </ScrollContainer>
     </MoblieWrapper>
   ) : (
     <Container>

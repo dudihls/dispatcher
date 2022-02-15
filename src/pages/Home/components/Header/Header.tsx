@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocalStorage } from "../../../../hooks/useLocalStorage";
-import { countryCodeToString } from "../../../../services/utils";
+import { countryCodeToString, EndPoints } from "../../../../services/utils";
 import { RootState } from "../../../../store";
 import { filtersActions } from "../../../../store/filters-slice";
 import { StyledHeader } from "./style";
@@ -18,9 +18,10 @@ export const Header: React.FC = () => {
   );
 
   useEffect(() => {
+    if (endpoint.value !== EndPoints.HEADLINES) return;
     if (userCountryStorage) {
       dispatch(
-        filtersActions.setCountry({
+        filtersActions.setIntialCountry({
           name: countryCodeToString[userCountryStorage],
           value: userCountryStorage,
         })
@@ -39,8 +40,8 @@ export const Header: React.FC = () => {
       });
   }, [userCountryStorage, dispatch, setUserCountryStorage, endpoint]);
   return (
-    <>
-      {country && <StyledHeader>Top Headlines in {country.name}</StyledHeader>}
-    </>
+    <StyledHeader>
+      {country.value && `Top Headlines ${country.name}`}
+    </StyledHeader>
   );
 };

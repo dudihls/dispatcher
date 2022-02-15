@@ -51,7 +51,7 @@ export const StyledLayout = styled.div`
   border-radius: 20px;
   background-color: white;
   border: 1px solid #d9dbe9;
-  box-shadow: 0px 32px 64px rgba(0, 0, 0, 0.05);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   @media ${({ theme }) => theme.device.mobile} {
     flex-direction: column;
     height: 449px;

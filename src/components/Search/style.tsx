@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
-export const SearchContainer = styled.form<{ hasFocus: boolean }>`
+export const SearchContainer = styled.form<{
+  hasFocus: boolean;
+  isValid: boolean;
+}>`
   position: relative;
   display: flex;
   background-color: white;
@@ -14,6 +17,8 @@ export const SearchContainer = styled.form<{ hasFocus: boolean }>`
   @media ${({ theme }) => theme.device.mobile} {
     display: none;
   }
+  border: ${({ isValid, theme }) =>
+    !isValid ? "2px solid " + theme.colors.warning : "2px solid transparent"};
 `;
 
 export const SelectContainer = styled.div`
@@ -27,9 +32,4 @@ export const SelectContainer = styled.div`
 
 export const Wrapper = styled.div`
   width: 100%;
-`;
-
-export const StyledMsg = styled.p`
-  font-size: 12px;
-  color: red;
 `;

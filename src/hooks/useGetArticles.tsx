@@ -63,7 +63,8 @@ export const useGetArticles = ({
   ]);
 
   useEffect(() => {
-    dispatch(fetchSourcesList(endpoint === EndPoints.EVERYTHING));
+    if (country || category)
+      dispatch(fetchSourcesList(endpoint === EndPoints.EVERYTHING));
   }, [category, country, dispatch, endpoint]);
 
   useEffect(() => {
@@ -119,7 +120,7 @@ export const useGetArticles = ({
       })
       .catch((err) => {
         if (axios.isCancel(err)) return;
-        const { data } = err.response;
+        const { data } = err?.response;
         data && console.log(data);
       });
 

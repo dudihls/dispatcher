@@ -9,7 +9,7 @@ import {
 } from "./style";
 import dropdown from "../../../assets/Icons/dropdown.svg";
 import useOnClickOutside from "../../../hooks/useClickOutside";
-import { EndPointType, Option } from "../../../store/filters-slice";
+import { EndPointType, Option } from "../../../types";
 
 export type SelectProps = {
   options: Option[] | EndPointType[];
@@ -45,7 +45,7 @@ export const Select: React.FC<SelectProps> = ({
         noBorder={noBorder}
         onClick={() => setToggleOptions(!ToggleOptions)}
       >
-        {currValue?.name || initialValue}
+        {currValue?.name && currValue?.value ? currValue?.name : initialValue}
         {endIcon ? <Icon src={endIcon} /> : <Icon src={dropdown} />}
       </MenuHeader>
       {ToggleOptions && (

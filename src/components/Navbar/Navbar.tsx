@@ -4,7 +4,7 @@ import { Container, Logo, Wrapper } from "./style";
 import logo from "../../assets/imgs/logo.svg";
 import { Personal } from "../Personal/Personal";
 import { Search } from "../Search/Search";
-import { EndPointType, Option } from "../../store/filters-slice";
+import { EndPointType, Option } from "../../types";
 
 interface NavbarProps {
   onSubmitSearch: (searchVal: string) => any;
