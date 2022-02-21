@@ -1,21 +1,60 @@
 import styled from "styled-components";
-import { Button } from "../Button/Button";
-import { colors, device } from "../global-vars";
 import { Icon } from "../Icon/Icon";
 
-export const TagsContainer = styled.div`
+export const TagsContainer = styled.div<{ direction: number }>`
   position: absolute;
   display: flex;
+
   top: 17px;
-  @media ${device.tablet} {
+  @media ${({ theme }) => theme.device.tablet} {
     top: 9px;
   }
-  @media ${device.mobile} {
+  @media ${({ theme }) => theme.device.mobile} {
     top: 159px;
   }
-  right: 16px;
+  ${({ direction }) =>
+    direction
+      ? ` left: 16px;
+    `
+      : ` right: 16px;
+    `}
   div:not(:last-child) {
     margin-inline-end: 10px;
+  }
+`;
+export const ImgContainer = styled.div<{ direction?: number }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 242px;
+  width: 243px;
+  min-width: 244px;
+
+  @media ${({ theme }) => theme.device.mobile} {
+    height: 148px;
+    width: 344px;
+    border-radius: 20px 20px 0px 0px;
+  }
+`;
+
+export const PlaceHolderContainer = styled(ImgContainer)`
+  width: 100%;
+  height: 100%;
+  border: 1px solid #d9dbe9;
+
+  background-color: ${({ theme }) => theme.colors.purple};
+  ${({ direction }) =>
+    direction
+      ? `      border-radius: 0px 20px 20px 0px;
+      border-left:none;
+    `
+      : ` border-radius: 20px 0px 0px 20px;
+      border-right:none;
+    `}
+  @media ${({ theme }) => theme.device.mobile} {
+    border-radius: 20px 20px 0px 0px;
+    border: 1px solid #d9dbe9;
+    border-bottom: none;
   }
 `;
 
@@ -27,105 +66,177 @@ export const StyledTag = styled.div`
   align-items: center;
   border-radius: 10px;
   padding: 1px 10px;
-  color: ${colors.lightPurple};
-  background-color: ${colors.lightGray2};
+  color: ${({ theme }) => theme.colors.lightPurple};
+  background-color: ${({ theme }) => theme.colors.lightGray2};
+`;
+
+export const LoadingContainer = styled.div<{
+  loading: number;
+  isLoader: boolean;
+  direction: number;
+}>`
+  display: ${({ isLoader, loading }) =>
+    isLoader ? (loading ? "flex" : "none") : loading ? "none" : "flex"};
+  justify-content: center;
+  border: 1px solid #d9dbe9;
+
+  ${({ direction }) =>
+    direction
+      ? `      border-radius: 0px 20px 20px 0px;
+      border-left:none;
+    `
+      : ` border-radius: 20px 0px 0px 20px;
+      border-right:none;
+    `}
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  ${({ direction }) =>
+    direction
+      ? `      border-radius: 0px 20px 20px 0px;
+    `
+      : ` border-radius: 20px 0px 0px 20px;
+   
+    `}
 `;
 
 export const StyledImage = styled.img.attrs(({ src }: { src: string }) => ({
   src,
-}))`
-  height: 242px;
-  width: 244px;
-  border-radius: 20px 0px 0px 20px;
+}))<{ direction?: number }>`
+  height: 100%;
+  border: 1px solid #d9dbe9;
+
+  width: 100%;
+
   object-fit: cover;
-  @media ${device.mobile} {
-    height: 149px;
-    width: 343px;
+  ${({ direction }) =>
+    direction
+      ? `      border-radius: 0px 20px 20px 0px;
+      border-left:none;
+    `
+      : ` border-radius: 20px 0px 0px 20px;
+      border-right:none;
+   
+    `}
+  @media ${({ theme }) => theme.device.mobile} {
+    border-radius: 20px 20px 0px 0px;
+    border: 1px solid #d9dbe9;
+    border-bottom: none;
+  }
+`;
+
+export const StyledPlaceHolder = styled.img<{ direction: number }>`
+  height: 50%;
+  width: 50%;
+  object-fit: contain;
+
+  ${({ direction }) =>
+    direction
+      ? `      border-radius: 0px 20px 20px 0px;
+    `
+      : ` border-radius: 20px 0px 0px 20px;
+   
+    `}
+  @media ${({ theme }) => theme.device.mobile} {
     border-radius: 20px 20px 0px 0px;
   }
 `;
 
 export const StyledLayout = styled.div`
+  z-index: 1;
   position: relative;
   display: flex;
+
+  p {
+    text-align: ${({ dir }) => (dir === "rtl" ? "right" : "left")};
+  }
   height: 242px;
-  width: 986px;
   border-radius: 20px;
   background-color: white;
-  border: 1px solid #d9dbe9;
-  box-shadow: 0px 32px 64px rgba(0, 0, 0, 0.05);
-  @media ${device.tablet} {
-    height: 242px;
-    width: 728px;
-  }
-  @media ${device.mobile} {
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+  @media ${({ theme }) => theme.device.mobile} {
     flex-direction: column;
-    height: 449px;
-    width: 343px;
+    min-height: 449px;
+    max-height: 449px;
+    width: 344px;
   }
 `;
 
-export const ContentLayout = styled.div`
+export const ContentLayout = styled.div<{ direction: number }>`
   display: flex;
   padding: 16px;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #d9dbe9;
+  ${({ direction }) =>
+    direction
+      ? `      border-radius: 20px 0px 0px 20px;
+    `
+      : ` border-radius: 0px 20px 20px 0px;
+   
+    `}
   flex-direction: column;
-  @media ${device.tablet} {
+  @media ${({ theme }) => theme.device.tablet} {
     padding: 8.5px 16px 0 17px;
   }
-  @media ${device.mobile} {
-    width: 311px;
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 100%;
     padding: 9px 16px 12px;
+    border-radius: 0px 0px 20px 20px;
   }
 `;
 
-export const StyledButton = styled(Button).attrs(() => ({
-  size: "lg",
-}))`
+export const StyledButtonContainer = styled.div<{ direction: number }>`
   position: absolute;
-  right: 16px;
+  ${({ direction }) =>
+    direction
+      ? ` left: 16px;
+    `
+      : ` right: 16px;
+    `}
   bottom: 16px;
-  text-transform: uppercase;
-  font-weight: 500;
-  @media ${device.tablet} {
+
+  width: 226px;
+  @media ${({ theme }) => theme.device.tablet} {
     bottom: 8.5px;
   }
-  @media ${device.mobile} {
-    width: 311px;
-    right: 16px;
-    bottom: 12px;
-    justify-content: space-around;
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 100%;
+    position: static;
+    margin-top: auto;
   }
 `;
 
-export const StyledIcon = styled(Icon)`
-  margin-inline-start: 10px;
-  transform: rotate(180deg);
-  @media ${device.mobile} {
-    margin-inline-start: 0;
-  }
+export const StyledIcon = styled(Icon)<{ isReversed: boolean }>`
+  ${({ isReversed }) => !isReversed && "transform: rotate(180deg);"};
+  width: 20px;
+  height: 20px;
 `;
 
 export const StyledLabel = styled.p<{
   type?: "subtitle" | "content" | "header";
 }>`
-  font-family: "Roboto", sans-serif;
   margin: 0;
-  ${(p) => {
-    switch (p.type) {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  ${({ type, theme }) => {
+    switch (type) {
       case "header":
         return `font-size: 18px;
               font-weight: 700;
               line-height: 21px;`;
       case "content":
-        return `
-                  color: ${colors.lightPurple} ;
+        return `color: ${theme.colors.purple};
                   font-size: 14px;
                   font-style: normal;
                   line-height: 16px;`;
       case "subtitle":
       default:
         return `
-            color: rgba(90, 90, 137, 0.5);
+            color: ${theme.colors.textGray};
             font-size: 14px;
             line-height: 22px;
             letter-spacing: 0.25px;
@@ -134,10 +245,10 @@ export const StyledLabel = styled.p<{
     }
   }}
   margin-bottom: 19px;
-  @media ${device.tablet} {
+  @media ${({ theme }) => theme.device.tablet} {
     margin-bottom: 13.75px;
   }
-  @media ${device.mobile} {
+  @media ${({ theme }) => theme.device.moblie} {
     margin-bottom: 10px;
   }
 `;

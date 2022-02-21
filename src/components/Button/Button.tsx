@@ -1,13 +1,13 @@
-// import Icon from "../Icon/Icon";
 import React from "react";
 import { StyledButton } from "./style";
 
-type ButtonProps = {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "sm" | "md" | "lg";
-  type?: "submit";
   variant?: "primary" | "secondary";
-  onClick?: (...args: any[]) => any;
-};
+  toUpperCase?: boolean;
+  justify?: "around" | "between" | "center";
+  isDisabled?: boolean;
+}
 
 export const Button: React.FC<ButtonProps> = ({ children, ...props }) => (
   <StyledButton {...props}>{children}</StyledButton>

@@ -1,16 +1,19 @@
-import React from 'react';
-import './App.css';
-import { Button } from './components/Button/Button';
-import { FlexLayout } from './components/FlexLayout/FlexLayout';
-import { Icon } from './components/Icon/Icon';
-import back from './assets/Icons/back.svg'
+import { routes } from "./routes";
+import { Routes, Route } from "react-router-dom";
+import "./App.css";
+import { theme } from "./global-styles/theme";
+import { ThemeProvider } from "styled-components";
+import { GlobalStyles } from "./global-styles/Global";
 
-function App() {
-  return (
-    <FlexLayout direction='col' sidePadding={30}>
-      <Button variant='secondary' size='md' icon={<Icon color='purple' src={back}/>}>HELLO WORLD</Button>
-    </FlexLayout>
-  );
-}
+const App: React.FC = () => (
+  <ThemeProvider theme={theme}>
+    <GlobalStyles />
+    <Routes>
+      {routes.map(({ path, element }, idx) => (
+        <Route path={path} element={element} key={idx} />
+      ))}
+    </Routes>
+  </ThemeProvider>
+);
 
 export default App;
