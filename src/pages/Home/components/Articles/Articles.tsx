@@ -11,17 +11,26 @@ import {
 import { ArticleCard, ArticlesCards } from "./types";
 import notFoundArticles from "../../../../assets/imgs/notFoundArticles.png";
 type ArticlesProps = {
+  setTotalResults: (res: number) => any;
   createGraphsData: (articles: ArticlesCards, firstLoad: boolean) => any;
 };
 
-const Articles: React.FC<ArticlesProps> = ({ createGraphsData }) => {
+const Articles: React.FC<ArticlesProps> = ({
+  createGraphsData,
+  setTotalResults,
+}) => {
   const [pageNumber, setPageNumber] = useState(1);
 
-  const { hasMore, loading, articles, firstLoad } = useGetArticles({
-    pageNumber,
-    pageSize: 10,
-    setPageNumber,
-  });
+  const { hasMore, loading, articles, firstLoad, totalResults } =
+    useGetArticles({
+      pageNumber,
+      pageSize: 10,
+      setPageNumber,
+    });
+
+  useEffect(() => {
+    setTotalResults(totalResults);
+  }, [totalResults]);
 
   useEffect(() => {
     createGraphsData(articles, firstLoad);

@@ -17,13 +17,13 @@ export const MoblieFilter: React.FC<{
   isOpen: boolean;
 }> = ({ onClose, isOpen }) => {
   const {
-    searchQuery,
     country,
     endpoint,
     category,
     selectedSource,
     sortBy,
     language,
+    date,
   } = useSelector((state: RootState) => state.filters);
   const [sourcesList, setSourcesList] = useState<Option[]>([
     { name: "All", value: "" },
@@ -48,7 +48,7 @@ export const MoblieFilter: React.FC<{
       const sources = await getSourcesList();
       setSourcesList((prev) => prev.concat(sources));
     })();
-  }, [getSourcesList,sourcesList.length]);
+  }, [getSourcesList, sourcesList.length]);
 
   const dispatch = useDispatch();
 
@@ -77,10 +77,10 @@ export const MoblieFilter: React.FC<{
         options: langList,
       },
       {
-        id: "dates",
-        header: "Dates",
-        current: { name: "", value: null },
-        options: [],
+        id: "date",
+        header: "Date",
+        current: { value: null, name: "" },
+        options: [{ value: null, name: "" }],
       },
     ],
     [EndPoints.HEADLINES]: [
@@ -117,15 +117,21 @@ export const MoblieFilter: React.FC<{
 
   const onSubmit: (
     endPointOption: EndPointType,
-    filtersOptions: { [key: string]: Option }
-  ) => any = (endpoint, results) => {
-    dispatch(filtersActions.setMobileFilter({ endpoint, results }));
+    filtersOptions: { [key: string]: Option },
+    date?: { startDate: Date | null; endDate: Date | null }
+  ) => any = (endpoint, results, date) => {
+    const datePayload = {
+      startDate: date?.startDate?.toDateString(),
+      endDate: date?.endDate?.toDateString(),
+    };
+    dispatch(
+      filtersActions.setMobileFilter({ endpoint, results, datePayload })
+    );
     onClose();
   };
 
   return (
     <MobileFilterModal
-      isOnSearchMode={!!searchQuery}
       endPointFilter={{
         header: "Search in",
         options: [

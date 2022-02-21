@@ -6,6 +6,7 @@ import { DataProps } from "..";
 import { CustomLegend } from "./components/CustomLegend/CustomLegend";
 import { Skeleton } from "./components/Skeleton";
 import { NotFound } from "../NotFound";
+import { Tooltip } from "recharts";
 
 interface DoughnutGraphProps {
   header?: string;
@@ -33,13 +34,10 @@ export const DoughnutGraph: React.FC<DoughnutGraphProps> = ({
       ) : data ? (
         <DoughnutGraphContainer width="100%" height="100%">
           <PieChart>
-            <text
-              x={"50%"}
-              y={80}
-              textAnchor="middle"
-            >
+            <text x={"50%"} y={80} textAnchor="middle">
               {innerText}
             </text>
+            <Tooltip />
             <Pie
               data={data}
               cy={70}

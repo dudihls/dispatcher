@@ -26,7 +26,16 @@ box-sizing: border-box;
 .react-datepicker__day--in-selecting-range{
   background-color:  ${({ theme }) => theme.colors.lightPurple2} !important;
 }
-
+.datePicker .react-datepicker__month-container{
+  width: 100%;
+  
+}
+.datePicker{
+  
+}
+.react-datepicker__month-container{
+  width: 100%;
+}
 html{
   height: 100%;
   width: 100%;

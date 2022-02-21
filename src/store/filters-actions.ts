@@ -24,11 +24,16 @@ export const fetchSourcesList = (isEverything: boolean) => {
             },
       });
 
-      const sources = response.data.sources.map(
-        (source: { id: string; name: string }) => ({
+      const sources = [
+        {
+          value: "",
+          name: "All",
+        },
+      ].concat(
+        response.data.sources.map((source: { id: string; name: string }) => ({
           value: source.id,
           name: source.name,
-        })
+        }))
       );
       dispatch(filtersActions.setSourcesList(sources));
     } catch (error: any) {

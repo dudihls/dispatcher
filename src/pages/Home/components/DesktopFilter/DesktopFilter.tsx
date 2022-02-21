@@ -18,8 +18,15 @@ interface DesktopFilterProps {
 export const DesktopFilter: React.FC<DesktopFilterProps> = ({
   isTopHeadlines,
 }) => {
-  const { sourcesList, country, category, selectedSource, sortBy, language } =
-    useSelector((state: RootState) => state.filters);
+  const {
+    sourcesList,
+    country,
+    category,
+    selectedSource,
+    sortBy,
+    language,
+    date,
+  } = useSelector((state: RootState) => state.filters);
   const dispatch = useDispatch();
 
   const countryFilter = useMemo(
@@ -79,9 +86,11 @@ export const DesktopFilter: React.FC<DesktopFilterProps> = ({
     }),
     [dispatch, language]
   );
+
   const dateFilter = useMemo(
     () => ({
       initialDate: new Date(),
+      currDate: date,
       onSubmitDate: (startDate: Date | null, endDate: Date | null) => {
         const payload = {
           startDate: startDate?.toDateString(),
@@ -97,9 +106,18 @@ export const DesktopFilter: React.FC<DesktopFilterProps> = ({
     <StyledContainer>
       {isTopHeadlines ? (
         <>
-          <DropDown {...countryFilter} />
-          <DropDown {...categoryFilter} />
-          <DropDown {...sourceFilter} />
+          <DropDown
+            {...countryFilter}
+            isAllDisabled={!category.value && !selectedSource.value}
+          />
+          <DropDown
+            {...categoryFilter}
+            isAllDisabled={!selectedSource.value && !country.value}
+          />
+          <DropDown
+            {...sourceFilter}
+            isAllDisabled={!category.value && !country.value}
+          />
         </>
       ) : (
         <>

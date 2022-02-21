@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@mui/core": "^5.0.0-alpha.54",
+    "@mui/material": "^5.4.2",
     "@reduxjs/toolkit": "^1.7.1",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
@@ -25,6 +28,7 @@
     "react-responsive": "^9.0.0-beta.5",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
+    "react-spinners": "^0.11.0",
     "recharts": "^2.1.8",
     "storybook-addon-styled-component-theme": "^2.0.0",
     "styled-components": "^5.3.3",

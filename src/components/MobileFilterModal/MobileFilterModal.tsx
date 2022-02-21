@@ -6,12 +6,14 @@ import { MobileFilterOptions } from "./MobileFilterOptions";
 import { createPortal } from "react-dom";
 import { EndPoints } from "../../services/utils";
 import { EndPointType, Option } from "../../types";
+import Alert from "@mui/material/Alert";
 
 export type FilterProps = {
   id: string;
   header: string;
   options: Option[];
   current: Option;
+  currentDate?: Date;
 };
 
 export type EndPointFilter = {
@@ -24,13 +26,13 @@ export type Filters = {
   [key in EndPoints]: FilterProps[];
 };
 interface MobileFilterModalProps {
-  isOnSearchMode: boolean;
   endPointFilter: EndPointFilter;
   filters: Filters;
   open: boolean;
   onSubmitResults?: (
     endPointOption: EndPointType,
-    filtersOptions: { [key: string]: Option }
+    filtersOptions: { [key: string]: Option },
+    date?: { startDate: Date | null; endDate: Date | null }
   ) => any;
 }
 
@@ -39,7 +41,6 @@ export const MobileFilterModal: React.FC<MobileFilterModalProps> = ({
   filters,
   onSubmitResults,
   endPointFilter,
-  isOnSearchMode,
 }) => {
   const [isFilterMenu, setIsFilterMenu] = useState<Boolean>(true);
   const [headlinesfiltersToSubmit, setHeadlinesFiltersToSubmit] = useState(
@@ -48,6 +49,15 @@ export const MobileFilterModal: React.FC<MobileFilterModalProps> = ({
   const [everythingfiltersToSubmit, setEverythingFiltersToSubmit] = useState(
     filters[EndPoints.EVERYTHING]
   );
+
+  const [myDate, setMyDate] = useState<{
+    startDate: Date | null;
+    endDate: Date | null;
+  }>({ startDate: null, endDate: null });
+
+  const onSubmitDate = (startDate: Date | null, endDate: Date | null) => {
+    setMyDate({ startDate, endDate });
+  };
   const [endPointFilterState, setEndPointFilterState] =
     useState<EndPointFilter>(endPointFilter);
   const [currFilterToDisplay, setCurrFilterToDisplay] = useState<
@@ -57,6 +67,7 @@ export const MobileFilterModal: React.FC<MobileFilterModalProps> = ({
     () => endPointFilterState.current.value === EndPoints.HEADLINES,
     [endPointFilterState]
   );
+  const [msg, setMsg] = useState("");
 
   useEffect(() => {
     if (open) {
@@ -109,25 +120,40 @@ export const MobileFilterModal: React.FC<MobileFilterModalProps> = ({
 
   const onSubmit = (ev: MouseEvent) => {
     ev.preventDefault();
-
+    if (isHeadlines) setMyDate({ startDate: null, endDate: null });
     const filterToSubmitParsed = filterToSubmit.reduce(
       (a, filter) => ({ ...a, [filter.id]: filter.current }),
       {}
     );
     onSubmitResults &&
-      onSubmitResults(endPointFilterState.current, filterToSubmitParsed);
+      onSubmitResults(
+        endPointFilterState.current,
+        filterToSubmitParsed,
+        myDate
+      );
   };
 
   const isButtonDisabled = useMemo(() => {
-    if (isHeadlines) return !filterToSubmit.some((f) => !!f.current.value);
-    else {
+    if (isHeadlines) {
+      if (!filterToSubmit.some((f) => !!f.current.value)) {
+        setMsg("At least one field is required!");
+        return true;
+      } else {
+        setMsg("");
+        return false;
+      }
+    } else {
       const sourceVal = filterToSubmit.find((f) => f.id === "source")!.current
         .value;
-      if (!sourceVal && !isOnSearchMode) {
+      if (!sourceVal) {
+        setMsg("Sources field is required!");
         return true;
-      } else return false;
+      } else {
+        setMsg("");
+        return false;
+      }
     }
-  }, [filterToSubmit, isHeadlines, isOnSearchMode]);
+  }, [filterToSubmit, isHeadlines]);
 
   const root = document.getElementById("root")!;
 
@@ -136,10 +162,13 @@ export const MobileFilterModal: React.FC<MobileFilterModalProps> = ({
       {isFilterMenu ? (
         <>
           <MobileFilterMenu
+            currDate={myDate}
+            onSubmitDate={onSubmitDate}
             endPointFilter={endPointFilterState}
             filterList={filterToSubmit}
             onClickHeader={onClickHeader}
           />
+          {msg && <Alert severity="error">{msg}</Alert>}
           <StyledFooter>
             <ButtonWrapper>
               <Button

@@ -5,20 +5,28 @@ import { useLocalStorage } from "../../../../hooks/useLocalStorage";
 import { countryCodeToString, EndPoints } from "../../../../services/utils";
 import { RootState } from "../../../../store";
 import { filtersActions } from "../../../../store/filters-slice";
-import { StyledHeader } from "./style";
+import { StyledHeader, StyledTotalResults } from "./style";
 
-export const Header: React.FC = () => {
+export const Header: React.FC<{
+  totalResults: number;
+}> = ({ totalResults }) => {
   const [userCountryStorage, setUserCountryStorage] = useLocalStorage(
     "user_country",
     ""
   );
   const dispatch = useDispatch();
-  const { country, endpoint } = useSelector(
+  const { country, endpoint, category, selectedSource } = useSelector(
     (state: RootState) => state.filters
   );
 
   useEffect(() => {
-    if (endpoint.value !== EndPoints.HEADLINES) return;
+    if (
+      endpoint.value !== EndPoints.HEADLINES ||
+      country.value ||
+      category.value ||
+      selectedSource.value
+    )
+      return;
     if (userCountryStorage) {
       dispatch(
         filtersActions.setIntialCountry({
@@ -38,10 +46,18 @@ export const Header: React.FC = () => {
         const userCountryCode = country.toLowerCase();
         setUserCountryStorage(userCountryCode);
       });
-  }, [userCountryStorage, dispatch, setUserCountryStorage, endpoint]);
-  return (
-    <StyledHeader>
-      {country.value && `Top Headlines ${country.name}`}
-    </StyledHeader>
+  }, [
+    userCountryStorage,
+    dispatch,
+    setUserCountryStorage,
+    endpoint,
+    country,
+    category,
+    selectedSource,
+  ]);
+  return country.value ? (
+    <StyledHeader>Top Headlines {country.name}</StyledHeader>
+  ) : (
+    <StyledTotalResults>{totalResults} Total results</StyledTotalResults>
   );
 };

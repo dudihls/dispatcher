@@ -27,6 +27,7 @@ import { useMediaQuery } from "react-responsive";
 import { ArticlesCards } from "./components/Articles/types";
 import dayjs from "dayjs";
 import { MoblieFilter } from "./components/MobileFilter/MobileFilter";
+import { Alert, Snackbar } from "@mui/material";
 
 const LazyArticles = lazy(() => import("./components/Articles/Articles"));
 
@@ -41,29 +42,6 @@ const mappingGraphResultObjectToArray = (result: {
   });
 };
 
-const barDataMock = [
-  {
-    name: "Sports",
-    value: 4000,
-  },
-
-  {
-    name: "News",
-    value: 5000,
-  },
-  {
-    name: "Covid-19",
-    value: 5000,
-  },
-  {
-    name: "Weather",
-    value: 5000,
-  },
-  { name: "Software", value: 1234 },
-  { name: "Economy", value: 12349 },
-  { name: "Politics", value: 3333 },
-];
-
 type GraphData = { name: string; value: number }[];
 
 export const Home: React.FC = () => {
@@ -77,7 +55,7 @@ export const Home: React.FC = () => {
   const [modal, setModal] = useState<boolean>(false);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-
+  const [totalResults, setTotalResults] = useState(0);
   const isMobile = useMediaQuery({
     query: theme.device.mobile,
   });
@@ -118,7 +96,11 @@ export const Home: React.FC = () => {
     };
     var barResult: { [key: string]: number } = {
       Sports: 0,
+      Tech: 0,
       Health: 0,
+      "Covid-19": 0,
+      Business: 0,
+      Vehicles: 0,
     };
 
     articles.forEach((article) => {
@@ -144,16 +126,31 @@ export const Home: React.FC = () => {
     setIsLoading(false);
   }, []);
 
-  const { endpoint } = useSelector((state: RootState) => state.filters);
+  const { endpoint, toaster } = useSelector(
+    (state: RootState) => state.filters
+  );
 
   const isTopHeadlines = useMemo(
     () => endpoint.value === EndPoints.HEADLINES,
     [endpoint]
   );
+  const onCloseToaster = () => {
+    dispatch(filtersActions.setToaster({ msg: toaster.msg, isOpen: false }));
+  };
 
   return (
     <Layout>
       <GlobalStyles />
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={toaster.isOpen}
+        onClose={onCloseToaster}
+        autoHideDuration={3000}
+      >
+        <Alert onClose={onCloseToaster} severity="info" sx={{ width: "100%" }}>
+          {toaster.msg}
+        </Alert>
+      </Snackbar>
       <AppHeader>
         <Navbar
           onClickSearchIcon={() => setIsSearchModalOpen((prev) => !prev)}
@@ -200,10 +197,13 @@ export const Home: React.FC = () => {
         </FiltersContainer>
         <SimpleWrapper direction="col">
           <Spacer />
-          <Header />
+          <Header totalResults={totalResults} />
           <GraphArticlesContainer width="100%">
             <Suspense fallback={<CardsSkeletonList amount={8} />}>
-              <LazyArticles createGraphsData={createGraphsData} />
+              <LazyArticles
+                setTotalResults={setTotalResults}
+                createGraphsData={createGraphsData}
+              />
             </Suspense>
             {isDesktop && (
               <GraphsContainer>

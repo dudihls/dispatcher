@@ -27,11 +27,13 @@ export const useGetArticles = ({
   loading: boolean;
   firstLoad: boolean;
   articles: ArticlesCards;
+  totalResults: number;
 } => {
   const [articles, setArticles] = useState<ArticlesCards>([]);
   const [hasMore, setHasMore] = useState(false);
   const [loading, setLoading] = useState(true);
   const [firstLoad, setFirstLoad] = useState(true);
+  const [totalResults, setTotalResults] = useState(0);
 
   const {
     country: { value: country },
@@ -63,7 +65,7 @@ export const useGetArticles = ({
   ]);
 
   useEffect(() => {
-    if (country || category)
+    if (country || category || endpoint === EndPoints.EVERYTHING)
       dispatch(fetchSourcesList(endpoint === EndPoints.EVERYTHING));
   }, [category, country, dispatch, endpoint]);
 
@@ -97,7 +99,6 @@ export const useGetArticles = ({
       };
     }
 
-    console.log(params);
     setLoading(true);
 
     axios({
@@ -107,7 +108,8 @@ export const useGetArticles = ({
       cancelToken: new axios.CancelToken((c) => (cancel = c)),
     })
       .then((res) => {
-        const { articles } = res.data;
+        const { articles, totalResults } = res.data;
+        setTotalResults(totalResults);
         setArticles((prevArticles: ArticlesCards) => [
           ...prevArticles,
           ...articles.map((article: ArticleType) =>
@@ -139,5 +141,5 @@ export const useGetArticles = ({
     selectedSource,
   ]);
 
-  return { hasMore, articles, loading, firstLoad };
+  return { hasMore, articles, loading, firstLoad, totalResults };
 };

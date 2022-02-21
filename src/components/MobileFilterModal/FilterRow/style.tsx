@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-export const StyledFilterRow = styled.div<{ isDisabled: boolean }>`
+export const StyledFilterRow = styled.div<{ isDisabled?: boolean }>`
+  position: relative;
   display: flex;
   justify-content: space-between;
   padding: 25px 7%;
