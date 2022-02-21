@@ -1,4 +1,5 @@
 // import { lazy, Suspense } from "react";
+import { Navigate } from 'react-router-dom';
 import { Home } from "./pages/Home/Home";
 import { Login } from "./pages/Login/Login";
 type RouteProps = {
@@ -14,6 +15,10 @@ type RouteProps = {
 // </Suspense>;
 
 export const routes: RouteProps[] = [
+  {
+    path: "/",
+    element: <Navigate replace to="/login" />,
+  },
   {
     path: "/home",
     element: <Home />,

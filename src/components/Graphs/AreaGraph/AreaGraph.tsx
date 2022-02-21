@@ -11,6 +11,8 @@ import { theme } from "../../../global-styles/theme";
 import { AxisLabel } from "./style";
 import { Skeleton } from "./components/Skeleton";
 import { NotFound } from "../NotFound";
+import { Tooltip } from "recharts";
+import dayjs from "dayjs";
 
 type AreaGraphProps = {
   data: DataProps[] | null;
@@ -57,9 +59,12 @@ export const AreaGraph: React.FC<AreaGraphProps> = ({
             tickFormatter={(t) => t.toUpperCase()}
             tick={{ fill: theme.colors.lightPurple }}
           />
+          <Tooltip labelFormatter={(name) => name} />
+
           <Area
             type="monotone"
             dataKey="value"
+            name="Amount"
             stroke={theme.graphColorPalette.area.blue}
             fill="url(#Gradient)"
             strokeWidth={4}

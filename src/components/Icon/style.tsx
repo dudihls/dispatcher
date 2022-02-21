@@ -31,8 +31,8 @@ type IconContainerProps = {
 };
 
 export const IconContainer = styled.div<IconContainerProps>`
-  height: ${({ size }) => (size === "xs" ? "12px" : "24px")};
-  width: ${({ size }) => (size === "xs" ? "12px" : "24px")};
+  height: ${({ size }) => (size === "xs" ? "14px" : "24px")};
+  width: ${({ size }) => (size === "xs" ? "18px" : "24px")};
   margin: ${({ margin }) => margin && margin + "px"};
   margin-inline-end: ${({ ml }) => ml && ml + "px"};
   margin-inline-start: ${({ mr }) => mr && mr + "px"};

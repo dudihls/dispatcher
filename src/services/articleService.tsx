@@ -4,6 +4,7 @@ import { ArticleType } from "../pages/Home/components/Articles/types";
 const optionalTags: { [key: string]: string[] } = {
   Sports: [
     "mma",
+    "Hockey",
     "arena",
     "athlete",
     "athletics",
@@ -21,16 +22,16 @@ const optionalTags: { [key: string]: string[] } = {
     "vs.",
     "vs",
     "basketball",
-    "win",
-    "lose",
-    "Highlights",
+    "מכבי",
+    "הפועל",
+    "Djokovic",
   ],
+  "Covid-19": ["corona", "Covid-19", "covid", "Moderna", "fizer"],
   Health: [
     "covid",
     "medical",
     "disease",
     "treatment",
-    "corona",
     "virus",
     "doctor",
     "food",
@@ -44,10 +45,62 @@ const optionalTags: { [key: string]: string[] } = {
     "בריאות",
     "סימפטומים",
     "וירוס",
+    "vitamin",
   ],
-  Weather: [],
-  // Software: [],
-  // Economy: [],
+  Tech: [
+    "gaming",
+    "nividia",
+    "dell",
+    "apple",
+    "samsung",
+    "product",
+    "tech",
+    "technoligy",
+    "unicorn",
+    "high-tech",
+    "ai",
+    "Nintendo",
+    "RPG",
+    "app",
+    "google",
+    "install",
+    "cyber",
+    "PC",
+    "computer",
+    "Digital",
+    "facebook",
+    "amazon",
+  ],
+  Business: [
+    "buisness",
+    "כלכליסט",
+    "mask",
+    "money",
+    "הנפקה",
+    "nasdaq",
+    "stock",
+    "fb",
+  ],
+  Vehicles: [
+    "Vehicles",
+    "Vehicle",
+    "car",
+    "lexus",
+    "honda",
+    "mazda",
+    "toyota",
+    "ferarri",
+    "wheel",
+    "car",
+    "cars",
+    "autonimic",
+    "engine",
+    "engines",
+    "electric",
+    "Autocar",
+    "skoda",
+    "audi",
+  ],
 };
 
 export const parseArticleToCard = (article: ArticleType) => {
@@ -58,7 +111,7 @@ export const parseArticleToCard = (article: ArticleType) => {
     const optinalWords: string[] = optionalTags[k];
     try {
       optinalWords.forEach((word) => {
-        if (tags.length === 3) throw new Error("break");
+        if (tags.length === 2) throw new Error("break");
         const regularExpression = new RegExp(`([\\W])${word}([\\W])`, "i");
         if (
           (description && description.match(regularExpression)) ||
@@ -76,10 +129,12 @@ export const parseArticleToCard = (article: ArticleType) => {
     }
   });
 
+  let contentToSet: string = description || content;
+
   return {
     tags: tags,
     img: urlToImage,
-    content: content || description,
+    content: description || content,
     date: new Date(publishedAt),
     header: title,
     source: source?.name,

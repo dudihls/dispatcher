@@ -9,7 +9,7 @@ export const Container = styled.div`
   border-radius: 10px;
   overflow: auto;
   z-index: 2;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 4px 12px #80808073;
 `;
 
 export const RowWrapper = styled.div`
@@ -44,7 +44,7 @@ export const HeaderWrapper = styled.div`
   align-items: center;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.lightPurple};
-  padding: 16px;
+  padding: 16px 16px 8px 16px;
   font-size: 12px;
 `;
 

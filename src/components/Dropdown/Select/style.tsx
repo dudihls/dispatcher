@@ -8,7 +8,24 @@ export const Container = styled.div`
   font-size: 14px;
 `;
 
-export const MenuHeader = styled.button<{ noBorder?: boolean }>`
+export const MenuHeaderLabel = styled.p`
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  white-space: nowrap;
+`;
+
+export const MenuHeader = styled.button<{
+  noBorder?: boolean;
+  isSelected?: boolean;
+}>`
+  &:hover {
+    ${({ noBorder }) =>
+      !noBorder &&
+      `  box-shadow: 0px 4px 12px rgba(122, 122, 122, 0.08);
+
+`}
+  }
   cursor: pointer;
   height: 100%;
   width: 100%;
@@ -17,10 +34,13 @@ export const MenuHeader = styled.button<{ noBorder?: boolean }>`
   justify-content: space-between;
   border-radius: 10px;
   background-color: white;
-  border: ${({ noBorder, theme }) =>
-    !noBorder ? "1px solid " + theme.colors.inputBorder : "none"};
+  border: ${({ isSelected, noBorder, theme }) =>
+    !noBorder
+      ? (isSelected ? "2px" : "1px") + " solid " + theme.colors.inputBorder
+      : "none"};
   padding: 0 15px;
   color: ${({ theme }) => theme.colors.lightPurple};
+  transition: box-shadow 300ms;
 `;
 
 export const MenuList = styled.div`
@@ -31,16 +51,24 @@ export const MenuList = styled.div`
   border-radius: 10px;
   max-height: 126px;
   overflow: auto;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 4px 12px #80808073;
 `;
 
-export const MenuItem = styled.div`
+export const MenuItem = styled.div<{ disabled?: boolean }>`
   cursor: pointer;
   color: ${({ theme }) => theme.colors.lightPurple};
   padding: 9px;
   :hover {
     background: ${({ theme }) => theme.colors.hoverDropDown};
   }
+  ${({ disabled }) =>
+    disabled
+      ? `
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.4;x
+  `
+      : ``}
 `;
 
 export const StyledLabel = styled.div`

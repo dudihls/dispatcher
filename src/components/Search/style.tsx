@@ -25,6 +25,7 @@ export const SelectContainer = styled.div`
   min-width: 150px;
   height: 40px;
   border-left: 0.5px solid ${({ theme }) => theme.colors.lightGray2};
+  border-right: 0.5px solid ${({ theme }) => theme.colors.lightGray2};
   @media ${({ theme }) => theme.device.tablet} {
     display: none;
   }

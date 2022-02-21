@@ -93,9 +93,6 @@ export const Search: React.FC<SearchProps> = ({ onSubmit, onChangeFilter }) => {
       hasFocus={hasFocus}
       ref={searchFormRef}
     >
-      <div onClick={() => onEnterSearch(null, false, inputValue)}>
-        <Icon src={search} margin={13} color="purple" />
-      </div>
       <Wrapper>
         <Input
           ref={searchInputRef}
@@ -127,6 +124,9 @@ export const Search: React.FC<SearchProps> = ({ onSubmit, onChangeFilter }) => {
           onClickSearch={onClickSearch}
         />
       )}
+      <div onClick={() => onEnterSearch(null, false, inputValue)}>
+        <Icon src={search} margin={13} color="purple" />
+      </div>
     </SearchContainer>
   );
 };

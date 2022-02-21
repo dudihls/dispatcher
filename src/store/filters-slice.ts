@@ -16,6 +16,7 @@ interface IFilters {
   language: Option;
   searchQuery: string | null;
   fullSourceList: { name: string; value: string }[];
+  toaster: { msg?: string; isOpen: boolean };
 }
 
 const initialOption: Option = { name: "All", value: "" };
@@ -34,6 +35,7 @@ const initialState = {
   language: initialOption,
   searchQuery: "",
   fullSourceList: [],
+  toaster: { msg: "", isOpen: false },
 } as IFilters;
 
 const filtersSlice = createSlice({
@@ -60,11 +62,17 @@ const filtersSlice = createSlice({
     },
     setCountry(state, action) {
       if (action.payload === state.country) return;
-      return {
-        ...state,
-        country: action.payload,
-        selectedSource: initialState.selectedSource,
-      };
+      if (state.selectedSource.value)
+        return {
+          ...state,
+          toaster: {
+            msg: "You can't mix country with source field, Source filter has been reset.",
+            isOpen: true,
+          },
+          country: action.payload,
+          selectedSource: initialState.selectedSource,
+        };
+      else state.country = action.payload;
     },
     setSearchQuery(state, action) {
       if (action.payload !== state.searchQuery)
@@ -72,23 +80,38 @@ const filtersSlice = createSlice({
     },
     setCategory(state, action) {
       if (action.payload === state.category) return;
-      return {
-        ...state,
-        category: action.payload,
-        selectedSource: initialOption,
-      };
+      if (state.selectedSource.value) {
+        return {
+          ...state,
+          toaster: {
+            msg: "You can't mix category with source field, Source filter has been reset.",
+            isOpen: true,
+          },
+          category: action.payload,
+          selectedSource: initialOption,
+        };
+      } else state.category = action.payload;
+    },
+    setToaster(state, action) {
+      state.toaster = action.payload;
     },
     setIntialCountry(state, action) {
       state.country = action.payload;
     },
     setSelectedSource(state, action) {
-      if (action.payload === state.selectedSource) return;
-      return {
-        ...state,
-        selectedSource: action.payload,
-        country: initialOption,
-        category: initialOption,
-      };
+      if (action.payload.value === state.selectedSource.value) return;
+      if (state.country.value || state.category.value)
+        return {
+          ...state,
+          toaster: {
+            msg: "You can't mix source field with other fields , Filters have been reset.",
+            isOpen: true,
+          },
+          selectedSource: action.payload,
+          country: initialOption,
+          category: initialOption,
+        };
+      else state.selectedSource = action.payload;
     },
     setSourcesList(state, action) {
       state.sourcesList = [...action.payload];
@@ -106,10 +129,11 @@ const filtersSlice = createSlice({
       state.sortBy = action.payload;
     },
     setDate(state, action) {
-      state.date = action.payload;
+      const { startDate, endDate } = action.payload;
+      state.date = { startDate: startDate, endDate: endDate };
     },
     setMobileFilter(state, action) {
-      const { endpoint, results } = action.payload;
+      const { endpoint, results, datePayload } = action.payload;
 
       switch (endpoint.value) {
         case EndPoints.HEADLINES:
@@ -124,6 +148,7 @@ const filtersSlice = createSlice({
         case EndPoints.EVERYTHING:
           return (state = {
             ...initialState,
+            date: datePayload,
             searchQuery: state.searchQuery,
             sortBy: results.sortBy,
             endpoint: endpoint,

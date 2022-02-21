@@ -54,7 +54,6 @@ export const GraphArticlesContainer = styled(SimpleWrapper)`
 
 export const Spacer = styled.div`
   width: 100%;
-  margin-block-end: 20px;
   border: 1px solid ${({ theme }) => theme.colors.lightGray2};
   @media ${({ theme }) => theme.device.tablet} {
     display: none;

@@ -3,6 +3,7 @@ import { Icon } from "../../Icon/Icon";
 import {
   Container,
   MenuHeader,
+  MenuHeaderLabel,
   MenuItem,
   MenuList,
   StyledLabel,
@@ -18,6 +19,7 @@ export type SelectProps = {
   onChange: (option: Option | EndPointType) => any;
   noBorder?: boolean;
   currValue?: Option;
+  isAllDisabled?: boolean;
 };
 
 export const Select: React.FC<SelectProps> = ({
@@ -27,6 +29,7 @@ export const Select: React.FC<SelectProps> = ({
   onChange,
   currValue,
   noBorder,
+  isAllDisabled,
 }: SelectProps) => {
   const [ToggleOptions, setToggleOptions] = useState(false);
   const ref = useRef(null);
@@ -42,20 +45,29 @@ export const Select: React.FC<SelectProps> = ({
     <Container ref={ref}>
       <MenuHeader
         type="button"
+        isSelected={!!currValue?.name && !!currValue?.value}
         noBorder={noBorder}
         onClick={() => setToggleOptions(!ToggleOptions)}
       >
-        {currValue?.name && currValue?.value ? currValue?.name : initialValue}
-        {endIcon ? <Icon src={endIcon} /> : <Icon src={dropdown} />}
+        <MenuHeaderLabel>
+          {currValue?.name && currValue?.value ? currValue?.name : initialValue}
+        </MenuHeaderLabel>
+        {endIcon ? <Icon src={endIcon} /> : <Icon src={dropdown} size="xs" />}
       </MenuHeader>
       {ToggleOptions && (
         <MenuList>
           {options && options.length > 0 ? (
-            options.map((option, idx) => (
-              <MenuItem onClick={() => onClickItem(option)} key={idx}>
-                {option.name}
-              </MenuItem>
-            ))
+            options.map((option, idx) => {
+              return (
+                <MenuItem
+                  disabled={isAllDisabled && idx === 0}
+                  onClick={() => onClickItem(option)}
+                  key={idx}
+                >
+                  {option.name}
+                </MenuItem>
+              );
+            })
           ) : (
             <StyledLabel>There no results yet...</StyledLabel>
           )}

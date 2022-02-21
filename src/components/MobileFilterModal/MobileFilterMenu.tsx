@@ -1,20 +1,27 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { EndPoints } from "../../services/utils";
 import { FilterRow } from "./FilterRow/FilterRow";
 import { EndPointFilter, FilterProps } from "./MobileFilterModal";
 import { Body, HeaderWrapper, StyledHeader, TopWrapper } from "./style";
+import Alert from "@mui/material/Alert";
+import { DateFilterRow } from "./FilterRow/DateFilterRow";
 
 type MobileFilterMenuProps = {
   filterList: FilterProps[];
+  currDate: { startDate: Date | null; endDate: Date | null };
   onClickHeader: (filter: FilterProps | EndPointFilter) => any;
   endPointFilter: EndPointFilter;
+  onSubmitDate: (startDate: Date | null, endDate: Date | null) => any;
 };
 
 export const MobileFilterMenu: React.FC<MobileFilterMenuProps> = ({
   filterList,
   endPointFilter,
   onClickHeader,
+  currDate,
+  onSubmitDate,
 }) => {
+  const [msg, setMsg] = useState("");
   const filtersToDisplay: (FilterProps & { isDisabled?: boolean })[] =
     useMemo(() => {
       let filters = [...filterList];
@@ -32,12 +39,14 @@ export const MobileFilterMenu: React.FC<MobileFilterMenuProps> = ({
               ? { ...f, isDisabled: true }
               : f
           );
+          setMsg("You can't mix source field with other fields.");
           return filters;
         }
         if (countryVal || categoryVal) {
           filters = filters.map((f) =>
             f.id === "source" ? { ...f, isDisabled: true } : f
           );
+          setMsg("You can't mix other fields with source field.");
           return filters;
         }
       }
@@ -48,7 +57,6 @@ export const MobileFilterMenu: React.FC<MobileFilterMenuProps> = ({
     <TopWrapper>
       <HeaderWrapper>
         <StyledHeader>Filters</StyledHeader>
-        {console.log(filterList)}
       </HeaderWrapper>
       <Body>
         <FilterRow
@@ -57,16 +65,25 @@ export const MobileFilterMenu: React.FC<MobileFilterMenuProps> = ({
           onClickRow={() => onClickHeader(endPointFilter)}
           key={-1}
         />
-        {filtersToDisplay.map((filter, idx) => (
-          <FilterRow
-            header={filter.header}
-            value={filter.current?.value ? filter.current.name : "All"}
-            isDefaultValue={!filter.current}
-            onClickRow={() => onClickHeader(filter)}
-            key={idx}
-            isDisabled={filter.isDisabled}
-          />
-        ))}
+        {filtersToDisplay.map((filter, idx) =>
+          filter.id === "date" ? (
+            <DateFilterRow
+              onSubmitDate={onSubmitDate}
+              currDate={currDate}
+              header={filter.header}
+            />
+          ) : (
+            <FilterRow
+              header={filter.header}
+              value={filter.current?.value ? filter.current.name : "All"}
+              isDefaultValue={!filter.current}
+              onClickRow={() => onClickHeader(filter)}
+              key={idx}
+              isDisabled={filter.isDisabled}
+            />
+          )
+        )}
+        {msg && <Alert severity="info">{msg}</Alert>}
       </Body>
     </TopWrapper>
   );
